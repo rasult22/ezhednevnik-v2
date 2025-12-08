@@ -13,6 +13,7 @@ const NewPlanScreen = lazy(() => import('./screens/plans/new'));
 const PlanViewScreen = lazy(() => import('./screens/plans/[id]'));
 const ReviewsArchiveScreen = lazy(() => import('./screens/reviews'));
 const NewReviewScreen = lazy(() => import('./screens/reviews/new'));
+const SettingsScreen = lazy(() => import('./screens/settings'));
 
 /**
  * Application Router Configuration
@@ -102,7 +103,7 @@ export const router = createBrowserRouter([
       },
       {
         path: 'settings',
-        element: <div>Settings (To be implemented)</div>,
+        element: <SettingsScreen />,
       },
     ],
   },
