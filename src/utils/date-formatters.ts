@@ -90,6 +90,15 @@ export function addDays(isoDate: string, days: number): string {
 }
 
 /**
+ * Subtracts days from a date
+ */
+export function subtractDays(isoDate: string, days: number): string {
+  const date = new Date(isoDate);
+  date.setDate(date.getDate() - days);
+  return format(date, 'yyyy-MM-dd');
+}
+
+/**
  * Gets the day number of the month (1-31)
  */
 export function getDayOfMonth(isoDate: string): number {

@@ -4,6 +4,7 @@ import App from './App';
 
 // Lazy load screens for better performance
 const OnboardingScreen = lazy(() => import('./screens/onboarding'));
+const DailyScreen = lazy(() => import('./screens/daily'));
 
 /**
  * Application Router Configuration
@@ -36,11 +37,11 @@ export const router = createBrowserRouter([
         children: [
           {
             index: true,
-            element: <div>Daily Page - Current Date (To be implemented)</div>,
+            element: <DailyScreen />,
           },
           {
             path: ':date',
-            element: <div>Daily Page - Specific Date (To be implemented)</div>,
+            element: <DailyScreen />,
           },
         ],
       },
