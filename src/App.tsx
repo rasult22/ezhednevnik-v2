@@ -24,12 +24,14 @@ function App() {
   const loadDailyPages = useDailyStore((state) => state.loadDailyPages);
   const loadReviews = useReviewsStore((state) => state.loadReviews);
 
+  const appLoading = useAppStore((state) => state.isLoading);
+  const goalsLoading = useGoalsStore((state) => state.isLoading);
+  const plansLoading = usePlansStore((state) => state.isLoading);
+  const dailyLoading = useDailyStore((state) => state.isLoading);
+  const reviewsLoading = useReviewsStore((state) => state.isLoading);
+
   const isLoading =
-    useAppStore((state) => state.isLoading) ||
-    useGoalsStore((state) => state.isLoading) ||
-    usePlansStore((state) => state.isLoading) ||
-    useDailyStore((state) => state.isLoading) ||
-    useReviewsStore((state) => state.isLoading);
+    appLoading || goalsLoading || plansLoading || dailyLoading || reviewsLoading;
 
   // Initialize all stores on mount
   useEffect(() => {
