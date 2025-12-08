@@ -1,0 +1,14 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(test:*)",
+      "Bash(cat:*)",
+      "Bash(npm create:*)",
+      "Bash(npm install:*)"
+    ],
+    "deny": [
+      "Read(node_modules/)"
+    ],
+    "ask": []
+  }
+}
