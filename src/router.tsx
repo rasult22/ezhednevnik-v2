@@ -11,6 +11,8 @@ const Goals1YearScreen = lazy(() => import('./screens/goals/1-year'));
 const PlansListScreen = lazy(() => import('./screens/plans'));
 const NewPlanScreen = lazy(() => import('./screens/plans/new'));
 const PlanViewScreen = lazy(() => import('./screens/plans/[id]'));
+const ReviewsArchiveScreen = lazy(() => import('./screens/reviews'));
+const NewReviewScreen = lazy(() => import('./screens/reviews/new'));
 
 /**
  * Application Router Configuration
@@ -90,11 +92,11 @@ export const router = createBrowserRouter([
         children: [
           {
             index: true,
-            element: <div>Weekly Reviews Archive (To be implemented)</div>,
+            element: <ReviewsArchiveScreen />,
           },
           {
             path: 'new',
-            element: <div>Create Weekly Review (To be implemented)</div>,
+            element: <NewReviewScreen />,
           },
         ],
       },
