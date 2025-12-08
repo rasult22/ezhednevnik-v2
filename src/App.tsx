@@ -1,35 +1,66 @@
+import { useEffect } from 'react';
 import { Outlet } from 'react-router-dom';
+import { Navigation } from './components/layout/Navigation';
+import { Container } from './components/layout/Container';
+import { useAppStore } from './stores/useAppStore';
+import { useGoalsStore } from './stores/useGoalsStore';
+import { usePlansStore } from './stores/usePlansStore';
+import { useDailyStore } from './stores/useDailyStore';
+import { useReviewsStore } from './stores/useReviewsStore';
 
 /**
  * Root Application Component
  *
- * Currently just renders router outlets.
- * Will later include:
- * - Navigation sidebar
- * - OnboardingGuard
- * - Global error boundary
- * - Storage quota warnings
+ * Responsibilities:
+ * - Initialize all stores on mount
+ * - Provide navigation layout
+ * - Handle storage quota warnings (future)
+ * - Global error boundary (future)
  */
 function App() {
+  const initializeApp = useAppStore((state) => state.initializeApp);
+  const loadGoals = useGoalsStore((state) => state.loadGoals);
+  const loadPlans = usePlansStore((state) => state.loadPlans);
+  const loadDailyPages = useDailyStore((state) => state.loadDailyPages);
+  const loadReviews = useReviewsStore((state) => state.loadReviews);
+
+  const isLoading =
+    useAppStore((state) => state.isLoading) ||
+    useGoalsStore((state) => state.isLoading) ||
+    usePlansStore((state) => state.isLoading) ||
+    useDailyStore((state) => state.isLoading) ||
+    useReviewsStore((state) => state.isLoading);
+
+  // Initialize all stores on mount
+  useEffect(() => {
+    initializeApp();
+    loadGoals();
+    loadPlans();
+    loadDailyPages();
+    loadReviews();
+  }, [initializeApp, loadGoals, loadPlans, loadDailyPages, loadReviews]);
+
+  if (isLoading) {
+    return (
+      <div className="h-full flex items-center justify-center bg-gray-50">
+        <div className="text-center">
+          <div className="w-12 h-12 border-4 border-primary border-t-transparent rounded-full animate-spin mx-auto mb-4" />
+          <p className="text-gray-600">Загрузка...</p>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="h-full flex">
-      {/* Temporary navigation - will be replaced with proper Navigation component */}
-      <nav className="w-64 bg-white border-r border-gray-200 p-4">
-        <h1 className="text-xl font-semibold mb-8">Ежедневник Триллионера</h1>
-        <div className="space-y-2 text-sm text-gray-600">
-          <p>📅 Сегодня</p>
-          <p>🎯 Цели</p>
-          <p>📊 План 90 дней</p>
-          <p>📝 Еженедельные обзоры</p>
-          <p>⚙️ Настройки</p>
-        </div>
-      </nav>
+      {/* Sidebar Navigation */}
+      <Navigation />
 
       {/* Main content area */}
       <main className="flex-1 overflow-y-auto bg-gray-50">
-        <div className="max-w-4xl mx-auto p-8">
+        <Container size="lg" className="py-8">
           <Outlet />
-        </div>
+        </Container>
       </main>
     </div>
   );
