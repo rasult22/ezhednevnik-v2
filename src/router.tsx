@@ -5,6 +5,9 @@ import App from './App';
 // Lazy load screens for better performance
 const OnboardingScreen = lazy(() => import('./screens/onboarding'));
 const DailyScreen = lazy(() => import('./screens/daily'));
+const Goals10YearsScreen = lazy(() => import('./screens/goals/10-years'));
+const Goals5YearsScreen = lazy(() => import('./screens/goals/5-years'));
+const Goals1YearScreen = lazy(() => import('./screens/goals/1-year'));
 
 /**
  * Application Router Configuration
@@ -50,15 +53,15 @@ export const router = createBrowserRouter([
         children: [
           {
             path: '10-years',
-            element: <div>10-Year Goals (To be implemented)</div>,
+            element: <Goals10YearsScreen />,
           },
           {
             path: '5-years',
-            element: <div>5-Year Goals (To be implemented)</div>,
+            element: <Goals5YearsScreen />,
           },
           {
             path: '1-year',
-            element: <div>1-Year Goals (To be implemented)</div>,
+            element: <Goals1YearScreen />,
           },
         ],
       },
