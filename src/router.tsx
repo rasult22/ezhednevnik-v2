@@ -1,5 +1,9 @@
 import { createBrowserRouter, Navigate } from 'react-router-dom';
+import { lazy } from 'react';
 import App from './App';
+
+// Lazy load screens for better performance
+const OnboardingScreen = lazy(() => import('./screens/onboarding'));
 
 /**
  * Application Router Configuration
@@ -25,7 +29,7 @@ export const router = createBrowserRouter([
       },
       {
         path: 'onboarding',
-        element: <div>Onboarding Screen (To be implemented)</div>,
+        element: <OnboardingScreen />,
       },
       {
         path: 'daily',

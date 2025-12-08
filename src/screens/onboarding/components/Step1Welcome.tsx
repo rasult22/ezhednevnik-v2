@@ -1,0 +1,57 @@
+import { Button } from '../../../components/ui/Button';
+
+interface StepProps {
+  onNext: () => void;
+  onBack: () => void;
+  isFirstStep: boolean;
+  isLastStep: boolean;
+}
+
+/**
+ * Step 1: Welcome Screen
+ */
+export function Step1Welcome({ onNext }: StepProps) {
+  return (
+    <div className="text-center">
+      {/* Logo/Icon */}
+      <div className="mb-8">
+        <div className="w-24 h-24 mx-auto bg-gradient-to-br from-primary to-blue-600 rounded-full flex items-center justify-center text-white text-5xl">
+          💎
+        </div>
+      </div>
+
+      {/* Title */}
+      <h1 className="text-4xl font-bold text-gray-900 mb-4">
+        Добро пожаловать в<br />
+        Ежедневник Триллионера
+      </h1>
+
+      {/* Subtitle */}
+      <p className="text-xl text-gray-600 mb-8">
+        Ваш личный тренажер для мозга
+      </p>
+
+      {/* Description */}
+      <div className="max-w-xl mx-auto mb-12 text-left space-y-4 text-gray-700">
+        <p>
+          Это приложение поможет вам сфокусироваться на главном — тех самых 20% дел,
+          которые приносят 80% результата.
+        </p>
+        <p>
+          За несколько минут мы настроим вашу систему целей и планов,
+          чтобы каждый день вы точно знали, что делать.
+        </p>
+      </div>
+
+      {/* CTA Button */}
+      <Button size="lg" onClick={onNext} className="px-12">
+        Начать путь
+      </Button>
+
+      {/* Additional Info */}
+      <p className="mt-8 text-sm text-gray-500">
+        Это займет примерно 5-10 минут
+      </p>
+    </div>
+  );
+}
