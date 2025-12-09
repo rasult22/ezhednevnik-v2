@@ -51,8 +51,8 @@ export function ProjectTransferModal({
     <Modal isOpen={true} onClose={onSkip} title="Перенести проекты из предыдущего плана?" size="lg">
       <div className="space-y-6">
         {/* Info */}
-        <div className="bg-blue-50 border-l-4 border-blue-400 p-4">
-          <p className="text-sm text-gray-800">
+        <div className="bg-accent-blue/10 border-l-4 border-accent-blue/50 p-4 rounded-glass-sm">
+          <p className="text-sm text-text-secondary">
             У вас есть активный план, который будет завершён при создании нового.
             Вы можете перенести незавершённые проекты в новый план.
           </p>
@@ -60,10 +60,10 @@ export function ProjectTransferModal({
 
         {/* Previous Plan Info */}
         <div>
-          <h3 className="text-sm font-semibold text-gray-700 mb-2">
+          <h3 className="text-sm font-semibold text-text-primary mb-2">
             Предыдущий план:
           </h3>
-          <p className="text-sm text-gray-600">
+          <p className="text-sm text-text-secondary">
             {formatDateRU(previousPlan.startDate)} -{' '}
             {formatDateRU(previousPlan.endDate)}
           </p>
@@ -71,17 +71,17 @@ export function ProjectTransferModal({
 
         {/* Projects Selection */}
         <div>
-          <h3 className="text-sm font-semibold text-gray-700 mb-4">
+          <h3 className="text-sm font-semibold text-text-primary mb-4">
             Выберите проекты для переноса:
           </h3>
-          <div className="space-y-3 max-h-96 overflow-y-auto">
+          <div className="space-y-3 max-h-96 overflow-y-auto custom-scrollbar">
             {previousPlan.projects.map((project) => (
               <div
                 key={project.id}
-                className={`flex items-start gap-3 p-3 rounded border ${
+                className={`flex items-start gap-3 p-3 rounded-glass-sm border transition-all ${
                   project.completed
-                    ? 'bg-gray-50 border-gray-200 opacity-60'
-                    : 'bg-white border-gray-300'
+                    ? 'bg-glass-light border-glass-border opacity-60'
+                    : 'bg-glass-light border-glass-border hover:border-accent-blue/30'
                 }`}
               >
                 <Checkbox
@@ -93,14 +93,14 @@ export function ProjectTransferModal({
                   <p
                     className={`text-sm ${
                       project.completed
-                        ? 'line-through text-gray-500'
-                        : 'text-gray-800'
+                        ? 'line-through text-text-muted'
+                        : 'text-text-primary'
                     }`}
                   >
                     {project.title}
                   </p>
                   {project.completed && (
-                    <p className="text-xs text-green-600 mt-1">
+                    <p className="text-xs text-accent-emerald mt-1">
                       ✅ Уже завершён
                     </p>
                   )}
@@ -111,15 +111,15 @@ export function ProjectTransferModal({
         </div>
 
         {/* Selection Summary */}
-        <div className="bg-gray-50 p-4 rounded">
-          <p className="text-sm text-gray-700">
+        <div className="bg-glass-light p-4 rounded-glass-sm border border-glass-border">
+          <p className="text-sm text-text-secondary">
             Выбрано для переноса:{' '}
-            <strong>{selectedProjects.size} проектов</strong>
+            <strong className="text-text-primary">{selectedProjects.size} проектов</strong>
           </p>
         </div>
 
         {/* Actions */}
-        <div className="flex justify-between items-center pt-4 border-t border-gray-200">
+        <div className="flex justify-between items-center pt-4 border-t border-glass-border">
           <Button variant="ghost" onClick={onSkip}>
             Пропустить перенос
           </Button>

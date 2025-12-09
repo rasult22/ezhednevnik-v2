@@ -40,7 +40,7 @@ export default function PlanViewScreen() {
       <Container size="lg">
         <div className="py-8">
           <div className="text-center">
-            <p className="text-gray-500">План не найден...</p>
+            <p className="text-text-muted">План не найден...</p>
             <Button onClick={() => navigate('/plans')} className="mt-4">
               Вернуться к списку
             </Button>
@@ -58,9 +58,9 @@ export default function PlanViewScreen() {
 
   const getStatusBadge = () => {
     const badges = {
-      active: 'bg-green-100 text-green-800 border-green-300',
-      completed: 'bg-blue-100 text-blue-800 border-blue-300',
-      archived: 'bg-gray-100 text-gray-600 border-gray-300',
+      active: 'bg-accent-emerald/20 text-accent-emerald border-accent-emerald/30',
+      completed: 'bg-accent-blue/20 text-accent-blue border-accent-blue/30',
+      archived: 'bg-glass-light text-text-muted border-glass-border',
     };
     const labels = {
       active: 'Активный',
@@ -69,7 +69,7 @@ export default function PlanViewScreen() {
     };
     return (
       <span
-        className={`inline-block px-3 py-1 text-xs font-semibold rounded-full border ${badges[plan.status]}`}
+        className={`inline-block px-3 py-1 text-xs font-semibold rounded-full border backdrop-blur-sm ${badges[plan.status]}`}
       >
         {labels[plan.status]}
       </span>
@@ -91,10 +91,10 @@ export default function PlanViewScreen() {
 
           <div className="flex items-start justify-between">
             <div>
-              <h1 className="text-4xl font-bold text-gray-900 mb-3">
+              <h1 className="text-4xl font-bold gradient-text mb-3">
                 План на 90 дней
               </h1>
-              <p className="text-lg text-gray-600">
+              <p className="text-lg text-text-secondary">
                 {formatDateRU(plan.startDate)} - {formatDateRU(plan.endDate)}
               </p>
             </div>
@@ -104,31 +104,29 @@ export default function PlanViewScreen() {
 
         {/* Read-only Warning */}
         {!isEditable && (
-          <Card className="mb-6">
-            <div className="bg-gray-50 border-l-4 border-gray-400 p-4">
-              <p className="text-sm text-gray-700">
-                📖 Этот план находится в режиме просмотра. Изменение проектов
-                доступно только для активного плана.
-              </p>
-            </div>
+          <Card variant="gradient" accentColor="purple" className="mb-6">
+            <p className="text-sm text-text-secondary">
+              📖 Этот план находится в режиме просмотра. Изменение проектов
+              доступно только для активного плана.
+            </p>
           </Card>
         )}
 
         {/* Progress Card */}
         <Card className="mb-6">
-          <h3 className="font-semibold text-gray-800 mb-4">
+          <h3 className="font-semibold text-text-primary mb-4">
             Прогресс выполнения:
           </h3>
           <div className="space-y-4">
             {/* Progress Bar */}
             <div>
-              <div className="flex justify-between text-sm text-gray-600 mb-2">
+              <div className="flex justify-between text-sm text-text-secondary mb-2">
                 <span>
                   {completedCount} / {plan.projects.length} проектов
                 </span>
                 <span className="font-semibold">{progressPercent}%</span>
               </div>
-              <div className="w-full bg-gray-200 rounded-full h-3">
+              <div className="w-full bg-glass-light rounded-full h-3 border border-glass-border">
                 <div
                   className="bg-primary h-3 rounded-full transition-all duration-300"
                   style={{ width: `${progressPercent}%` }}
@@ -137,24 +135,24 @@ export default function PlanViewScreen() {
             </div>
 
             {/* Stats Grid */}
-            <div className="grid grid-cols-3 gap-4 pt-4 border-t border-gray-200">
+            <div className="grid grid-cols-3 gap-4 pt-4 border-t border-glass-border">
               <div className="text-center">
-                <div className="text-2xl font-bold text-green-600">
+                <div className="text-2xl font-bold text-accent-emerald">
                   {completedCount}
                 </div>
-                <div className="text-xs text-gray-600">Завершено</div>
+                <div className="text-xs text-text-secondary">Завершено</div>
               </div>
               <div className="text-center">
-                <div className="text-2xl font-bold text-orange-600">
+                <div className="text-2xl font-bold text-accent-orange">
                   {plan.projects.length - completedCount}
                 </div>
-                <div className="text-xs text-gray-600">В работе</div>
+                <div className="text-xs text-text-secondary">В работе</div>
               </div>
               <div className="text-center">
                 <div className="text-2xl font-bold text-primary">
                   {plan.projects.length}
                 </div>
-                <div className="text-xs text-gray-600">Всего</div>
+                <div className="text-xs text-text-secondary">Всего</div>
               </div>
             </div>
           </div>
@@ -163,11 +161,11 @@ export default function PlanViewScreen() {
         {/* Projects List */}
         <Card>
           <div className="flex items-center justify-between mb-6">
-            <h3 className="font-semibold text-gray-800">
+            <h3 className="font-semibold text-text-primary">
               Проекты ({plan.projects.length}):
             </h3>
             {isEditable && (
-              <p className="text-sm text-gray-500">
+              <p className="text-sm text-text-muted">
                 Отмечайте проекты как завершённые
               </p>
             )}
@@ -177,10 +175,10 @@ export default function PlanViewScreen() {
             {plan.projects.map((project, index) => (
               <div
                 key={project.id}
-                className={`p-4 rounded-lg border-2 transition-all ${
+                className={`p-4 rounded-glass-sm border-2 transition-all ${
                   project.completed
-                    ? 'bg-green-50 border-green-300'
-                    : 'bg-white border-gray-200'
+                    ? 'bg-accent-emerald/10 border-accent-emerald/30'
+                    : 'bg-glass-light border-glass-border'
                 }`}
               >
                 <div className="flex items-start gap-4">
@@ -194,17 +192,17 @@ export default function PlanViewScreen() {
                   />
                   <div className="flex-1">
                     <div className="flex items-center gap-3 mb-1">
-                      <span className="font-medium text-gray-700">
+                      <span className="font-medium text-text-primary">
                         Проект {index + 1}
                       </span>
                       {project.completed && (
-                        <span className="text-xs px-2 py-1 bg-green-100 text-green-700 rounded-full font-medium">
+                        <span className="text-xs px-2 py-1 bg-accent-emerald/20 text-accent-emerald rounded-full font-medium border border-accent-emerald/30">
                           ✓ Завершён
                         </span>
                       )}
                     </div>
                     <p
-                      className={`text-gray-800 ${
+                      className={`text-text-primary ${
                         project.completed ? 'line-through opacity-75' : ''
                       }`}
                     >
@@ -219,10 +217,10 @@ export default function PlanViewScreen() {
 
         {/* Plan Info */}
         <Card className="mt-6">
-          <h3 className="font-semibold text-gray-800 mb-4">
+          <h3 className="font-semibold text-text-primary mb-4">
             Информация о плане:
           </h3>
-          <div className="space-y-2 text-sm text-gray-600">
+          <div className="space-y-2 text-sm text-text-secondary">
             <div className="flex justify-between">
               <span>Создан:</span>
               <span className="font-medium">

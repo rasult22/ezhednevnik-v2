@@ -92,34 +92,32 @@ export default function NewPlanScreen() {
           <div className="col-span-2">
             {/* Header */}
             <div className="mb-8">
-              <h1 className="text-4xl font-bold text-gray-900 mb-3">
+              <h1 className="text-4xl font-bold gradient-text mb-3">
                 Создать план на 90 дней
               </h1>
-              <p className="text-lg text-gray-600">
+              <p className="text-lg text-text-secondary">
                 Выберите 3-6 главных проектов на следующий квартал
               </p>
             </div>
 
             {/* Warning if active plan exists */}
             {activePlan && (
-              <Card className="mb-6">
-                <div className="bg-orange-50 border-l-4 border-orange-400 p-4">
-                  <p className="text-sm text-gray-800">
-                    <strong>⚠️ Внимание:</strong> У вас уже есть активный план.
-                    При создании нового плана текущий будет завершён автоматически.
-                  </p>
-                </div>
+              <Card variant="gradient" accentColor="orange" className="mb-6">
+                <p className="text-sm text-text-secondary">
+                  <strong className="text-text-primary">⚠️ Внимание:</strong> У вас уже есть активный план.
+                  При создании нового плана текущий будет завершён автоматически.
+                </p>
               </Card>
             )}
 
             {/* Date Range */}
             <Card className="mb-6">
-              <h3 className="font-semibold text-gray-800 mb-4">
+              <h3 className="font-semibold text-text-primary mb-4">
                 Период планирования:
               </h3>
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                  <label className="block text-sm font-medium text-text-primary mb-2">
                     Дата начала:
                   </label>
                   <Input
@@ -129,7 +127,7 @@ export default function NewPlanScreen() {
                   />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                  <label className="block text-sm font-medium text-text-primary mb-2">
                     Дата окончания:
                   </label>
                   <Input
@@ -143,14 +141,14 @@ export default function NewPlanScreen() {
 
             {/* Projects Input */}
             <Card className="mb-6">
-              <h3 className="font-semibold text-gray-800 mb-4">
+              <h3 className="font-semibold text-text-primary mb-4">
                 Проекты (3-8):
               </h3>
 
               {/* Hint */}
-              <div className="bg-yellow-50 border border-yellow-200 p-4 rounded-lg mb-4">
-                <p className="text-sm text-gray-700">
-                  <strong>💡 Подсказка:</strong> Формулируйте как завершённые
+              <div className="bg-accent-orange/10 border border-accent-orange/30 p-4 rounded-glass-sm mb-4">
+                <p className="text-sm text-text-secondary">
+                  <strong className="text-text-primary">💡 Подсказка:</strong> Формулируйте как завершённые
                   результаты. Например: "Создал сайт компании", "Набрал 10
                   клиентов", "Завершил ремонт".
                 </p>
@@ -160,7 +158,7 @@ export default function NewPlanScreen() {
               <div className="space-y-3 mb-4">
                 {projects.map((project, index) => (
                   <div key={index} className="flex gap-2 items-center">
-                    <span className="text-gray-400 font-medium w-6">
+                    <span className="text-text-muted font-medium w-6">
                       {index + 1}.
                     </span>
                     <div className="flex-1">
@@ -177,7 +175,7 @@ export default function NewPlanScreen() {
                         variant="ghost"
                         size="sm"
                         onClick={() => handleRemoveProject(index)}
-                        className="text-gray-400 hover:text-danger"
+                        className="text-text-muted hover:text-danger"
                       >
                         ✕
                       </Button>
@@ -196,7 +194,7 @@ export default function NewPlanScreen() {
 
             {/* Progress Indicator */}
             <Card className="mb-6">
-              <p className="text-sm text-gray-700">
+              <p className="text-sm text-text-secondary">
                 Заполнено проектов:{' '}
                 <strong>{filledProjects} / минимум 3</strong>
               </p>
@@ -226,7 +224,7 @@ export default function NewPlanScreen() {
           <div className="col-span-1">
             <div className="sticky top-4">
               <Card>
-                <h3 className="text-sm font-semibold text-gray-700 mb-4">
+                <h3 className="text-sm font-semibold text-text-primary mb-4">
                   🎯 Ваши цели на 1 год:
                 </h3>
                 {goalsOneYear.length > 0 ? (
@@ -234,16 +232,16 @@ export default function NewPlanScreen() {
                     {goalsOneYear.map((goal) => (
                       <li
                         key={goal.id}
-                        className="text-sm text-gray-600 leading-snug pb-3 border-b border-gray-100 last:border-0"
+                        className="text-sm text-text-secondary leading-snug pb-3 border-b border-glass-border-light last:border-0"
                       >
                         {goal.content || (
-                          <em className="text-gray-400">Пусто</em>
+                          <em className="text-text-muted">Пусто</em>
                         )}
                       </li>
                     ))}
                   </ul>
                 ) : (
-                  <p className="text-sm text-gray-400 italic">
+                  <p className="text-sm text-text-muted italic">
                     Цели на 1 год не указаны
                   </p>
                 )}

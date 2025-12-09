@@ -40,7 +40,7 @@ export default function ReviewsArchiveScreen() {
             <h1 className="text-4xl font-bold gradient-text mb-3">
               Еженедельные обзоры
             </h1>
-            <p className="text-lg text-gray-600">
+            <p className="text-lg text-text-secondary">
               Архив ваших недельных рефлексий и анализа прогресса
             </p>
           </div>
@@ -50,14 +50,12 @@ export default function ReviewsArchiveScreen() {
         </div>
 
         {/* Info Card */}
-        <Card className="mb-6">
-          <div className="bg-indigo-50 border-l-4 border-indigo-400 p-4">
-            <p className="text-sm text-gray-800">
-              <strong>💡 Система обзоров:</strong> Еженедельный обзор
-              разблокируется после 7 завершённых дней. Это ваше время для
-              анализа успехов, инсайтов и планирования следующей недели.
-            </p>
-          </div>
+        <Card variant="gradient" accentColor="purple" className="mb-6">
+          <p className="text-sm text-text-secondary">
+            <strong className="text-text-primary">💡 Система обзоров:</strong> Еженедельный обзор
+            разблокируется после 7 завершённых дней. Это ваше время для
+            анализа успехов, инсайтов и планирования следующей недели.
+          </p>
         </Card>
 
         {/* Reviews List */}
@@ -65,10 +63,10 @@ export default function ReviewsArchiveScreen() {
           <Card>
             <div className="text-center py-16">
               <div className="text-6xl mb-4">📝</div>
-              <h3 className="text-xl font-semibold text-gray-700 mb-2">
+              <h3 className="text-xl font-semibold text-text-primary mb-2">
                 У вас пока нет еженедельных обзоров
               </h3>
-              <p className="text-gray-500 mb-6">
+              <p className="text-text-muted mb-6">
                 Завершите 7 дней работы, чтобы создать первый обзор
               </p>
               <Button onClick={() => navigate('/reviews/new')}>
@@ -82,11 +80,11 @@ export default function ReviewsArchiveScreen() {
               <Card key={review.id}>
                 <div className="flex items-start justify-between mb-4">
                   <div className="flex-1">
-                    <h3 className="text-xl font-bold text-gray-900 mb-2">
+                    <h3 className="text-xl font-bold text-text-primary mb-2">
                       Обзор: {formatDateRU(review.startDate)} -{' '}
                       {formatDateRU(review.endDate)}
                     </h3>
-                    <p className="text-sm text-gray-500">
+                    <p className="text-sm text-text-muted">
                       Создан:{' '}
                       {new Date(review.createdAt).toLocaleDateString('ru-RU')} в{' '}
                       {new Date(review.createdAt).toLocaleTimeString('ru-RU', {
@@ -104,16 +102,16 @@ export default function ReviewsArchiveScreen() {
                 </div>
 
                 {/* Preview */}
-                <div className="bg-gray-50 rounded-lg p-4 border border-gray-200">
-                  <p className="text-sm text-gray-700 line-clamp-3">
+                <div className="bg-glass-light rounded-glass-sm p-4 border border-glass-border">
+                  <p className="text-sm text-text-primary line-clamp-3">
                     {review.content || (
-                      <em className="text-gray-400">Нет содержимого</em>
+                      <em className="text-text-muted">Нет содержимого</em>
                     )}
                   </p>
                 </div>
 
                 {/* Meta Info */}
-                <div className="mt-3 flex items-center gap-4 text-xs text-gray-500">
+                <div className="mt-3 flex items-center gap-4 text-xs text-text-muted">
                   <span>
                     📅 {review.dailyPagesIncluded.length} дней включено
                   </span>
@@ -129,7 +127,7 @@ export default function ReviewsArchiveScreen() {
         {/* Stats */}
         {sortedReviews.length > 0 && (
           <Card className="mt-8">
-            <h3 className="font-semibold text-gray-800 mb-4">
+            <h3 className="font-semibold text-text-primary mb-4">
               📊 Статистика обзоров:
             </h3>
             <div className="grid grid-cols-3 gap-4 text-center">
@@ -137,19 +135,19 @@ export default function ReviewsArchiveScreen() {
                 <div className="text-3xl font-bold text-primary">
                   {sortedReviews.length}
                 </div>
-                <div className="text-sm text-gray-600">Всего обзоров</div>
+                <div className="text-sm text-text-secondary">Всего обзоров</div>
               </div>
               <div>
-                <div className="text-3xl font-bold text-green-600">
+                <div className="text-3xl font-bold text-accent-emerald">
                   {sortedReviews.reduce(
                     (acc, r) => acc + r.dailyPagesIncluded.length,
                     0
                   )}
                 </div>
-                <div className="text-sm text-gray-600">Дней проанализировано</div>
+                <div className="text-sm text-text-secondary">Дней проанализировано</div>
               </div>
               <div>
-                <div className="text-3xl font-bold text-indigo-600">
+                <div className="text-3xl font-bold text-accent-purple">
                   {Math.round(
                     sortedReviews.reduce(
                       (acc, r) => acc + r.content.length,
@@ -157,7 +155,7 @@ export default function ReviewsArchiveScreen() {
                     ) / sortedReviews.length
                   )}
                 </div>
-                <div className="text-sm text-gray-600">
+                <div className="text-sm text-text-secondary">
                   Средняя длина (символы)
                 </div>
               </div>
@@ -177,8 +175,8 @@ export default function ReviewsArchiveScreen() {
           >
             <div className="space-y-4">
               {/* Meta */}
-              <div className="bg-gray-50 p-4 rounded">
-                <div className="grid grid-cols-2 gap-4 text-sm text-gray-600">
+              <div className="bg-glass-light p-4 rounded-glass-sm">
+                <div className="grid grid-cols-2 gap-4 text-sm text-text-secondary">
                   <div>
                     <span className="font-medium">Создан:</span>{' '}
                     {new Date(
@@ -194,13 +192,13 @@ export default function ReviewsArchiveScreen() {
 
               {/* Content */}
               <div>
-                <h4 className="font-semibold text-gray-800 mb-3">
+                <h4 className="font-semibold text-text-primary mb-3">
                   Содержание обзора:
                 </h4>
-                <div className="bg-white border border-gray-200 rounded-lg p-4 max-h-96 overflow-y-auto">
-                  <p className="text-gray-800 whitespace-pre-wrap leading-relaxed">
+                <div className="bg-glass-light border border-glass-border rounded-glass-sm p-4 max-h-96 overflow-y-auto custom-scrollbar">
+                  <p className="text-text-primary whitespace-pre-wrap leading-relaxed">
                     {selectedReviewData.content || (
-                      <em className="text-gray-400">Нет содержимого</em>
+                      <em className="text-text-muted">Нет содержимого</em>
                     )}
                   </p>
                 </div>
@@ -208,14 +206,14 @@ export default function ReviewsArchiveScreen() {
 
               {/* Included Dates */}
               <div>
-                <h4 className="font-semibold text-gray-800 mb-3">
+                <h4 className="font-semibold text-text-primary mb-3">
                   Включённые даты:
                 </h4>
                 <div className="flex flex-wrap gap-2">
                   {selectedReviewData.dailyPagesIncluded.map((date) => (
                     <span
                       key={date}
-                      className="px-3 py-1 bg-indigo-50 text-indigo-700 text-sm rounded-full"
+                      className="px-3 py-1 bg-accent-purple/20 text-accent-purple text-sm rounded-full border border-accent-purple/30"
                     >
                       {formatDateRU(date)}
                     </span>
@@ -224,7 +222,7 @@ export default function ReviewsArchiveScreen() {
               </div>
 
               {/* Close Button */}
-              <div className="flex justify-end pt-4 border-t border-gray-200">
+              <div className="flex justify-end pt-4 border-t border-glass-border">
                 <Button onClick={() => setSelectedReview(null)}>
                   Закрыть
                 </Button>

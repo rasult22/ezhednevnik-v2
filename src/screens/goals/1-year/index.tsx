@@ -63,21 +63,19 @@ export default function Goals1YearScreen() {
             <h1 className="text-4xl font-bold gradient-text mb-3">
               Цели на 1 год
             </h1>
-            <p className="text-lg text-gray-600">
+            <p className="text-lg text-text-secondary">
               Конкретные, измеримые цели на текущий год
             </p>
           </div>
 
           {/* Info Card */}
-          <Card className="mb-6">
-            <div className="bg-orange-50 border-l-4 border-orange-400 p-4">
-              <p className="text-sm text-gray-800">
-                <strong>💡 Совет:</strong> Годовые цели должны быть максимально
-                конкретными и измеримыми. Используйте числа, даты, результаты.
-                Например: "Заработать 5 млн руб", "Запустить продукт к 1 июня",
-                "Набрать 50 клиентов".
-              </p>
-            </div>
+          <Card variant="gradient" accentColor="orange" className="mb-6">
+            <p className="text-sm text-text-secondary">
+              <strong className="text-text-primary">💡 Совет:</strong> Годовые цели должны быть максимально
+              конкретными и измеримыми. Используйте числа, даты, результаты.
+              Например: "Заработать 5 млн руб", "Запустить продукт к 1 июня",
+              "Набрать 50 клиентов".
+            </p>
           </Card>
 
           {/* Goals List */}
@@ -85,7 +83,7 @@ export default function Goals1YearScreen() {
             {goals1yr.length === 0 && (
               <Card>
                 <div className="text-center py-12">
-                  <p className="text-gray-500 mb-4">
+                  <p className="text-text-muted mb-4">
                     У вас пока нет целей на 1 год
                   </p>
                   <Button onClick={handleAdd}>Добавить первую цель</Button>
@@ -97,14 +95,14 @@ export default function Goals1YearScreen() {
               <Card key={goal.id}>
                 <div className="space-y-3">
                   <div className="flex items-start justify-between">
-                    <h3 className="text-lg font-semibold text-gray-700">
+                    <h3 className="text-lg font-semibold text-accent-orange">
                       Цель {index + 1}
                     </h3>
                     <Button
                       variant="ghost"
                       size="sm"
                       onClick={() => handleDelete(goal.id)}
-                      className="text-danger hover:text-danger hover:bg-red-50"
+                      className="text-danger hover:text-danger"
                     >
                       Удалить
                     </Button>
@@ -117,7 +115,7 @@ export default function Goals1YearScreen() {
                     rows={4}
                   />
 
-                  <div className="text-xs text-gray-400">
+                  <div className="text-xs text-text-muted">
                     Создано: {new Date(goal.createdAt).toLocaleDateString('ru-RU')}
                     {goal.updatedAt !== goal.createdAt && (
                       <> • Обновлено: {new Date(goal.updatedAt).toLocaleDateString('ru-RU')}</>
@@ -141,19 +139,19 @@ export default function Goals1YearScreen() {
           <div className="sticky top-4 space-y-6">
             {/* 10-Year Goals */}
             <Card>
-              <h3 className="text-sm font-semibold text-gray-700 mb-4">
+              <h3 className="text-sm font-semibold text-text-primary mb-4">
                 🎯 Цели на 10 лет:
               </h3>
               {goals10yr.length > 0 ? (
                 <ul className="space-y-3">
                   {goals10yr.map((goal) => (
-                    <li key={goal.id} className="text-sm text-gray-600 leading-snug pb-3 border-b border-gray-100 last:border-0">
-                      {goal.content || <em className="text-gray-400">Пусто</em>}
+                    <li key={goal.id} className="text-sm text-text-secondary leading-snug pb-3 border-b border-glass-border-light last:border-0">
+                      {goal.content || <em className="text-text-muted">Пусто</em>}
                     </li>
                   ))}
                 </ul>
               ) : (
-                <p className="text-sm text-gray-400 italic">
+                <p className="text-sm text-text-muted italic">
                   Не указаны
                 </p>
               )}
@@ -161,19 +159,19 @@ export default function Goals1YearScreen() {
 
             {/* 5-Year Goals */}
             <Card>
-              <h3 className="text-sm font-semibold text-gray-700 mb-4">
+              <h3 className="text-sm font-semibold text-text-primary mb-4">
                 📊 Цели на 5 лет:
               </h3>
               {goals5yr.length > 0 ? (
                 <ul className="space-y-3">
                   {goals5yr.map((goal) => (
-                    <li key={goal.id} className="text-sm text-gray-600 leading-snug pb-3 border-b border-gray-100 last:border-0">
-                      {goal.content || <em className="text-gray-400">Пусто</em>}
+                    <li key={goal.id} className="text-sm text-text-secondary leading-snug pb-3 border-b border-glass-border-light last:border-0">
+                      {goal.content || <em className="text-text-muted">Пусто</em>}
                     </li>
                   ))}
                 </ul>
               ) : (
-                <p className="text-sm text-gray-400 italic">
+                <p className="text-sm text-text-muted italic">
                   Не указаны
                 </p>
               )}
@@ -181,10 +179,10 @@ export default function Goals1YearScreen() {
 
             {/* Examples */}
             <Card>
-              <h3 className="text-xs font-semibold text-gray-700 mb-3">
+              <h3 className="text-xs font-semibold text-text-primary mb-3">
                 Примеры целей на 1 год:
               </h3>
-              <ul className="space-y-2 text-xs text-gray-600">
+              <ul className="space-y-2 text-xs text-text-secondary">
                 <li>• Заработать 5 млн руб за год</li>
                 <li>• Запустить MVP продукта к 1 июня</li>
                 <li>• Набрать 50 платящих клиентов</li>

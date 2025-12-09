@@ -27,9 +27,9 @@ export default function PlansListScreen() {
 
   const getStatusBadge = (status: string) => {
     const badges = {
-      active: 'bg-green-100 text-green-800 border-green-300',
-      completed: 'bg-blue-100 text-blue-800 border-blue-300',
-      archived: 'bg-gray-100 text-gray-600 border-gray-300',
+      active: 'bg-accent-emerald/20 text-accent-emerald border-accent-emerald/30',
+      completed: 'bg-accent-blue/20 text-accent-blue border-accent-blue/30',
+      archived: 'bg-glass-light text-text-muted border-glass-border',
     };
     const labels = {
       active: 'Активный',
@@ -38,7 +38,7 @@ export default function PlansListScreen() {
     };
     return (
       <span
-        className={`inline-block px-3 py-1 text-xs font-semibold rounded-full border ${badges[status as keyof typeof badges]}`}
+        className={`inline-block px-3 py-1 text-xs font-semibold rounded-full border backdrop-blur-sm ${badges[status as keyof typeof badges]}`}
       >
         {labels[status as keyof typeof labels]}
       </span>
@@ -54,7 +54,7 @@ export default function PlansListScreen() {
             <h1 className="text-4xl font-bold gradient-text mb-3">
               Планы на 90 дней
             </h1>
-            <p className="text-lg text-gray-600">
+            <p className="text-lg text-text-secondary">
               Квартальное планирование для достижения годовых целей
             </p>
           </div>
@@ -64,14 +64,12 @@ export default function PlansListScreen() {
         </div>
 
         {/* Info Card */}
-        <Card className="mb-6">
-          <div className="bg-purple-50 border-l-4 border-purple-400 p-4">
-            <p className="text-sm text-gray-800">
-              <strong>💡 Система 90 дней:</strong> Каждые 90 дней вы фокусируетесь
-              на 3-6 главных проектах, которые приближают вас к годовым целям.
-              Из этих проектов вы выбираете 3 для ежедневного фокуса.
-            </p>
-          </div>
+        <Card variant="gradient" accentColor="purple" className="mb-6">
+          <p className="text-sm text-text-secondary">
+            <strong className="text-text-primary">💡 Система 90 дней:</strong> Каждые 90 дней вы фокусируетесь
+            на 3-6 главных проектах, которые приближают вас к годовым целям.
+            Из этих проектов вы выбираете 3 для ежедневного фокуса.
+          </p>
         </Card>
 
         {/* Plans List */}
@@ -79,10 +77,10 @@ export default function PlansListScreen() {
           <Card>
             <div className="text-center py-16">
               <div className="text-6xl mb-4">📊</div>
-              <h3 className="text-xl font-semibold text-gray-700 mb-2">
+              <h3 className="text-xl font-semibold text-text-primary mb-2">
                 У вас пока нет планов на 90 дней
               </h3>
-              <p className="text-gray-500 mb-6">
+              <p className="text-text-muted mb-6">
                 Создайте свой первый квартальный план для структурированного
                 достижения целей
               </p>
@@ -96,22 +94,24 @@ export default function PlansListScreen() {
             {sortedPlans.map((plan) => (
               <Card
                 key={plan.id}
+                variant={plan.status === 'active' ? 'accent' : 'default'}
+                accentColor={plan.status === 'active' ? 'purple' : 'blue'}
                 className={
                   plan.status === 'active'
-                    ? 'border-2 border-primary shadow-md'
+                    ? 'ring-2 ring-accent-purple/30'
                     : ''
                 }
               >
                 <div className="flex items-start justify-between mb-4">
                   <div className="flex-1">
                     <div className="flex items-center gap-3 mb-2">
-                      <h3 className="text-xl font-bold text-gray-900">
+                      <h3 className="text-xl font-bold text-text-primary">
                         План: {formatDateRU(plan.startDate)} -{' '}
                         {formatDateRU(plan.endDate)}
                       </h3>
                       {getStatusBadge(plan.status)}
                     </div>
-                    <p className="text-sm text-gray-500">
+                    <p className="text-sm text-text-muted">
                       Создан: {new Date(plan.createdAt).toLocaleDateString('ru-RU')}
                     </p>
                   </div>
@@ -125,24 +125,24 @@ export default function PlansListScreen() {
 
                 {/* Projects List */}
                 <div>
-                  <h4 className="text-sm font-semibold text-gray-700 mb-3">
+                  <h4 className="text-sm font-semibold text-text-primary mb-3">
                     Проекты ({plan.projects.length}):
                   </h4>
                   <div className="grid grid-cols-2 gap-3">
                     {plan.projects.map((project) => (
                       <div
                         key={project.id}
-                        className={`p-3 rounded border ${
+                        className={`p-3 rounded-glass-sm border backdrop-blur-sm transition-all ${
                           project.completed
-                            ? 'bg-green-50 border-green-200'
-                            : 'bg-gray-50 border-gray-200'
+                            ? 'bg-accent-emerald/10 border-accent-emerald/30'
+                            : 'bg-glass-light border-glass-border'
                         }`}
                       >
                         <div className="flex items-start gap-2">
                           <span className="text-lg">
                             {project.completed ? '✅' : '⭕'}
                           </span>
-                          <span className="text-sm text-gray-800 flex-1">
+                          <span className="text-sm text-text-primary flex-1">
                             {project.title}
                           </span>
                         </div>
@@ -152,9 +152,9 @@ export default function PlansListScreen() {
                 </div>
 
                 {/* Progress Stats */}
-                <div className="mt-4 pt-4 border-t border-gray-200">
+                <div className="mt-4 pt-4 border-t border-glass-border">
                   <div className="flex items-center justify-between text-sm">
-                    <span className="text-gray-600">
+                    <span className="text-text-secondary">
                       Завершено проектов:{' '}
                       <strong>
                         {plan.projects.filter((p) => p.completed).length} /{' '}
@@ -176,7 +176,7 @@ export default function PlansListScreen() {
         {/* Stats Summary */}
         {sortedPlans.length > 0 && (
           <Card className="mt-8">
-            <h3 className="font-semibold text-gray-800 mb-3">
+            <h3 className="font-semibold text-text-primary mb-3">
               📈 Статистика:
             </h3>
             <div className="grid grid-cols-3 gap-4 text-center">
@@ -184,26 +184,26 @@ export default function PlansListScreen() {
                 <div className="text-3xl font-bold text-primary">
                   {sortedPlans.length}
                 </div>
-                <div className="text-sm text-gray-600">Всего планов</div>
+                <div className="text-sm text-text-secondary">Всего планов</div>
               </div>
               <div>
-                <div className="text-3xl font-bold text-green-600">
+                <div className="text-3xl font-bold text-accent-emerald">
                   {
                     sortedPlans.filter((p) => p.status === 'completed')
                       .length
                   }
                 </div>
-                <div className="text-sm text-gray-600">Завершённых</div>
+                <div className="text-sm text-text-secondary">Завершённых</div>
               </div>
               <div>
-                <div className="text-3xl font-bold text-orange-600">
+                <div className="text-3xl font-bold text-accent-orange">
                   {sortedPlans.reduce(
                     (acc, p) =>
                       acc + p.projects.filter((pr) => pr.completed).length,
                     0
                   )}
                 </div>
-                <div className="text-sm text-gray-600">
+                <div className="text-sm text-text-secondary">
                   Выполненных проектов
                 </div>
               </div>
