@@ -127,7 +127,7 @@ export function Step8MonthlyFocus({ onBack, onComplete }: StepProps) {
                         <button
                           key={planProject}
                           onClick={() => handleSelectFromPlan(index, planProject)}
-                          className="text-xs px-2 py-1 bg-gray-100 hover:bg-primary hover:text-white rounded transition-colors"
+                          className="text-xs px-2 py-1 bg-glass-light hover:bg-primary hover:text-white rounded transition-colors border border-glass-border"
                         >
                           {planProject}
                         </button>

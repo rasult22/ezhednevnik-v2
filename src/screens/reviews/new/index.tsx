@@ -53,7 +53,7 @@ export default function NewReviewScreen() {
     return (
       <Container size="lg">
         <div className="py-8">
-          <p className="text-center text-gray-500">Загрузка...</p>
+          <p className="text-center text-text-muted">Загрузка...</p>
         </div>
       </Container>
     );
@@ -72,10 +72,10 @@ export default function NewReviewScreen() {
             ← Назад к обзорам
           </Button>
 
-          <h1 className="text-4xl font-bold text-gray-900 mb-3">
+          <h1 className="text-4xl font-bold gradient-text mb-3">
             Еженедельный обзор
           </h1>
-          <p className="text-lg text-gray-600">
+          <p className="text-lg text-text-secondary">
             Успехи за неделю по главным 20% и важные мысли
           </p>
         </div>
@@ -83,24 +83,24 @@ export default function NewReviewScreen() {
         {/* Not Eligible - Show Progress */}
         {!eligibility.allowed && (
           <Card>
-            <div className="bg-yellow-50 border-l-4 border-yellow-400 p-4 mb-6">
-              <p className="text-sm text-gray-800 mb-2">
-                <strong>⏳ Еженедельный обзор пока недоступен</strong>
+            <div className="bg-accent-orange/10 border-l-4 border-accent-orange/50 p-4 rounded-glass-sm mb-6">
+              <p className="text-sm text-text-secondary mb-2">
+                <strong className="text-text-primary">⏳ Еженедельный обзор пока недоступен</strong>
               </p>
-              <p className="text-sm text-gray-700">
+              <p className="text-sm text-text-secondary">
                 Для создания обзора необходимо завершить 7 дней работы.
               </p>
             </div>
 
             {/* Progress */}
             <div className="mb-6">
-              <div className="flex justify-between text-sm text-gray-600 mb-2">
+              <div className="flex justify-between text-sm text-text-secondary mb-2">
                 <span>Прогресс:</span>
                 <span className="font-semibold">
                   {eligibility.completedCount} / 7 дней
                 </span>
               </div>
-              <div className="w-full bg-gray-200 rounded-full h-3">
+              <div className="w-full bg-glass-light rounded-full h-3 border border-glass-border">
                 <div
                   className="bg-primary h-3 rounded-full transition-all duration-300"
                   style={{
@@ -113,14 +113,14 @@ export default function NewReviewScreen() {
             {/* Recent Completed Days */}
             {eligibility.lastCompletedDates.length > 0 && (
               <div>
-                <h3 className="text-sm font-semibold text-gray-700 mb-3">
+                <h3 className="text-sm font-semibold text-text-primary mb-3">
                   Последние завершённые дни:
                 </h3>
                 <div className="flex flex-wrap gap-2">
                   {eligibility.lastCompletedDates.map((date) => (
                     <span
                       key={date}
-                      className="px-3 py-1 bg-green-50 text-green-700 text-sm rounded-full"
+                      className="px-3 py-1 bg-accent-emerald/20 text-accent-emerald text-sm rounded-full border border-accent-emerald/30"
                     >
                       {formatDateRU(date)}
                     </span>
@@ -133,7 +133,7 @@ export default function NewReviewScreen() {
             {eligibility.lastCompletedDates.length === 0 && (
               <div className="text-center py-8">
                 <div className="text-4xl mb-3">📅</div>
-                <p className="text-gray-600">
+                <p className="text-text-secondary">
                   У вас пока нет завершённых дней. Начните заполнять ежедневную
                   страницу!
                 </p>
@@ -150,11 +150,11 @@ export default function NewReviewScreen() {
           <>
             {/* Date Range Info */}
             <Card className="mb-6">
-              <div className="bg-green-50 border-l-4 border-green-400 p-4">
-                <p className="text-sm text-gray-800">
-                  <strong>✅ Готово к созданию обзора!</strong>
+              <div className="bg-accent-emerald/10 border-l-4 border-accent-emerald/50 p-4 rounded-glass-sm">
+                <p className="text-sm text-text-secondary">
+                  <strong className="text-text-primary">✅ Готово к созданию обзора!</strong>
                 </p>
-                <p className="text-sm text-gray-700 mt-1">
+                <p className="text-sm text-text-secondary mt-1">
                   Период обзора:{' '}
                   <strong>
                     {formatDateRU(
@@ -174,10 +174,10 @@ export default function NewReviewScreen() {
               <div className="space-y-6">
                 {/* Instructions */}
                 <div>
-                  <h3 className="font-semibold text-gray-800 mb-2">
+                  <h3 className="font-semibold text-text-primary mb-2">
                     Содержание обзора:
                   </h3>
-                  <p className="text-sm text-gray-600 mb-4">
+                  <p className="text-sm text-text-secondary mb-4">
                     Опишите ваши успехи за неделю, ключевые инсайты, важные мысли,
                     расчёты и планы. Это ваша рефлексия для анализа прогресса.
                   </p>
@@ -193,20 +193,20 @@ export default function NewReviewScreen() {
                 />
 
                 {/* Character Count */}
-                <div className="text-sm text-gray-500">
+                <div className="text-sm text-text-muted">
                   Символов: {content.length}
                 </div>
 
                 {/* Included Dates */}
                 <div>
-                  <h3 className="text-sm font-semibold text-gray-700 mb-3">
+                  <h3 className="text-sm font-semibold text-text-primary mb-3">
                     Включённые даты ({eligibility.lastCompletedDates.length}):
                   </h3>
                   <div className="flex flex-wrap gap-2">
                     {eligibility.lastCompletedDates.map((date) => (
                       <span
                         key={date}
-                        className="px-3 py-1 bg-indigo-50 text-indigo-700 text-sm rounded-full"
+                        className="px-3 py-1 bg-accent-purple/20 text-accent-purple text-sm rounded-full border border-accent-purple/30"
                       >
                         {formatDateRU(date)}
                       </span>
@@ -215,7 +215,7 @@ export default function NewReviewScreen() {
                 </div>
 
                 {/* Actions */}
-                <div className="flex justify-between items-center pt-4 border-t border-gray-200">
+                <div className="flex justify-between items-center pt-4 border-t border-glass-border">
                   <Button
                     variant="ghost"
                     onClick={() => navigate('/reviews')}
