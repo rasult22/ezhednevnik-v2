@@ -10,13 +10,7 @@ import { useReviewsStore } from '../../stores/useReviewsStore';
 import { STORAGE_KEYS } from '../../types';
 
 /**
- * Settings Screen - Data management, statistics, export/import
- *
- * Features:
- * - Statistics overview (all data counts)
- * - Export all data to JSON
- * - Import data from JSON with validation
- * - Reset all data (danger zone)
+ * Settings Screen - Glassmorphism style with grid layout
  */
 export default function SettingsScreen() {
   const userProfile = useAppStore((state) => state.userProfile);
@@ -41,9 +35,6 @@ export default function SettingsScreen() {
     storageUsed: calculateStorageUsage(),
   };
 
-  /**
-   * Calculate approximate localStorage usage in KB
-   */
   function calculateStorageUsage(): number {
     try {
       let total = 0;
@@ -52,15 +43,12 @@ export default function SettingsScreen() {
           total += localStorage[key].length + key.length;
         }
       }
-      return Math.round(total / 1024); // Convert to KB
+      return Math.round(total / 1024);
     } catch (e) {
       return 0;
     }
   }
 
-  /**
-   * Export all data to JSON file
-   */
   const handleExport = () => {
     const allData = {
       version: '1.0.0',
@@ -87,9 +75,6 @@ export default function SettingsScreen() {
     URL.revokeObjectURL(url);
   };
 
-  /**
-   * Import data from JSON file
-   */
   const handleImport = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
     if (!file) return;
@@ -103,12 +88,10 @@ export default function SettingsScreen() {
         const content = e.target?.result as string;
         const importedData = JSON.parse(content);
 
-        // Validate structure
         if (!importedData.version || !importedData.data) {
           throw new Error('Неверный формат файла');
         }
 
-        // Confirm import
         const confirmImport = window.confirm(
           'Импорт данных заменит все текущие данные. Вы уверены?\n\nРекомендуется сначала создать резервную копию текущих данных.'
         );
@@ -118,7 +101,6 @@ export default function SettingsScreen() {
           return;
         }
 
-        // Import data
         const { data } = importedData;
 
         if (data.profile)
@@ -133,7 +115,6 @@ export default function SettingsScreen() {
 
         setImportSuccess(true);
 
-        // Reload page to reinitialize stores
         setTimeout(() => {
           window.location.reload();
         }, 1500);
@@ -153,12 +134,9 @@ export default function SettingsScreen() {
     reader.readAsText(file);
   };
 
-  /**
-   * Reset all data (danger zone)
-   */
   const handleResetAll = () => {
     const confirmReset = window.confirm(
-      '⚠️ ВНИМАНИЕ!\n\nЭто действие удалит ВСЕ данные без возможности восстановления:\n\n• Все цели (10 лет, 5 лет, 1 год)\n• Все планы на 90 дней\n• Все ежедневные страницы\n• Все еженедельные обзоры\n• Настройки профиля\n\nВы УВЕРЕНЫ?'
+      'ВНИМАНИЕ!\n\nЭто действие удалит ВСЕ данные без возможности восстановления:\n\n• Все цели\n• Все планы на 90 дней\n• Все ежедневные страницы\n• Все еженедельные обзоры\n• Настройки профиля\n\nВы УВЕРЕНЫ?'
     );
 
     if (!confirmReset) return;
@@ -169,162 +147,172 @@ export default function SettingsScreen() {
 
     if (!doubleConfirm) return;
 
-    // Clear all localStorage
     localStorage.clear();
-
-    // Reload page
     window.location.href = '/';
   };
 
   return (
-    <Container size="lg">
+    <Container size="xl">
       <div className="py-8">
         {/* Header */}
         <div className="mb-8">
-          <h1 className="text-4xl font-bold text-gray-900 mb-3">Настройки</h1>
-          <p className="text-lg text-gray-600">
+          <h1 className="text-4xl font-bold gradient-text mb-3">Настройки</h1>
+          <p className="text-lg text-text-secondary">
             Управление данными, экспорт и импорт
           </p>
         </div>
 
-        {/* Profile Info */}
-        {userProfile && (
-          <Card className="mb-6">
-            <h3 className="font-semibold text-gray-800 mb-4">
-              Информация о профиле:
-            </h3>
-            <div className="space-y-2 text-sm text-gray-600">
-              <div className="flex justify-between">
-                <span>ID профиля:</span>
-                <span className="font-medium font-mono text-xs">
-                  {userProfile.id}
-                </span>
-              </div>
-              <div className="flex justify-between">
-                <span>Дата создания:</span>
-                <span className="font-medium">
-                  {new Date(userProfile.createdAt).toLocaleDateString('ru-RU')}
-                </span>
-              </div>
-              <div className="flex justify-between">
-                <span>Онбординг пройден:</span>
-                <span className="font-medium">
-                  {userProfile.onboardingCompleted ? 'Да' : 'Нет'}
-                </span>
-              </div>
-            </div>
-          </Card>
-        )}
+        {/* Grid layout for wide screens */}
+        <div className="grid grid-cols-1 xl:grid-cols-2 gap-6">
+          {/* Left column */}
+          <div className="space-y-6">
+            {/* Profile Info */}
+            {userProfile && (
+              <Card variant="gradient" accentColor="blue">
+                <h3 className="font-semibold text-text-primary mb-4">
+                  Информация о профиле
+                </h3>
+                <div className="space-y-3 text-sm">
+                  <div className="flex justify-between p-3 bg-glass-light rounded-glass-sm">
+                    <span className="text-text-secondary">ID профиля:</span>
+                    <span className="font-mono text-xs text-text-muted">
+                      {userProfile.id.slice(0, 8)}...
+                    </span>
+                  </div>
+                  <div className="flex justify-between p-3 bg-glass-light rounded-glass-sm">
+                    <span className="text-text-secondary">Дата создания:</span>
+                    <span className="text-text-primary">
+                      {new Date(userProfile.createdAt).toLocaleDateString('ru-RU')}
+                    </span>
+                  </div>
+                  <div className="flex justify-between p-3 bg-glass-light rounded-glass-sm">
+                    <span className="text-text-secondary">Онбординг:</span>
+                    <span className={userProfile.onboardingCompleted ? 'text-success' : 'text-warning'}>
+                      {userProfile.onboardingCompleted ? 'Пройден' : 'Не пройден'}
+                    </span>
+                  </div>
+                </div>
+              </Card>
+            )}
 
-        {/* Statistics */}
-        <Card className="mb-6">
-          <h3 className="font-semibold text-gray-800 mb-4">
-            📊 Статистика данных:
-          </h3>
-          <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
-            <div className="bg-gray-50 p-4 rounded-lg">
-              <div className="text-2xl font-bold text-primary">
-                {stats.totalGoals}
+            {/* Statistics */}
+            <Card>
+              <h3 className="font-semibold text-text-primary mb-4">
+                Статистика данных
+              </h3>
+              <div className="grid grid-cols-2 gap-3">
+                <div className="p-4 bg-accent-blue/10 border border-accent-blue/20 rounded-glass-sm text-center">
+                  <div className="text-2xl font-bold text-accent-blue">
+                    {stats.totalGoals}
+                  </div>
+                  <div className="text-xs text-text-muted">Всего целей</div>
+                </div>
+                <div className="p-4 bg-accent-purple/10 border border-accent-purple/20 rounded-glass-sm text-center">
+                  <div className="text-2xl font-bold text-accent-purple">
+                    {stats.totalPlans}
+                  </div>
+                  <div className="text-xs text-text-muted">Планов 90 дней</div>
+                </div>
+                <div className="p-4 bg-accent-cyan/10 border border-accent-cyan/20 rounded-glass-sm text-center">
+                  <div className="text-2xl font-bold text-accent-cyan">
+                    {stats.totalDailyPages}
+                  </div>
+                  <div className="text-xs text-text-muted">Ежедневных страниц</div>
+                </div>
+                <div className="p-4 bg-success/10 border border-success/20 rounded-glass-sm text-center">
+                  <div className="text-2xl font-bold text-success">
+                    {stats.completedDays}
+                  </div>
+                  <div className="text-xs text-text-muted">Завершённых дней</div>
+                </div>
+                <div className="p-4 bg-accent-pink/10 border border-accent-pink/20 rounded-glass-sm text-center">
+                  <div className="text-2xl font-bold text-accent-pink">
+                    {stats.totalReviews}
+                  </div>
+                  <div className="text-xs text-text-muted">Недельных обзоров</div>
+                </div>
+                <div className="p-4 bg-accent-orange/10 border border-accent-orange/20 rounded-glass-sm text-center">
+                  <div className="text-2xl font-bold text-accent-orange">
+                    {stats.storageUsed} KB
+                  </div>
+                  <div className="text-xs text-text-muted">Использовано</div>
+                </div>
               </div>
-              <div className="text-sm text-gray-600">Всего целей</div>
-            </div>
-            <div className="bg-gray-50 p-4 rounded-lg">
-              <div className="text-2xl font-bold text-purple-600">
-                {stats.totalPlans}
-              </div>
-              <div className="text-sm text-gray-600">Планов на 90 дней</div>
-            </div>
-            <div className="bg-gray-50 p-4 rounded-lg">
-              <div className="text-2xl font-bold text-blue-600">
-                {stats.totalDailyPages}
-              </div>
-              <div className="text-sm text-gray-600">Ежедневных страниц</div>
-            </div>
-            <div className="bg-gray-50 p-4 rounded-lg">
-              <div className="text-2xl font-bold text-green-600">
-                {stats.completedDays}
-              </div>
-              <div className="text-sm text-gray-600">Завершённых дней</div>
-            </div>
-            <div className="bg-gray-50 p-4 rounded-lg">
-              <div className="text-2xl font-bold text-indigo-600">
-                {stats.totalReviews}
-              </div>
-              <div className="text-sm text-gray-600">Еженедельных обзоров</div>
-            </div>
-            <div className="bg-gray-50 p-4 rounded-lg">
-              <div className="text-2xl font-bold text-orange-600">
-                {stats.storageUsed} KB
-              </div>
-              <div className="text-sm text-gray-600">Использовано памяти</div>
-            </div>
+            </Card>
           </div>
-        </Card>
 
-        {/* Export Data */}
-        <Card className="mb-6">
-          <h3 className="font-semibold text-gray-800 mb-4">
-            💾 Экспорт данных:
-          </h3>
-          <p className="text-sm text-gray-600 mb-4">
-            Создайте резервную копию всех ваших данных в формате JSON. Вы
-            сможете импортировать её позже на этом или другом устройстве.
-          </p>
-          <Button onClick={handleExport} variant="secondary">
-            📥 Скачать резервную копию (JSON)
-          </Button>
-        </Card>
-
-        {/* Import Data */}
-        <Card className="mb-6">
-          <h3 className="font-semibold text-gray-800 mb-4">
-            📤 Импорт данных:
-          </h3>
-          <p className="text-sm text-gray-600 mb-4">
-            Восстановите данные из ранее созданной резервной копии. Это
-            заменит все текущие данные.
-          </p>
-
-          {importSuccess && (
-            <div className="bg-green-50 border border-green-200 rounded-lg p-4 mb-4">
-              <p className="text-sm text-green-800">
-                ✅ Данные успешно импортированы! Страница обновится через
-                несколько секунд...
+          {/* Right column */}
+          <div className="space-y-6">
+            {/* Export Data */}
+            <Card variant="gradient" accentColor="emerald">
+              <h3 className="font-semibold text-text-primary mb-4">
+                Экспорт данных
+              </h3>
+              <p className="text-sm text-text-secondary mb-4">
+                Создайте резервную копию всех ваших данных в формате JSON. Вы
+                сможете импортировать её позже на этом или другом устройстве.
               </p>
-            </div>
-          )}
+              <Button onClick={handleExport} variant="secondary" className="w-full">
+                Скачать резервную копию (JSON)
+              </Button>
+            </Card>
 
-          {importError && (
-            <div className="bg-red-50 border border-red-200 rounded-lg p-4 mb-4">
-              <p className="text-sm text-red-800">❌ {importError}</p>
-            </div>
-          )}
+            {/* Import Data */}
+            <Card>
+              <h3 className="font-semibold text-text-primary mb-4">
+                Импорт данных
+              </h3>
+              <p className="text-sm text-text-secondary mb-4">
+                Восстановите данные из ранее созданной резервной копии. Это
+                заменит все текущие данные.
+              </p>
 
-          <div className="flex items-center gap-3">
-            <input
-              type="file"
-              accept=".json"
-              onChange={handleImport}
-              className="block w-full text-sm text-gray-600 file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-medium file:bg-primary file:text-white hover:file:bg-primary-dark file:cursor-pointer cursor-pointer"
-            />
+              {importSuccess && (
+                <div className="p-4 bg-success/20 border border-success/30 rounded-glass-sm mb-4">
+                  <p className="text-sm text-success">
+                    Данные успешно импортированы! Страница обновится через несколько секунд...
+                  </p>
+                </div>
+              )}
+
+              {importError && (
+                <div className="p-4 bg-danger/20 border border-danger/30 rounded-glass-sm mb-4">
+                  <p className="text-sm text-danger">{importError}</p>
+                </div>
+              )}
+
+              <input
+                type="file"
+                accept=".json"
+                onChange={handleImport}
+                className="block w-full text-sm text-text-secondary
+                  file:mr-4 file:py-2 file:px-4
+                  file:rounded-glass-sm file:border-0
+                  file:text-sm file:font-medium
+                  file:bg-accent-blue file:text-white
+                  hover:file:bg-accent-purple
+                  file:cursor-pointer cursor-pointer
+                  file:transition-colors"
+              />
+            </Card>
+
+            {/* Danger Zone */}
+            <Card className="border-2 border-danger/30">
+              <div className="p-4 bg-danger/10 rounded-glass-sm">
+                <h3 className="font-semibold text-danger mb-4">
+                  Опасная зона
+                </h3>
+                <p className="text-sm text-text-secondary mb-4">
+                  Удаление всех данных без возможности восстановления. Используйте
+                  только если уверены, что хотите начать с чистого листа.
+                </p>
+                <Button variant="danger" onClick={handleResetAll} className="w-full">
+                  Удалить все данные
+                </Button>
+              </div>
+            </Card>
           </div>
-        </Card>
-
-        {/* Danger Zone */}
-        <Card className="border-2 border-red-300">
-          <div className="bg-red-50 p-4 rounded-lg">
-            <h3 className="font-semibold text-red-800 mb-4">
-              ⚠️ Опасная зона:
-            </h3>
-            <p className="text-sm text-red-700 mb-4">
-              Удаление всех данных без возможности восстановления. Используйте
-              только если уверены, что хотите начать с чистого листа.
-            </p>
-            <Button variant="secondary" onClick={handleResetAll}>
-              🗑️ Удалить все данные
-            </Button>
-          </div>
-        </Card>
+        </div>
       </div>
     </Container>
   );

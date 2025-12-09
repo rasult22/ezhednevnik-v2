@@ -2,13 +2,13 @@ import { ButtonHTMLAttributes, ReactNode } from 'react';
 
 interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   children: ReactNode;
-  variant?: 'primary' | 'secondary' | 'danger' | 'ghost';
+  variant?: 'primary' | 'secondary' | 'danger' | 'ghost' | 'gradient';
   size?: 'sm' | 'md' | 'lg';
   isLoading?: boolean;
 }
 
 /**
- * Button Component - Base button with variants and sizes
+ * Button Component - Glassmorphism button with gradient variants
  */
 export function Button({
   children,
@@ -20,20 +20,53 @@ export function Button({
   type = 'button',
   ...props
 }: ButtonProps) {
-  const baseStyles =
-    'inline-flex items-center justify-center font-semibold rounded-md transition-all duration-150 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed active:scale-[0.98]';
+  const baseStyles = `
+    inline-flex items-center justify-center font-semibold
+    rounded-glass-sm
+    transition-all duration-200
+    focus:outline-none focus:ring-2 focus:ring-accent-blue/50 focus:ring-offset-2 focus:ring-offset-dark-300
+    disabled:opacity-40 disabled:cursor-not-allowed disabled:transform-none
+    active:scale-[0.98]
+  `;
 
   const variantStyles = {
-    primary: 'bg-primary text-white hover:bg-blue-700',
-    secondary: 'bg-gray-200 text-gray-900 hover:bg-gray-300',
-    danger: 'bg-danger text-white hover:bg-red-600',
-    ghost: 'bg-transparent text-gray-700 hover:bg-gray-100',
+    primary: `
+      bg-gradient-to-r from-accent-blue to-accent-purple
+      text-white
+      shadow-glow-blue
+      hover:shadow-glow-purple hover:from-accent-purple hover:to-accent-pink
+    `,
+    secondary: `
+      bg-glass-light backdrop-blur-glass
+      border border-glass-border
+      text-text-primary
+      hover:bg-glass-medium hover:border-glass-border
+    `,
+    danger: `
+      bg-gradient-to-r from-danger to-accent-pink
+      text-white
+      shadow-glow-pink
+      hover:from-accent-pink hover:to-danger
+    `,
+    ghost: `
+      bg-transparent
+      text-text-secondary
+      hover:bg-glass-light hover:text-text-primary
+    `,
+    gradient: `
+      bg-gradient-to-r from-accent-cyan via-accent-blue to-accent-purple
+      text-white
+      shadow-glass
+      hover:shadow-glow-purple
+      bg-[length:200%_auto]
+      hover:bg-right
+    `,
   };
 
   const sizeStyles = {
     sm: 'px-3 py-1.5 text-sm',
-    md: 'px-4 py-2 text-base',
-    lg: 'px-6 py-3 text-lg',
+    md: 'px-5 py-2.5 text-base',
+    lg: 'px-7 py-3.5 text-lg',
   };
 
   return (
@@ -45,7 +78,7 @@ export function Button({
     >
       {isLoading ? (
         <div className="flex items-center gap-2">
-          <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
+          <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
           <span>Загрузка...</span>
         </div>
       ) : (

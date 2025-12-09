@@ -58,18 +58,18 @@ export function Step4Goals10Years({ onNext, onBack }: StepProps) {
 
   return (
     <div>
-      <h2 className="text-3xl font-bold text-gray-900 mb-4">
+      <h2 className="text-3xl font-bold text-text-primary mb-4">
         Цели на 10 лет
       </h2>
 
-      <p className="text-gray-600 mb-6">
+      <p className="text-text-secondary mb-6">
         Опишите вашу жизнь через 10 лет. Каким человеком вы станете?
         Чего достигнете? Как будет выглядеть ваша жизнь?
       </p>
 
       {/* Hint Box */}
-      <div className="bg-blue-50 border border-blue-200 p-4 rounded-lg mb-6">
-        <p className="text-sm text-gray-700">
+      <div className="bg-accent-blue/10 border border-accent-blue/20 p-4 rounded-glass-sm mb-6">
+        <p className="text-sm text-text-secondary">
           <strong>💡 Подсказка:</strong> Не думайте о "как". Просто мечтайте. Примеры:
           "Построил успешный бизнес с годовым доходом 100 млн руб.", "Живу в собственном доме у моря",
           "Владею 5 языками".
@@ -95,7 +95,7 @@ export function Step4Goals10Years({ onNext, onBack }: StepProps) {
                 variant="ghost"
                 size="sm"
                 onClick={() => handleRemoveGoal(index)}
-                className="text-gray-400 hover:text-danger"
+                className="text-text-muted hover:text-danger"
               >
                 ✕
               </Button>

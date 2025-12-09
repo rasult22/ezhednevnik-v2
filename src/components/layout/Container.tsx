@@ -7,23 +7,23 @@ interface ContainerProps {
 }
 
 /**
- * Container Component - Centered layout with max-width constraints
+ * Container Component - Responsive centered layout for wide screens
  */
 export function Container({
   children,
-  size = 'lg',
+  size = 'xl',
   className = '',
 }: ContainerProps) {
   const sizeStyles = {
-    sm: 'max-w-2xl',   // 672px
-    md: 'max-w-3xl',   // 768px
-    lg: 'max-w-4xl',   // 896px
-    xl: 'max-w-6xl',   // 1152px
+    sm: 'max-w-2xl',     // 672px
+    md: 'max-w-4xl',     // 896px
+    lg: 'max-w-5xl',     // 1024px
+    xl: 'max-w-7xl',     // 1280px - wider for multi-column layouts
     full: 'max-w-full',
   };
 
   return (
-    <div className={`mx-auto px-4 sm:px-6 lg:px-8 ${sizeStyles[size]} ${className}`}>
+    <div className={`mx-auto px-6 lg:px-8 ${sizeStyles[size]} ${className}`}>
       {children}
     </div>
   );

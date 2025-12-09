@@ -77,17 +77,17 @@ export function Step8MonthlyFocus({ onBack, onComplete }: StepProps) {
     <div className="grid grid-cols-3 gap-6">
       {/* Main Content */}
       <div className="col-span-2">
-        <h2 className="text-3xl font-bold text-gray-900 mb-4">
+        <h2 className="text-3xl font-bold text-text-primary mb-4">
           Главное на этот месяц
         </h2>
 
-        <p className="text-gray-600 mb-4">
+        <p className="text-text-secondary mb-4">
           Выберите 3 проекта, на которых вы сфокусируетесь ежедневно.
         </p>
 
         {/* Important Note */}
-        <div className="bg-orange-50 border border-orange-200 p-4 rounded-lg mb-6">
-          <p className="text-sm text-gray-800">
+        <div className="bg-accent-orange/10 border border-warning/20 p-4 rounded-glass-sm mb-6">
+          <p className="text-sm text-text-primary">
             <strong>⚠️ Важно:</strong> Эти 3 проекта будут отображаться на каждой
             ежедневной странице в течение месяца. Изменение в середине месяца возможно,
             но потребует подтверждения.
@@ -95,8 +95,8 @@ export function Step8MonthlyFocus({ onBack, onComplete }: StepProps) {
         </div>
 
         {/* Hint Box */}
-        <div className="bg-blue-50 border border-blue-200 p-4 rounded-lg mb-6">
-          <p className="text-sm text-gray-700">
+        <div className="bg-accent-blue/10 border border-accent-blue/20 p-4 rounded-glass-sm mb-6">
+          <p className="text-sm text-text-secondary">
             <strong>💡 Подсказка:</strong> Формулируйте как завершенный результат.
             Вместо "плохая спина" → "Создал(а) сильную, здоровую спину к 31.12.2024"
           </p>
@@ -107,7 +107,7 @@ export function Step8MonthlyFocus({ onBack, onComplete }: StepProps) {
           {selectedProjects.map((project, index) => (
             <div key={index}>
               <div className="flex items-center gap-2 mb-2">
-                <span className="text-gray-700 font-medium">
+                <span className="text-text-secondary font-medium">
                   Проект {index + 1}:
                 </span>
               </div>
@@ -122,7 +122,7 @@ export function Step8MonthlyFocus({ onBack, onComplete }: StepProps) {
                   />
                   {planProjects.length > 0 && (
                     <div className="flex flex-wrap gap-2">
-                      <span className="text-xs text-gray-500">Или выберите:</span>
+                      <span className="text-xs text-text-muted">Или выберите:</span>
                       {planProjects.map((planProject) => (
                         <button
                           key={planProject}
@@ -138,7 +138,7 @@ export function Step8MonthlyFocus({ onBack, onComplete }: StepProps) {
               ) : (
                 // Selected from plan
                 <div className="flex items-center gap-2">
-                  <div className="flex-1 bg-green-50 border border-green-200 px-4 py-2 rounded">
+                  <div className="flex-1 bg-success/10 border border-success/30 px-4 py-2 rounded-glass-sm">
                     {project}
                   </div>
                   <Button
@@ -155,8 +155,8 @@ export function Step8MonthlyFocus({ onBack, onComplete }: StepProps) {
         </div>
 
         {/* Progress */}
-        <div className="bg-gray-50 p-4 rounded-lg mb-6">
-          <p className="text-sm text-gray-700">
+        <div className="bg-glass-light p-4 rounded-glass-sm mb-6">
+          <p className="text-sm text-text-secondary">
             Заполнено: <strong>{selectedProjects.filter((p) => p.trim()).length} / 3</strong>
           </p>
           {!allFilled && (
@@ -180,20 +180,20 @@ export function Step8MonthlyFocus({ onBack, onComplete }: StepProps) {
 
       {/* Sidebar: 90-Day Plan */}
       <div className="col-span-1">
-        <div className="bg-gray-50 rounded-lg p-4 sticky top-0">
-          <h3 className="text-sm font-semibold text-gray-700 mb-3">
+        <div className="bg-glass-light rounded-glass-sm p-4 sticky top-0">
+          <h3 className="text-sm font-semibold text-text-secondary mb-3">
             📊 Ваш план на 90 дней:
           </h3>
           {planProjects.length > 0 ? (
             <ul className="space-y-2">
               {planProjects.map((project) => (
-                <li key={project} className="text-sm text-gray-600 leading-snug">
+                <li key={project} className="text-sm text-text-secondary leading-snug">
                   • {project}
                 </li>
               ))}
             </ul>
           ) : (
-            <p className="text-sm text-gray-400 italic">
+            <p className="text-sm text-text-muted italic">
               План не создан
             </p>
           )}

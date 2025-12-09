@@ -60,11 +60,11 @@ export function Step5Goals5Years({ onNext, onBack }: StepProps) {
     <div className="grid grid-cols-3 gap-6">
       {/* Main Content */}
       <div className="col-span-2">
-        <h2 className="text-3xl font-bold text-gray-900 mb-4">
+        <h2 className="text-3xl font-bold text-text-primary mb-4">
           Цели на 5 лет
         </h2>
 
-        <p className="text-gray-600 mb-6">
+        <p className="text-text-secondary mb-6">
           Что вы хотите достичь через 5 лет? Какие шаги приведут вас
           к 10-летним целям?
         </p>
@@ -88,7 +88,7 @@ export function Step5Goals5Years({ onNext, onBack }: StepProps) {
                   variant="ghost"
                   size="sm"
                   onClick={() => handleRemoveGoal(index)}
-                  className="text-gray-400 hover:text-danger"
+                  className="text-text-muted hover:text-danger"
                 >
                   ✕
                 </Button>
@@ -127,20 +127,20 @@ export function Step5Goals5Years({ onNext, onBack }: StepProps) {
 
       {/* Sidebar: 10-Year Goals */}
       <div className="col-span-1">
-        <div className="bg-gray-50 rounded-lg p-4 sticky top-0">
-          <h3 className="text-sm font-semibold text-gray-700 mb-3">
+        <div className="bg-glass-light rounded-glass-sm p-4 sticky top-0">
+          <h3 className="text-sm font-semibold text-text-secondary mb-3">
             📌 Ваши цели на 10 лет:
           </h3>
           {goals10Year.length > 0 ? (
             <ul className="space-y-2">
               {goals10Year.map((goal) => (
-                <li key={goal.id} className="text-sm text-gray-600 leading-snug">
+                <li key={goal.id} className="text-sm text-text-secondary leading-snug">
                   • {goal.content}
                 </li>
               ))}
             </ul>
           ) : (
-            <p className="text-sm text-gray-400 italic">
+            <p className="text-sm text-text-muted italic">
               Не указаны
             </p>
           )}

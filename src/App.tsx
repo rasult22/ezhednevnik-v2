@@ -1,7 +1,6 @@
 import { useEffect } from 'react';
 import { Outlet } from 'react-router-dom';
 import { Navigation } from './components/layout/Navigation';
-import { Container } from './components/layout/Container';
 import { OnboardingGuard } from './components/guards/OnboardingGuard';
 import { useAppStore } from './stores/useAppStore';
 import { useGoalsStore } from './stores/useGoalsStore';
@@ -11,12 +10,6 @@ import { useReviewsStore } from './stores/useReviewsStore';
 
 /**
  * Root Application Component
- *
- * Responsibilities:
- * - Initialize all stores on mount
- * - Provide navigation layout
- * - Handle storage quota warnings (future)
- * - Global error boundary (future)
  */
 function App() {
   const initializeApp = useAppStore((state) => state.initializeApp);
@@ -45,10 +38,10 @@ function App() {
 
   if (isLoading) {
     return (
-      <div className="h-full flex items-center justify-center bg-gray-50">
+      <div className="h-full flex items-center justify-center bg-dark-300">
         <div className="text-center">
-          <div className="w-12 h-12 border-4 border-primary border-t-transparent rounded-full animate-spin mx-auto mb-4" />
-          <p className="text-gray-600">Загрузка...</p>
+          <div className="w-12 h-12 border-4 border-accent-blue border-t-transparent rounded-full animate-spin mx-auto mb-4" />
+          <p className="text-text-secondary">Загрузка...</p>
         </div>
       </div>
     );
@@ -56,15 +49,13 @@ function App() {
 
   return (
     <OnboardingGuard>
-      <div className="h-full flex">
+      <div className="h-full flex bg-dark-300">
         {/* Sidebar Navigation */}
         <Navigation />
 
         {/* Main content area */}
-        <main className="flex-1 overflow-y-auto bg-gray-50">
-          <Container size="lg" className="py-8">
-            <Outlet />
-          </Container>
+        <main className="flex-1 overflow-y-auto custom-scrollbar">
+          <Outlet />
         </main>
       </div>
     </OnboardingGuard>

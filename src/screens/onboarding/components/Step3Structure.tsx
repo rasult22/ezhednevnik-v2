@@ -23,11 +23,11 @@ export function Step3Structure({ onNext, onBack }: StepProps) {
 
   return (
     <div>
-      <h2 className="text-3xl font-bold text-gray-900 mb-4">
+      <h2 className="text-3xl font-bold text-text-primary mb-4">
         От видения к ежедневным действиям
       </h2>
 
-      <p className="text-gray-600 mb-8">
+      <p className="text-text-secondary mb-8">
         Система работает как воронка: от масштабного видения на 10 лет
         до конкретных задач на сегодня.
       </p>
@@ -40,7 +40,7 @@ export function Step3Structure({ onNext, onBack }: StepProps) {
             initial={{ opacity: 0, x: -20 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ delay: index * 0.1 }}
-            className="flex items-center gap-4 bg-gradient-to-r from-blue-50 to-white p-4 rounded-lg border border-blue-100"
+            className="flex items-center gap-4 bg-glass-light p-4 rounded-glass-sm border border-accent-blue/20"
             style={{
               marginLeft: `${index * 20}px`,
               maxWidth: `calc(100% - ${index * 20}px)`,
@@ -48,19 +48,19 @@ export function Step3Structure({ onNext, onBack }: StepProps) {
           >
             <div className="text-3xl">{level.icon}</div>
             <div className="flex-1">
-              <h3 className="font-semibold text-gray-900">{level.label}</h3>
-              <p className="text-sm text-gray-600">{level.description}</p>
+              <h3 className="font-semibold text-text-primary">{level.label}</h3>
+              <p className="text-sm text-text-secondary">{level.description}</p>
             </div>
             {index < hierarchy.length - 1 && (
-              <div className="text-gray-400">→</div>
+              <div className="text-text-muted">→</div>
             )}
           </motion.div>
         ))}
       </div>
 
       {/* Key Insight */}
-      <div className="bg-yellow-50 border border-yellow-200 p-6 rounded-lg mb-8">
-        <p className="text-gray-800">
+      <div className="bg-warning/10 border border-warning/20 p-6 rounded-glass-sm mb-8">
+        <p className="text-text-primary">
           <strong>Важно:</strong> Каждый уровень вытекает из предыдущего.
           Ваши ежедневные задачи будут связаны с вашими глобальными целями.
         </p>

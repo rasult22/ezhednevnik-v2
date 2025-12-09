@@ -12,12 +12,6 @@ interface FinancialAffirmationBlockProps {
 
 /**
  * FinancialAffirmationBlock - Daily financial affirmation with confirmation
- *
- * Features:
- * - Textarea for affirmation statement
- * - Confirmation checkbox (acts as signature)
- * - Example provided as placeholder
- * - Auto-saves changes
  */
 export function FinancialAffirmationBlock({
   date,
@@ -42,6 +36,8 @@ export function FinancialAffirmationBlock({
     <Card
       title="Финансовая установка"
       subtitle="Ежедневное подтверждение финансовых целей"
+      variant="gradient"
+      accentColor="orange"
     >
       <div className="space-y-4">
         {/* Affirmation Textarea */}
@@ -49,35 +45,34 @@ export function FinancialAffirmationBlock({
           value={affirmation}
           onChange={(e) => handleAffirmationChange(e.target.value)}
           placeholder="Я получаю в качестве суммарного денежного вознаграждения 500 000 рублей в месяц"
-          rows={4}
+          rows={3}
           disabled={isReadOnly}
         />
 
         {/* Confirmation Checkbox */}
-        <div className="flex items-center gap-2 pt-2 border-t border-gray-200">
+        <div className="flex items-center gap-3 pt-3 border-t border-glass-border">
           <Checkbox
             checked={confirmed}
             onChange={handleConfirmToggle}
             disabled={isReadOnly}
           />
-          <label className="text-sm font-medium text-gray-700 cursor-pointer">
-            ✓ Подтверждаю установку (подпись)
+          <label className="text-sm font-medium text-text-secondary cursor-pointer">
+            Подтверждаю установку (подпись)
           </label>
         </div>
 
         {confirmed && (
-          <div className="bg-green-50 border border-green-200 p-3 rounded">
-            <p className="text-sm text-green-800">
-              ✅ Установка подтверждена
+          <div className="p-3 bg-success/20 border border-success/30 rounded-glass-sm">
+            <p className="text-sm text-success font-medium">
+              Установка подтверждена
             </p>
           </div>
         )}
 
         {/* Info */}
-        <div className="bg-yellow-50 border border-yellow-200 p-3 rounded">
-          <p className="text-xs text-gray-700">
-            💰 Формулируйте в настоящем времени, как уже достигнутый результат.
-            Будьте конкретны в числах и сроках.
+        <div className="p-3 bg-accent-orange/10 border border-accent-orange/20 rounded-glass-sm">
+          <p className="text-xs text-text-secondary">
+            Формулируйте в настоящем времени, как уже достигнутый результат
           </p>
         </div>
       </div>

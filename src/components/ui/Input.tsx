@@ -7,23 +7,27 @@ interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
 }
 
 /**
- * Input Component - Text input with label and error states
+ * Input Component - Glassmorphism text input with glow effects
  */
 export const Input = forwardRef<HTMLInputElement, InputProps>(
   ({ label, error, helperText, className = '', ...props }, ref) => {
     const inputStyles = `
-      w-full px-3 py-2 border rounded-md
-      transition-colors
-      focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent
-      disabled:bg-gray-100 disabled:cursor-not-allowed
-      ${error ? 'border-danger' : 'border-gray-300'}
+      w-full px-4 py-3
+      bg-glass-light backdrop-blur-glass
+      border border-glass-border
+      rounded-glass-sm
+      text-text-primary
+      transition-all duration-200
+      focus:outline-none focus:border-accent-blue/50 focus:shadow-glow-blue focus:bg-glass-medium
+      disabled:opacity-40 disabled:cursor-not-allowed
+      ${error ? 'border-danger/50 focus:border-danger focus:shadow-glow-pink' : ''}
       ${className}
     `;
 
     return (
       <div className="w-full">
         {label && (
-          <label className="block mb-1 text-sm font-medium text-gray-700">
+          <label className="block mb-2 text-sm font-medium text-text-secondary">
             {label}
           </label>
         )}
@@ -31,11 +35,11 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
         <input ref={ref} className={inputStyles} {...props} />
 
         {error && (
-          <p className="mt-1 text-sm text-danger">{error}</p>
+          <p className="mt-2 text-sm text-danger">{error}</p>
         )}
 
         {helperText && !error && (
-          <p className="mt-1 text-sm text-gray-500">{helperText}</p>
+          <p className="mt-2 text-sm text-text-muted">{helperText}</p>
         )}
       </div>
     );

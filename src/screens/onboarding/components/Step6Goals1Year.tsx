@@ -61,17 +61,17 @@ export function Step6Goals1Year({ onNext, onBack }: StepProps) {
     <div className="grid grid-cols-3 gap-6">
       {/* Main Content */}
       <div className="col-span-2">
-        <h2 className="text-3xl font-bold text-gray-900 mb-4">
+        <h2 className="text-3xl font-bold text-text-primary mb-4">
           Цели на 1 год
         </h2>
 
-        <p className="text-gray-600 mb-4">
+        <p className="text-text-secondary mb-4">
           Конкретные, измеримые цели на предстоящий год.
         </p>
 
         {/* Hint Box */}
-        <div className="bg-green-50 border border-green-200 p-4 rounded-lg mb-6">
-          <p className="text-sm text-gray-700">
+        <div className="bg-success/10 border border-success/30 p-4 rounded-glass-sm mb-6">
+          <p className="text-sm text-text-secondary">
             <strong>💡 Примеры:</strong> "Запустить бизнес по [направление]",
             "Заработать 5 млн рублей", "Похудеть на 15 кг", "Выучить английский до B2",
             "Купить квартиру"
@@ -97,7 +97,7 @@ export function Step6Goals1Year({ onNext, onBack }: StepProps) {
                   variant="ghost"
                   size="sm"
                   onClick={() => handleRemoveGoal(index)}
-                  className="text-gray-400 hover:text-danger"
+                  className="text-text-muted hover:text-danger"
                 >
                   ✕
                 </Button>
@@ -138,13 +138,13 @@ export function Step6Goals1Year({ onNext, onBack }: StepProps) {
       <div className="col-span-1 space-y-4">
         {/* 10-Year Goals */}
         {goals10Year.length > 0 && (
-          <div className="bg-gray-50 rounded-lg p-4">
-            <h3 className="text-sm font-semibold text-gray-700 mb-3">
+          <div className="bg-glass-light rounded-glass-sm p-4">
+            <h3 className="text-sm font-semibold text-text-secondary mb-3">
               🌟 Цели на 10 лет:
             </h3>
             <ul className="space-y-2">
               {goals10Year.map((goal) => (
-                <li key={goal.id} className="text-xs text-gray-600 leading-snug">
+                <li key={goal.id} className="text-xs text-text-secondary leading-snug">
                   • {goal.content}
                 </li>
               ))}
@@ -154,13 +154,13 @@ export function Step6Goals1Year({ onNext, onBack }: StepProps) {
 
         {/* 5-Year Goals */}
         {goals5Year.length > 0 && (
-          <div className="bg-gray-50 rounded-lg p-4">
-            <h3 className="text-sm font-semibold text-gray-700 mb-3">
+          <div className="bg-glass-light rounded-glass-sm p-4">
+            <h3 className="text-sm font-semibold text-text-secondary mb-3">
               🎯 Цели на 5 лет:
             </h3>
             <ul className="space-y-2">
               {goals5Year.map((goal) => (
-                <li key={goal.id} className="text-xs text-gray-600 leading-snug">
+                <li key={goal.id} className="text-xs text-text-secondary leading-snug">
                   • {goal.content}
                 </li>
               ))}
@@ -169,8 +169,8 @@ export function Step6Goals1Year({ onNext, onBack }: StepProps) {
         )}
 
         {goals10Year.length === 0 && goals5Year.length === 0 && (
-          <div className="bg-gray-50 rounded-lg p-4">
-            <p className="text-sm text-gray-400 italic">
+          <div className="bg-glass-light rounded-glass-sm p-4">
+            <p className="text-sm text-text-muted italic">
               Долгосрочные цели не указаны
             </p>
           </div>

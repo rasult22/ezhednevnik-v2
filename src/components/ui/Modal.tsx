@@ -13,7 +13,7 @@ interface ModalProps {
 }
 
 /**
- * Modal Component - Animated modal dialog with overlay
+ * Modal Component - Glassmorphism modal with backdrop blur
  */
 export function Modal({
   isOpen,
@@ -66,7 +66,7 @@ export function Modal({
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 z-40 bg-black/50 backdrop-blur-sm"
+            className="fixed inset-0 z-40 bg-dark-500/80 backdrop-blur-sm"
             onClick={closeOnOverlayClick ? onClose : undefined}
           />
 
@@ -79,16 +79,23 @@ export function Modal({
               transition={{ type: 'spring', duration: 0.3 }}
               className={`
                 relative w-full ${sizeStyles[size]}
-                bg-white rounded-lg shadow-xl
+                bg-dark-100/90 backdrop-blur-glass-heavy
+                border border-glass-border
+                rounded-glass-lg
+                shadow-glass-lg
                 max-h-[90vh] flex flex-col
+                overflow-hidden
               `}
               onClick={(e) => e.stopPropagation()}
             >
+              {/* Gradient accent line */}
+              <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-accent" />
+
               {/* Header */}
               {(title || showCloseButton) && (
-                <div className="flex items-center justify-between px-6 py-4 border-b border-gray-200">
+                <div className="flex items-center justify-between px-6 py-5 border-b border-glass-border">
                   {title && (
-                    <h2 className="text-xl font-semibold text-gray-900">
+                    <h2 className="text-xl font-semibold text-text-primary">
                       {title}
                     </h2>
                   )}
@@ -96,11 +103,11 @@ export function Modal({
                   {showCloseButton && (
                     <button
                       onClick={onClose}
-                      className="p-1 text-gray-400 hover:text-gray-600 transition-colors"
+                      className="p-2 text-text-muted hover:text-text-primary hover:bg-glass-light rounded-lg transition-all duration-200"
                       aria-label="Закрыть"
                     >
                       <svg
-                        className="w-6 h-6"
+                        className="w-5 h-5"
                         fill="none"
                         stroke="currentColor"
                         viewBox="0 0 24 24"
@@ -118,13 +125,13 @@ export function Modal({
               )}
 
               {/* Content */}
-              <div className="flex-1 px-6 py-4 overflow-y-auto custom-scrollbar">
+              <div className="flex-1 px-6 py-5 overflow-y-auto custom-scrollbar">
                 {children}
               </div>
 
               {/* Footer */}
               {footer && (
-                <div className="px-6 py-4 border-t border-gray-200 bg-gray-50">
+                <div className="px-6 py-4 border-t border-glass-border bg-dark-200/50">
                   {footer}
                 </div>
               )}

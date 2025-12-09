@@ -9,7 +9,7 @@ interface TextareaProps extends TextareaHTMLAttributes<HTMLTextAreaElement> {
 }
 
 /**
- * Textarea Component - Multi-line text input with auto-resize option
+ * Textarea Component - Glassmorphism multi-line input with auto-resize
  */
 export const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(
   (
@@ -38,19 +38,23 @@ export const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(
     }, [props.value, autoSize, maxHeight, textareaRef]);
 
     const textareaStyles = `
-      w-full px-3 py-2 border rounded-md
-      transition-colors resize-none
-      focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent
-      disabled:bg-gray-100 disabled:cursor-not-allowed
-      ${error ? 'border-danger' : 'border-gray-300'}
-      ${autoSize ? 'overflow-y-hidden' : 'overflow-y-auto'}
+      w-full px-4 py-3
+      bg-glass-light backdrop-blur-glass
+      border border-glass-border
+      rounded-glass-sm
+      text-text-primary
+      transition-all duration-200 resize-none
+      focus:outline-none focus:border-accent-blue/50 focus:shadow-glow-blue focus:bg-glass-medium
+      disabled:opacity-40 disabled:cursor-not-allowed
+      ${error ? 'border-danger/50 focus:border-danger focus:shadow-glow-pink' : ''}
+      ${autoSize ? 'overflow-y-hidden' : 'overflow-y-auto custom-scrollbar'}
       ${className}
     `;
 
     return (
       <div className="w-full">
         {label && (
-          <label className="block mb-1 text-sm font-medium text-gray-700">
+          <label className="block mb-2 text-sm font-medium text-text-secondary">
             {label}
           </label>
         )}
@@ -61,10 +65,10 @@ export const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(
           {...props}
         />
 
-        {error && <p className="mt-1 text-sm text-danger">{error}</p>}
+        {error && <p className="mt-2 text-sm text-danger">{error}</p>}
 
         {helperText && !error && (
-          <p className="mt-1 text-sm text-gray-500">{helperText}</p>
+          <p className="mt-2 text-sm text-text-muted">{helperText}</p>
         )}
       </div>
     );

@@ -16,17 +16,7 @@ import { Step8MonthlyFocus } from './components/Step8MonthlyFocus';
 const TOTAL_STEPS = 8;
 
 /**
- * Onboarding Screen - 8-step guided setup for new users
- *
- * Flow:
- * 1. Welcome
- * 2. Philosophy (20/80 principle)
- * 3. Structure hierarchy
- * 4. 10-year goals
- * 5. 5-year goals
- * 6. 1-year goals
- * 7. 90-day plan creation
- * 8. Monthly focus selection → Complete onboarding
+ * Onboarding Screen - Glassmorphism dark theme
  */
 export default function OnboardingScreen() {
   const [currentStep, setCurrentStep] = useState(1);
@@ -64,21 +54,28 @@ export default function OnboardingScreen() {
   const CurrentStepComponent = steps[currentStep - 1]?.component;
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-50 flex items-center justify-center p-4">
-      <div className="w-full max-w-3xl">
+    <div className="min-h-screen bg-dark-300 flex items-center justify-center p-4">
+      {/* Background decorative gradients */}
+      <div className="fixed inset-0 overflow-hidden pointer-events-none">
+        <div className="absolute top-0 left-1/4 w-96 h-96 bg-accent-blue/10 rounded-full blur-3xl" />
+        <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-accent-purple/10 rounded-full blur-3xl" />
+        <div className="absolute top-1/2 left-0 w-64 h-64 bg-accent-emerald/5 rounded-full blur-3xl" />
+      </div>
+
+      <div className="relative w-full max-w-3xl">
         {/* Progress Bar */}
         <div className="mb-8">
           <div className="flex items-center justify-between mb-2">
-            <span className="text-sm font-medium text-gray-600">
+            <span className="text-sm font-medium text-text-secondary">
               Шаг {currentStep} из {TOTAL_STEPS}
             </span>
-            <span className="text-sm text-gray-500">
+            <span className="text-sm text-text-muted">
               {Math.round((currentStep / TOTAL_STEPS) * 100)}%
             </span>
           </div>
-          <div className="h-2 bg-white rounded-full overflow-hidden shadow-inner">
+          <div className="h-2 bg-glass-light rounded-full overflow-hidden border border-glass-border">
             <motion.div
-              className="h-full bg-primary"
+              className="h-full bg-gradient-to-r from-accent-blue via-accent-purple to-accent-pink"
               initial={{ width: 0 }}
               animate={{ width: `${(currentStep / TOTAL_STEPS) * 100}%` }}
               transition={{ duration: 0.3 }}
@@ -87,7 +84,7 @@ export default function OnboardingScreen() {
         </div>
 
         {/* Step Content */}
-        <div className="bg-white rounded-2xl shadow-xl p-8 md:p-12">
+        <div className="glass p-8 md:p-12">
           <AnimatePresence mode="wait">
             <motion.div
               key={currentStep}
@@ -110,7 +107,7 @@ export default function OnboardingScreen() {
         </div>
 
         {/* Footer Note */}
-        <p className="text-center mt-6 text-sm text-gray-500">
+        <p className="text-center mt-6 text-sm text-text-muted">
           Вы можете вернуться к настройкам в любое время
         </p>
       </div>

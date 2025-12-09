@@ -58,18 +58,18 @@ export function Step7Plan90Days({ onNext, onBack }: StepProps) {
     <div className="grid grid-cols-3 gap-6">
       {/* Main Content */}
       <div className="col-span-2">
-        <h2 className="text-3xl font-bold text-gray-900 mb-4">
+        <h2 className="text-3xl font-bold text-text-primary mb-4">
           План на 90 дней
         </h2>
 
-        <p className="text-gray-600 mb-4">
+        <p className="text-text-secondary mb-4">
           Выберите 3-6 главных проектов на ближайшие 90 дней,
           которые приведут вас к годовым целям.
         </p>
 
         {/* Hint Box */}
-        <div className="bg-yellow-50 border border-yellow-200 p-4 rounded-lg mb-6">
-          <p className="text-sm text-gray-700">
+        <div className="bg-warning/10 border border-warning/20 p-4 rounded-glass-sm mb-6">
+          <p className="text-sm text-text-secondary">
             <strong>💡 Подсказка:</strong> Формулируйте как проекты с конечным результатом.
             Например: "Создал сайт компании", "Набрал первых 10 клиентов",
             "Завершил ремонт в квартире"
@@ -80,7 +80,7 @@ export function Step7Plan90Days({ onNext, onBack }: StepProps) {
         <div className="space-y-3 mb-6">
           {projects.map((project, index) => (
             <div key={index} className="flex gap-2 items-center">
-              <span className="text-gray-400 font-medium w-6">
+              <span className="text-text-muted font-medium w-6">
                 {index + 1}.
               </span>
               <div className="flex-1">
@@ -95,7 +95,7 @@ export function Step7Plan90Days({ onNext, onBack }: StepProps) {
                   variant="ghost"
                   size="sm"
                   onClick={() => handleRemoveProject(index)}
-                  className="text-gray-400 hover:text-danger"
+                  className="text-text-muted hover:text-danger"
                 >
                   ✕
                 </Button>
@@ -116,8 +116,8 @@ export function Step7Plan90Days({ onNext, onBack }: StepProps) {
         )}
 
         {/* Progress Indicator */}
-        <div className="bg-gray-50 p-4 rounded-lg mb-6">
-          <p className="text-sm text-gray-700">
+        <div className="bg-glass-light p-4 rounded-glass-sm mb-6">
+          <p className="text-sm text-text-secondary">
             Заполнено проектов: <strong>{filledProjects} / минимум 3</strong>
           </p>
           {!canProceed && (
@@ -141,20 +141,20 @@ export function Step7Plan90Days({ onNext, onBack }: StepProps) {
 
       {/* Sidebar: 1-Year Goals */}
       <div className="col-span-1">
-        <div className="bg-gray-50 rounded-lg p-4 sticky top-0">
-          <h3 className="text-sm font-semibold text-gray-700 mb-3">
+        <div className="bg-glass-light rounded-glass-sm p-4 sticky top-0">
+          <h3 className="text-sm font-semibold text-text-secondary mb-3">
             📅 Ваши годовые цели:
           </h3>
           {goalsOneYear.length > 0 ? (
             <ul className="space-y-2">
               {goalsOneYear.map((goal) => (
-                <li key={goal.id} className="text-sm text-gray-600 leading-snug">
+                <li key={goal.id} className="text-sm text-text-secondary leading-snug">
                   • {goal.content}
                 </li>
               ))}
             </ul>
           ) : (
-            <p className="text-sm text-gray-400 italic">
+            <p className="text-sm text-text-muted italic">
               Не указаны
             </p>
           )}

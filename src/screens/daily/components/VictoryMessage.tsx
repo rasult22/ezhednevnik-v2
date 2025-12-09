@@ -1,18 +1,7 @@
 import { motion } from 'framer-motion';
 
 /**
- * VictoryMessage - Celebration message when all 3 main tasks are completed
- *
- * Features:
- * - Animated entrance (fade + scale)
- * - Green gradient background
- * - Large, bold text
- * - Permanent display (doesn't auto-hide)
- *
- * Philosophy:
- * - Reinforces completion of the critical 20%
- * - Creates positive association with achievement
- * - Visual reward for focused execution
+ * VictoryMessage - Glassmorphism celebration when all 3 main tasks completed
  */
 export function VictoryMessage() {
   return (
@@ -22,29 +11,32 @@ export function VictoryMessage() {
       transition={{ type: 'spring', duration: 0.6, bounce: 0.3 }}
       className="my-6"
     >
-      <div className="bg-gradient-to-r from-green-400 to-green-600 rounded-lg shadow-lg p-8 text-center">
+      <div className="relative overflow-hidden rounded-glass-lg p-8 text-center bg-gradient-to-r from-accent-emerald/20 via-accent-cyan/20 to-accent-blue/20 backdrop-blur-glass border border-success/30 shadow-glow-success">
+        {/* Animated gradient background */}
+        <div className="absolute inset-0 bg-gradient-to-r from-accent-emerald/10 via-accent-cyan/10 to-accent-blue/10 animate-gradient-bg" />
+
         <motion.div
           initial={{ scale: 0 }}
           animate={{ scale: 1 }}
           transition={{ delay: 0.2, type: 'spring', stiffness: 200 }}
-          className="text-6xl mb-4"
+          className="relative text-6xl mb-4"
         >
-          🎉
+          <span className="drop-shadow-lg">🎉</span>
         </motion.div>
 
-        <h2 className="text-3xl font-bold text-white mb-3">
-          Главные 20% на сегодня выполнены
+        <h2 className="relative text-3xl font-bold gradient-text-cool mb-3">
+          Главные 20% выполнены
         </h2>
 
-        <p className="text-xl text-green-50 font-medium">
-          Победа зафиксирована.
+        <p className="relative text-xl text-text-primary font-medium">
+          Победа зафиксирована
         </p>
 
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.5 }}
-          className="mt-6 text-green-100 text-sm"
+          className="relative mt-6 text-text-secondary text-sm"
         >
           <p>
             Вы сфокусировались на самом важном и достигли результата.
@@ -52,6 +44,10 @@ export function VictoryMessage() {
             Остальные задачи — опционально.
           </p>
         </motion.div>
+
+        {/* Decorative elements */}
+        <div className="absolute top-0 left-0 w-32 h-32 bg-gradient-to-br from-accent-emerald/30 to-transparent rounded-full blur-3xl" />
+        <div className="absolute bottom-0 right-0 w-32 h-32 bg-gradient-to-tl from-accent-cyan/30 to-transparent rounded-full blur-3xl" />
       </div>
     </motion.div>
   );

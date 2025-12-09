@@ -13,17 +13,11 @@ import { FinancialAffirmationBlock } from './components/FinancialAffirmationBloc
 import { SkippedDaysModal } from './components/SkippedDaysModal';
 
 /**
- * Daily Page - Main screen where users interact with their daily tasks
+ * Daily Page - Main screen with grid layout for wide screens
  *
- * Features:
- * - Date navigation with access control (past read-only, future blocked)
- * - Main for Month: 3 monthly projects
- * - Main Three: 3 daily tasks (completion triggers victory)
- * - Secondary Nine: 9 secondary tasks
- * - Gratitude: 3 gratitude entries
- * - Financial Affirmation: Daily affirmation with confirmation
- * - Automatic completion detection
- * - Skipped days handling
+ * Layout on wide screens (xl+):
+ * - Left column: Main Three + Secondary Nine
+ * - Right column: Monthly Focus + Gratitude + Affirmation
  */
 export default function DailyScreen() {
   const { date: paramDate } = useParams<{ date?: string }>();
@@ -92,16 +86,16 @@ export default function DailyScreen() {
     return (
       <div className="h-full flex items-center justify-center">
         <div className="text-center">
-          <div className="w-12 h-12 border-4 border-primary border-t-transparent rounded-full animate-spin mx-auto mb-4" />
-          <p className="text-gray-600">Загрузка страницы...</p>
+          <div className="w-12 h-12 border-4 border-accent-blue border-t-transparent rounded-full animate-spin mx-auto mb-4" />
+          <p className="text-text-secondary">Загрузка страницы...</p>
         </div>
       </div>
     );
   }
 
   return (
-    <div className="max-w-4xl mx-auto space-y-6">
-      {/* Date Header with Navigation */}
+    <div className="max-w-7xl mx-auto px-6 py-6 space-y-6">
+      {/* Date Header with Navigation - Full width */}
       <DateHeader
         currentDate={currentDate}
         isReadOnly={isReadOnly}
@@ -109,43 +103,52 @@ export default function DailyScreen() {
         hasSkippedDays={skippedDates.length > 0}
       />
 
-      {/* Main for Month - 3 Monthly Projects */}
-      <MainForMonthBlock
-        date={currentDate}
-        projects={dailyPage.mainForMonth}
-        isReadOnly={isReadOnly}
-        activePlan={activePlan}
-      />
+      {/* Grid Layout for wide screens */}
+      <div className="grid grid-cols-1 xl:grid-cols-12 gap-6">
+        {/* Left Column - Main Tasks (wider) */}
+        <div className="xl:col-span-7 space-y-6">
+          {/* Main Three - 3 Daily Tasks */}
+          <MainThreeBlock
+            date={currentDate}
+            tasks={dailyPage.mainThree}
+            isCompleted={dailyPage.status === 'completed'}
+            isReadOnly={isReadOnly}
+          />
 
-      {/* Main Three - 3 Daily Tasks */}
-      <MainThreeBlock
-        date={currentDate}
-        tasks={dailyPage.mainThree}
-        isCompleted={dailyPage.status === 'completed'}
-        isReadOnly={isReadOnly}
-      />
+          {/* Secondary Nine - 9 Secondary Tasks */}
+          <SecondaryNineBlock
+            date={currentDate}
+            tasks={dailyPage.secondaryNine}
+            isReadOnly={isReadOnly}
+          />
+        </div>
 
-      {/* Secondary Nine - 9 Secondary Tasks */}
-      <SecondaryNineBlock
-        date={currentDate}
-        tasks={dailyPage.secondaryNine}
-        isReadOnly={isReadOnly}
-      />
+        {/* Right Column - Context & Mindset */}
+        <div className="xl:col-span-5 space-y-6">
+          {/* Main for Month - 3 Monthly Projects */}
+          <MainForMonthBlock
+            date={currentDate}
+            projects={dailyPage.mainForMonth}
+            isReadOnly={isReadOnly}
+            activePlan={activePlan}
+          />
 
-      {/* Gratitude - 3 Entries */}
-      <GratitudeBlock
-        date={currentDate}
-        gratitude={dailyPage.gratitude}
-        isReadOnly={isReadOnly}
-      />
+          {/* Gratitude - 3 Entries */}
+          <GratitudeBlock
+            date={currentDate}
+            gratitude={dailyPage.gratitude}
+            isReadOnly={isReadOnly}
+          />
 
-      {/* Financial Affirmation */}
-      <FinancialAffirmationBlock
-        date={currentDate}
-        affirmation={dailyPage.financialAffirmation}
-        confirmed={dailyPage.financialAffirmationConfirmed}
-        isReadOnly={isReadOnly}
-      />
+          {/* Financial Affirmation */}
+          <FinancialAffirmationBlock
+            date={currentDate}
+            affirmation={dailyPage.financialAffirmation}
+            confirmed={dailyPage.financialAffirmationConfirmed}
+            isReadOnly={isReadOnly}
+          />
+        </div>
+      </div>
 
       {/* Skipped Days Modal */}
       {showSkippedModal && (

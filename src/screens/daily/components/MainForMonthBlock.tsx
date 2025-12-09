@@ -14,12 +14,6 @@ interface MainForMonthBlockProps {
 
 /**
  * MainForMonthBlock - Display 3 main projects for the month
- *
- * Features:
- * - Shows 3 monthly projects
- * - First day of month: Easy to edit
- * - Mid-month: Requires high-friction confirmation via EditWarningModal
- * - Read-only mode for past dates
  */
 export function MainForMonthBlock({
   date,
@@ -33,27 +27,27 @@ export function MainForMonthBlock({
 
   const handleEditClick = () => {
     if (isFirstDayOfMonth || isReadOnly) {
-      // On first day or read-only, just allow viewing (no edit modal)
       return;
     }
-    // Mid-month: show warning modal
     setShowEditModal(true);
   };
 
   return (
     <>
       <Card
-        title="Главное на этот месяц"
-        subtitle="3 проекта, на которых вы сфокусированы ежедневно"
+        title="Главное на месяц"
+        subtitle="3 проекта, на которых вы сфокусированы"
+        variant="gradient"
+        accentColor="purple"
       >
         <div className="space-y-3">
           {projects.map((project, index) => (
             <div key={index} className="flex items-start gap-3">
-              <span className="text-primary font-bold text-lg mt-1">
+              <span className="text-accent-purple font-bold text-lg mt-2">
                 {index + 1}.
               </span>
-              <div className="flex-1 bg-blue-50 border border-blue-200 rounded-lg px-4 py-3">
-                <p className="text-gray-900 font-medium">{project}</p>
+              <div className="flex-1 bg-accent-purple/10 border border-accent-purple/20 rounded-glass-sm px-4 py-3">
+                <p className="text-text-primary font-medium">{project || 'Не указано'}</p>
               </div>
             </div>
           ))}
@@ -61,24 +55,23 @@ export function MainForMonthBlock({
 
         {/* Edit button (only shown mid-month and when not read-only) */}
         {!isFirstDayOfMonth && !isReadOnly && (
-          <div className="mt-4 pt-4 border-t border-gray-200">
+          <div className="mt-4 pt-4 border-t border-glass-border">
             <Button
-              variant="secondary"
+              variant="ghost"
               size="sm"
               onClick={handleEditClick}
               className="text-warning"
             >
-              ✏️ Изменить проекты (требуется подтверждение)
+              Изменить (требуется подтверждение)
             </Button>
           </div>
         )}
 
         {/* Info note for first day of month */}
         {isFirstDayOfMonth && !isReadOnly && (
-          <div className="mt-4 pt-4 border-t border-gray-200">
-            <p className="text-xs text-gray-500">
-              💡 Первый день месяца — идеальное время для планирования. Эти проекты
-              будут отображаться на каждой ежедневной странице в течение месяца.
+          <div className="mt-4 p-3 bg-accent-cyan/10 border border-accent-cyan/20 rounded-glass-sm">
+            <p className="text-xs text-text-secondary">
+              Первый день месяца — идеальное время для планирования
             </p>
           </div>
         )}

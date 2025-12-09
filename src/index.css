@@ -3,12 +3,12 @@
 @tailwind utilities;
 
 /* ============================================================================
-   Global Styles for Ежедневник Триллионера
+   Global Styles - Glassmorphism Dark Theme
    ============================================================================ */
 
 @layer base {
   * {
-    @apply border-gray-300;
+    @apply border-glass-border;
   }
 
   html {
@@ -16,8 +16,15 @@
   }
 
   body {
-    @apply h-full bg-gray-50 text-gray-900 antialiased;
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto',
+    @apply h-full antialiased;
+    @apply bg-dark-300 text-text-primary;
+    background-image:
+      radial-gradient(at 40% 20%, rgba(96, 165, 250, 0.08) 0px, transparent 50%),
+      radial-gradient(at 80% 0%, rgba(167, 139, 250, 0.08) 0px, transparent 50%),
+      radial-gradient(at 0% 50%, rgba(34, 211, 153, 0.05) 0px, transparent 50%),
+      radial-gradient(at 100% 100%, rgba(244, 114, 182, 0.05) 0px, transparent 50%);
+    background-attachment: fixed;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto',
       'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans',
       'Helvetica Neue', sans-serif;
   }
@@ -28,47 +35,103 @@
 
   /* Typography */
   h1 {
-    @apply text-4xl font-semibold;
+    @apply text-4xl font-semibold text-text-primary;
   }
 
   h2 {
-    @apply text-3xl font-semibold;
+    @apply text-3xl font-semibold text-text-primary;
   }
 
   h3 {
-    @apply text-2xl font-semibold;
+    @apply text-2xl font-semibold text-text-primary;
   }
 
   h4 {
-    @apply text-xl font-semibold;
+    @apply text-xl font-semibold text-text-primary;
   }
 
   p {
-    @apply text-base;
+    @apply text-base text-text-secondary;
   }
 
   /* Focus styles */
   *:focus-visible {
-    @apply outline-none ring-2 ring-primary ring-offset-2;
+    @apply outline-none ring-2 ring-accent-blue/50 ring-offset-2 ring-offset-dark-300;
+  }
+
+  /* Selection */
+  ::selection {
+    @apply bg-accent-purple/30 text-white;
   }
 }
 
 @layer components {
+  /* Glass Card Base */
+  .glass {
+    @apply bg-glass-light backdrop-blur-glass;
+    @apply border border-glass-border;
+    @apply shadow-glass;
+    @apply rounded-glass;
+  }
+
+  .glass-sm {
+    @apply bg-glass-light backdrop-blur-glass;
+    @apply border border-glass-border-light;
+    @apply shadow-glass-sm;
+    @apply rounded-glass-sm;
+  }
+
+  .glass-heavy {
+    @apply bg-glass-medium backdrop-blur-glass-heavy;
+    @apply border border-glass-border;
+    @apply shadow-glass-lg;
+    @apply rounded-glass;
+  }
+
+  /* Gradient Text */
+  .gradient-text {
+    @apply bg-gradient-accent bg-clip-text text-transparent;
+  }
+
+  .gradient-text-cool {
+    @apply bg-gradient-cool bg-clip-text text-transparent;
+  }
+
+  .gradient-text-warm {
+    @apply bg-gradient-warm bg-clip-text text-transparent;
+  }
+
+  /* Glow Effects */
+  .glow-blue {
+    @apply shadow-glow-blue;
+  }
+
+  .glow-purple {
+    @apply shadow-glow-purple;
+  }
+
+  .glow-success {
+    @apply shadow-glow-success;
+  }
+
   /* Custom scrollbar */
   .custom-scrollbar::-webkit-scrollbar {
-    width: 8px;
+    width: 6px;
   }
 
   .custom-scrollbar::-webkit-scrollbar-track {
-    @apply bg-gray-100;
+    @apply bg-dark-200 rounded-full;
   }
 
   .custom-scrollbar::-webkit-scrollbar-thumb {
-    @apply bg-gray-300 rounded-full;
+    @apply bg-glass-heavy rounded-full;
+    @apply hover:bg-glass-border;
   }
 
-  .custom-scrollbar::-webkit-scrollbar-thumb:hover {
-    @apply bg-gray-400;
+  /* Input placeholder */
+  input::placeholder,
+  textarea::placeholder {
+    @apply text-text-muted;
   }
 }
 
@@ -86,5 +149,20 @@
   .no-scrollbar {
     -ms-overflow-style: none;
     scrollbar-width: none;
+  }
+
+  /* Animated gradient background */
+  .animate-gradient-bg {
+    background-size: 200% 200%;
+    animation: gradient 8s ease infinite;
+  }
+
+  /* Hover glow transition */
+  .hover-glow {
+    @apply transition-shadow duration-300;
+  }
+
+  .hover-glow:hover {
+    @apply shadow-glow-blue;
   }
 }

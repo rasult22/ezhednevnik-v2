@@ -1,6 +1,5 @@
 import { Component, ErrorInfo, ReactNode } from 'react';
 import { Button } from '../ui/Button';
-import { Card } from '../layout/Card';
 
 interface ErrorBoundaryProps {
   children: ReactNode;
@@ -13,13 +12,7 @@ interface ErrorBoundaryState {
 }
 
 /**
- * ErrorBoundary - Catches React errors and displays a fallback UI
- *
- * Features:
- * - Catches errors in child components
- * - Displays user-friendly error message
- * - Shows error details in development
- * - Provides reload and reset options
+ * ErrorBoundary - Glassmorphism error UI
  */
 export class ErrorBoundary extends Component<
   ErrorBoundaryProps,
@@ -64,46 +57,50 @@ export class ErrorBoundary extends Component<
   render() {
     if (this.state.hasError) {
       return (
-        <div className="min-h-screen bg-gray-50 flex items-center justify-center p-4">
-          <Card className="max-w-2xl w-full">
-            <div className="text-center mb-6">
+        <div className="min-h-screen bg-dark-300 flex items-center justify-center p-4">
+          {/* Background gradients */}
+          <div className="fixed inset-0 overflow-hidden pointer-events-none">
+            <div className="absolute top-0 left-1/4 w-96 h-96 bg-danger/10 rounded-full blur-3xl" />
+            <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-accent-purple/10 rounded-full blur-3xl" />
+          </div>
+
+          <div className="relative glass max-w-2xl w-full p-8">
+            <div className="text-center mb-8">
               <div className="text-6xl mb-4">⚠️</div>
-              <h1 className="text-3xl font-bold text-gray-900 mb-2">
+              <h1 className="text-3xl font-bold gradient-text-warm mb-3">
                 Произошла ошибка
               </h1>
-              <p className="text-lg text-gray-600">
+              <p className="text-lg text-text-secondary">
                 Приложение столкнулось с неожиданной проблемой
               </p>
             </div>
 
-            {/* Error Details (Development) */}
+            {/* Error Details */}
             {this.state.error && (
-              <div className="mb-6">
-                <details className="bg-red-50 border border-red-200 rounded-lg p-4">
-                  <summary className="cursor-pointer font-semibold text-red-800 mb-2">
-                    Детали ошибки (только в режиме разработки)
+              <div className="mb-8">
+                <details className="bg-danger/10 border border-danger/30 rounded-glass-sm p-4">
+                  <summary className="cursor-pointer font-semibold text-danger mb-2">
+                    Детали ошибки
                   </summary>
-                  <div className="mt-2 space-y-2">
+                  <div className="mt-3 space-y-3">
                     <div>
-                      <strong className="text-red-800">Сообщение:</strong>
-                      <pre className="text-xs text-red-700 mt-1 overflow-x-auto">
+                      <strong className="text-danger text-sm">Сообщение:</strong>
+                      <pre className="text-xs text-text-secondary mt-1 overflow-x-auto bg-dark-400/50 p-2 rounded">
                         {this.state.error.message}
                       </pre>
                     </div>
                     {this.state.error.stack && (
                       <div>
-                        <strong className="text-red-800">Stack trace:</strong>
-                        <pre className="text-xs text-red-700 mt-1 overflow-x-auto max-h-48">
+                        <strong className="text-danger text-sm">Stack trace:</strong>
+                        <pre className="text-xs text-text-muted mt-1 overflow-x-auto max-h-48 bg-dark-400/50 p-2 rounded">
                           {this.state.error.stack}
                         </pre>
                       </div>
                     )}
                     {this.state.errorInfo && (
                       <div>
-                        <strong className="text-red-800">
-                          Component stack:
-                        </strong>
-                        <pre className="text-xs text-red-700 mt-1 overflow-x-auto max-h-48">
+                        <strong className="text-danger text-sm">Component stack:</strong>
+                        <pre className="text-xs text-text-muted mt-1 overflow-x-auto max-h-48 bg-dark-400/50 p-2 rounded">
                           {this.state.errorInfo.componentStack}
                         </pre>
                       </div>
@@ -121,7 +118,7 @@ export class ErrorBoundary extends Component<
                 className="w-full"
                 size="lg"
               >
-                🔄 Перезагрузить страницу
+                Перезагрузить страницу
               </Button>
 
               <Button
@@ -129,31 +126,30 @@ export class ErrorBoundary extends Component<
                 variant="secondary"
                 className="w-full"
               >
-                🏠 Вернуться на главную
+                Вернуться на главную
               </Button>
 
-              <div className="border-t border-gray-200 pt-3">
-                <p className="text-sm text-gray-600 mb-2 text-center">
+              <div className="border-t border-glass-border pt-4 mt-4">
+                <p className="text-sm text-text-muted mb-3 text-center">
                   Если ошибка повторяется:
                 </p>
                 <Button
                   onClick={this.handleReset}
-                  variant="secondary"
-                  className="w-full text-red-600 hover:text-red-700"
+                  variant="danger"
+                  className="w-full"
                 >
-                  🗑️ Сбросить все данные
+                  Сбросить все данные
                 </Button>
               </div>
             </div>
 
             {/* Help Text */}
-            <div className="mt-6 pt-6 border-t border-gray-200">
-              <p className="text-sm text-gray-500 text-center">
-                Рекомендуем сделать резервную копию данных через настройки перед
-                сбросом
+            <div className="mt-6 pt-6 border-t border-glass-border">
+              <p className="text-sm text-text-muted text-center">
+                Рекомендуем сделать резервную копию данных через настройки перед сбросом
               </p>
             </div>
-          </Card>
+          </div>
         </div>
       );
     }

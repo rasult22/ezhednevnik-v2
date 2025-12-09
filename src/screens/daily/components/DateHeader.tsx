@@ -9,14 +9,7 @@ interface DateHeaderProps {
 }
 
 /**
- * DateHeader - Date display and navigation controls
- *
- * Features:
- * - Large date display (DD.MM.YYYY)
- * - Previous/next day navigation
- * - Read-only mode indicator for past dates
- * - Warning badge if there are skipped days
- * - Future dates blocked (next button disabled with tooltip)
+ * DateHeader - Glassmorphism date display with navigation
  */
 export function DateHeader({
   currentDate,
@@ -43,7 +36,7 @@ export function DateHeader({
   const canGoForward = currentDate < today;
 
   return (
-    <div className="bg-white rounded-lg shadow-sm p-6 mb-6">
+    <div className="glass p-6">
       <div className="flex items-center justify-between">
         {/* Left: Navigation */}
         <div className="flex items-center gap-3">
@@ -75,12 +68,12 @@ export function DateHeader({
 
         {/* Center: Date Display */}
         <div className="text-center">
-          <h1 className="text-4xl font-bold text-gray-900">
+          <h1 className="text-4xl font-bold gradient-text">
             {formatDateRU(currentDate)}
           </h1>
           {isReadOnly && (
-            <p className="text-sm text-gray-500 mt-1">
-              📖 Режим просмотра (прошедшая дата)
+            <p className="text-sm text-text-muted mt-2">
+              Режим просмотра (прошедшая дата)
             </p>
           )}
         </div>
@@ -88,9 +81,9 @@ export function DateHeader({
         {/* Right: Warnings/Status */}
         <div className="w-32 flex justify-end">
           {hasSkippedDays && (
-            <div className="bg-warning/10 border border-warning px-3 py-1 rounded-full">
+            <div className="bg-warning/20 border border-warning/30 px-4 py-2 rounded-glass-sm">
               <span className="text-xs font-medium text-warning">
-                ⚠️ Есть пропуски
+                Есть пропуски
               </span>
             </div>
           )}

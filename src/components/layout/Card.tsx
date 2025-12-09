@@ -6,10 +6,12 @@ interface CardProps {
   subtitle?: string;
   className?: string;
   padding?: 'none' | 'sm' | 'md' | 'lg';
+  variant?: 'default' | 'gradient' | 'accent';
+  accentColor?: 'blue' | 'purple' | 'pink' | 'cyan' | 'emerald' | 'orange';
 }
 
 /**
- * Card Component - Content container with shadow and border
+ * Card Component - Glassmorphism container with optional gradient accent
  */
 export function Card({
   children,
@@ -17,6 +19,8 @@ export function Card({
   subtitle,
   className = '',
   padding = 'md',
+  variant = 'default',
+  accentColor = 'blue',
 }: CardProps) {
   const paddingStyles = {
     none: '',
@@ -25,20 +29,57 @@ export function Card({
     lg: 'p-8',
   };
 
+  const accentColors = {
+    blue: 'from-accent-blue/20 to-transparent',
+    purple: 'from-accent-purple/20 to-transparent',
+    pink: 'from-accent-pink/20 to-transparent',
+    cyan: 'from-accent-cyan/20 to-transparent',
+    emerald: 'from-accent-emerald/20 to-transparent',
+    orange: 'from-accent-orange/20 to-transparent',
+  };
+
+  const accentBorders = {
+    blue: 'border-accent-blue/30',
+    purple: 'border-accent-purple/30',
+    pink: 'border-accent-pink/30',
+    cyan: 'border-accent-cyan/30',
+    emerald: 'border-accent-emerald/30',
+    orange: 'border-accent-orange/30',
+  };
+
+  const baseStyles = `
+    relative overflow-hidden
+    bg-glass-light backdrop-blur-glass
+    border border-glass-border
+    shadow-glass
+    rounded-glass
+    transition-all duration-300
+    hover:shadow-glass-lg hover:bg-glass-medium
+  `;
+
+  const variantStyles = {
+    default: '',
+    gradient: `bg-gradient-to-br ${accentColors[accentColor]}`,
+    accent: `border-t-2 ${accentBorders[accentColor]}`,
+  };
+
   return (
-    <div className={`bg-white rounded-lg shadow-sm border border-gray-200 ${className}`}>
+    <div className={`${baseStyles} ${variantStyles[variant]} ${className}`}>
+      {/* Subtle gradient overlay */}
+      <div className="absolute inset-0 bg-gradient-to-br from-white/5 to-transparent pointer-events-none" />
+
       {(title || subtitle) && (
-        <div className={`border-b border-gray-200 ${paddingStyles[padding]}`}>
+        <div className={`relative border-b border-glass-border ${paddingStyles[padding]}`}>
           {title && (
-            <h3 className="text-lg font-semibold text-gray-900">{title}</h3>
+            <h3 className="text-lg font-semibold text-text-primary">{title}</h3>
           )}
           {subtitle && (
-            <p className="mt-1 text-sm text-gray-500">{subtitle}</p>
+            <p className="mt-1 text-sm text-text-muted">{subtitle}</p>
           )}
         </div>
       )}
 
-      <div className={paddingStyles[padding]}>
+      <div className={`relative ${paddingStyles[padding]}`}>
         {children}
       </div>
     </div>

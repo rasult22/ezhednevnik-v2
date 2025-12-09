@@ -6,7 +6,7 @@ interface CheckboxProps extends Omit<InputHTMLAttributes<HTMLInputElement>, 'typ
 }
 
 /**
- * Checkbox Component - Animated checkbox with optional label
+ * Checkbox Component - Glassmorphism animated checkbox with glow
  */
 export function Checkbox({ label, className = '', ...props }: CheckboxProps) {
   return (
@@ -21,23 +21,27 @@ export function Checkbox({ label, className = '', ...props }: CheckboxProps) {
         {/* Custom checkbox */}
         <motion.div
           className={`
-            w-5 h-5 border-2 rounded
-            transition-colors
-            peer-checked:bg-success peer-checked:border-success
-            peer-focus:ring-2 peer-focus:ring-success peer-focus:ring-offset-2
-            peer-disabled:opacity-50 peer-disabled:cursor-not-allowed
-            ${props.checked ? 'bg-success border-success' : 'bg-white border-gray-300'}
+            w-6 h-6
+            rounded-lg
+            border-2
+            transition-all duration-200
+            ${props.checked
+              ? 'bg-gradient-to-br from-accent-emerald to-accent-cyan border-accent-emerald shadow-glow-success'
+              : 'bg-glass-light border-glass-border hover:border-accent-blue/50'
+            }
+            peer-focus:ring-2 peer-focus:ring-accent-blue/50 peer-focus:ring-offset-2 peer-focus:ring-offset-dark-300
+            peer-disabled:opacity-40 peer-disabled:cursor-not-allowed
             ${className}
           `}
-          whileTap={{ scale: props.disabled ? 1 : 0.95 }}
+          whileTap={{ scale: props.disabled ? 1 : 0.9 }}
         >
           {/* Checkmark */}
           {props.checked && (
             <motion.svg
-              initial={{ scale: 0 }}
-              animate={{ scale: 1 }}
+              initial={{ scale: 0, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
               transition={{ type: 'spring', stiffness: 500, damping: 30 }}
-              className="w-full h-full text-white"
+              className="w-full h-full text-white p-0.5"
               viewBox="0 0 20 20"
               fill="currentColor"
             >
@@ -52,7 +56,7 @@ export function Checkbox({ label, className = '', ...props }: CheckboxProps) {
       </div>
 
       {label && (
-        <span className="ml-2 text-sm text-gray-700 group-hover:text-gray-900">
+        <span className="ml-3 text-sm text-text-secondary group-hover:text-text-primary transition-colors">
           {label}
         </span>
       )}
