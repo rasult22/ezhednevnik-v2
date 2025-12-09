@@ -60,7 +60,7 @@ export default function Goals1YearScreen() {
         <div className="col-span-2">
           {/* Header */}
           <div className="mb-8">
-            <h1 className="text-4xl font-bold text-gray-900 mb-3">
+            <h1 className="text-4xl font-bold gradient-text mb-3">
               Цели на 1 год
             </h1>
             <p className="text-lg text-gray-600">

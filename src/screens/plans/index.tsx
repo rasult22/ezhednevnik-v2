@@ -51,7 +51,7 @@ export default function PlansListScreen() {
         {/* Header */}
         <div className="flex items-center justify-between mb-8">
           <div>
-            <h1 className="text-4xl font-bold text-gray-900 mb-3">
+            <h1 className="text-4xl font-bold gradient-text mb-3">
               Планы на 90 дней
             </h1>
             <p className="text-lg text-gray-600">
