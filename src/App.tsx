@@ -2,6 +2,7 @@ import { useEffect } from 'react';
 import { Outlet } from 'react-router-dom';
 import { Navigation } from './components/layout/Navigation';
 import { Container } from './components/layout/Container';
+import { OnboardingGuard } from './components/guards/OnboardingGuard';
 import { useAppStore } from './stores/useAppStore';
 import { useGoalsStore } from './stores/useGoalsStore';
 import { usePlansStore } from './stores/usePlansStore';
@@ -54,17 +55,19 @@ function App() {
   }
 
   return (
-    <div className="h-full flex">
-      {/* Sidebar Navigation */}
-      <Navigation />
+    <OnboardingGuard>
+      <div className="h-full flex">
+        {/* Sidebar Navigation */}
+        <Navigation />
 
-      {/* Main content area */}
-      <main className="flex-1 overflow-y-auto bg-gray-50">
-        <Container size="lg" className="py-8">
-          <Outlet />
-        </Container>
-      </main>
-    </div>
+        {/* Main content area */}
+        <main className="flex-1 overflow-y-auto bg-gray-50">
+          <Container size="lg" className="py-8">
+            <Outlet />
+          </Container>
+        </main>
+      </div>
+    </OnboardingGuard>
   );
 }
 
