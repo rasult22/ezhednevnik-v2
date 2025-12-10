@@ -38,8 +38,8 @@ export function SecondaryNineBlock({
       title="+9 (второстепенное)"
       subtitle="Звонки, мелкие поручения, напоминания"
     >
-      {/* 3-column grid on wider screens */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-3">
+      {/* Single column layout */}
+      <div className="flex flex-col gap-3">
         {tasks.map((task, index) => (
           <div key={task.id} className="flex items-center gap-3">
             {/* Checkbox */}
