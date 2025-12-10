@@ -4,6 +4,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { useAppStore } from '../../stores/useAppStore';
 
 // Import onboarding steps
+import { Step0Import } from './components/Step0Import';
 import { Step1Welcome } from './components/Step1Welcome';
 import { Step2Philosophy } from './components/Step2Philosophy';
 import { Step3Structure } from './components/Step3Structure';
@@ -13,24 +14,24 @@ import { Step6Goals1Year } from './components/Step6Goals1Year';
 import { Step7Plan90Days } from './components/Step7Plan90Days';
 import { Step8MonthlyFocus } from './components/Step8MonthlyFocus';
 
-const TOTAL_STEPS = 8;
+const TOTAL_STEPS = 9;
 
 /**
  * Onboarding Screen - Glassmorphism dark theme
  */
 export default function OnboardingScreen() {
-  const [currentStep, setCurrentStep] = useState(1);
+  const [currentStep, setCurrentStep] = useState(0);
   const navigate = useNavigate();
   const completeOnboarding = useAppStore((state) => state.completeOnboarding);
 
   const handleNext = () => {
-    if (currentStep < TOTAL_STEPS) {
+    if (currentStep < TOTAL_STEPS - 1) {
       setCurrentStep(currentStep + 1);
     }
   };
 
   const handleBack = () => {
-    if (currentStep > 1) {
+    if (currentStep > 0) {
       setCurrentStep(currentStep - 1);
     }
   };
@@ -40,7 +41,13 @@ export default function OnboardingScreen() {
     navigate('/daily');
   };
 
+  const handleSkipToEnd = () => {
+    completeOnboarding();
+    navigate('/daily');
+  };
+
   const steps = [
+    { component: Step0Import, key: 'import' },
     { component: Step1Welcome, key: 'welcome' },
     { component: Step2Philosophy, key: 'philosophy' },
     { component: Step3Structure, key: 'structure' },
@@ -51,7 +58,7 @@ export default function OnboardingScreen() {
     { component: Step8MonthlyFocus, key: 'monthly' },
   ];
 
-  const CurrentStepComponent = steps[currentStep - 1]?.component;
+  const CurrentStepComponent = steps[currentStep]?.component;
 
   return (
     <div className="min-h-screen bg-dark-300 flex items-center justify-center p-4">
@@ -67,17 +74,17 @@ export default function OnboardingScreen() {
         <div className="mb-8">
           <div className="flex items-center justify-between mb-2">
             <span className="text-sm font-medium text-text-secondary">
-              Шаг {currentStep} из {TOTAL_STEPS}
+              Шаг {currentStep + 1} из {TOTAL_STEPS}
             </span>
             <span className="text-sm text-text-muted">
-              {Math.round((currentStep / TOTAL_STEPS) * 100)}%
+              {Math.round(((currentStep + 1) / TOTAL_STEPS) * 100)}%
             </span>
           </div>
           <div className="h-2 bg-glass-light rounded-full overflow-hidden border border-glass-border">
             <motion.div
               className="h-full bg-gradient-to-r from-accent-blue via-accent-purple to-accent-pink"
               initial={{ width: 0 }}
-              animate={{ width: `${(currentStep / TOTAL_STEPS) * 100}%` }}
+              animate={{ width: `${((currentStep + 1) / TOTAL_STEPS) * 100}%` }}
               transition={{ duration: 0.3 }}
             />
           </div>
@@ -98,8 +105,9 @@ export default function OnboardingScreen() {
                   onNext={handleNext}
                   onBack={handleBack}
                   onComplete={handleComplete}
-                  isFirstStep={currentStep === 1}
-                  isLastStep={currentStep === TOTAL_STEPS}
+                  onSkipToEnd={handleSkipToEnd}
+                  isFirstStep={currentStep === 0}
+                  isLastStep={currentStep === TOTAL_STEPS - 1}
                 />
               )}
             </motion.div>
