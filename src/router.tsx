@@ -1,4 +1,4 @@
-import { createBrowserRouter, Navigate } from 'react-router-dom';
+import { createHashRouter, Navigate } from 'react-router-dom';
 import { lazy } from 'react';
 import App from './App';
 
@@ -18,6 +18,8 @@ const SettingsScreen = lazy(() => import('./screens/settings'));
 /**
  * Application Router Configuration
  *
+ * Uses HashRouter for Chrome extension compatibility
+ * 
  * Structure:
  * - /onboarding - First-time user flow (8 steps)
  * - /daily - Main daily page (always opens to current date)
@@ -28,7 +30,7 @@ const SettingsScreen = lazy(() => import('./screens/settings'));
  * - /settings - Settings and data export/import
  */
 
-export const router = createBrowserRouter([
+export const router = createHashRouter([
   {
     path: '/',
     element: <App />,

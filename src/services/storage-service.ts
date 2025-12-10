@@ -2,6 +2,8 @@
  * Storage Service - Handles all LocalStorage operations with error handling
  */
 
+import { chromeStorage } from './chrome-storage-adapter';
+
 class StorageService {
   private saveQueue: Map<string, unknown> = new Map();
   private saveTimeout: number | null = null;
@@ -68,53 +70,45 @@ class StorageService {
   }
 
   /**
-   * Removes an item from LocalStorage
+   * Removes an item from storage
    */
-  remove(key: string): void {
+  async remove(key: string): Promise<void> {
     try {
-      localStorage.removeItem(key);
+      await chromeStorage.removeItem(key);
     } catch (error) {
-      console.error(`Error removing from localStorage (key: ${key}):`, error);
+      console.error(`Error removing from storage (key: ${key}):`, error);
     }
   }
 
   /**
-   * Clears all data from LocalStorage
+   * Clears all data from storage
    */
-  clear(): void {
+  async clear(): Promise<void> {
     try {
-      localStorage.clear();
+      await chromeStorage.clear();
     } catch (error) {
-      console.error('Error clearing localStorage:', error);
+      console.error('Error clearing storage:', error);
     }
   }
 
   /**
-   * Checks if a key exists in LocalStorage
+   * Checks if a key exists in storage
    */
-  has(key: string): boolean {
-    return localStorage.getItem(key) !== null;
+  async has(key: string): Promise<boolean> {
+    const item = await chromeStorage.getItem(key);
+    return item !== null;
   }
 
   /**
    * Gets the current storage usage as a percentage
    */
-  getUsagePercentage(): number {
+  async getUsagePercentage(): Promise<number> {
     try {
-      let totalSize = 0;
-      for (let i = 0; i < localStorage.length; i++) {
-        const key = localStorage.key(i);
-        if (key) {
-          const value = localStorage.getItem(key);
-          if (value) {
-            totalSize += key.length + value.length;
-          }
-        }
-      }
-
-      // Typical LocalStorage limit is 5-10MB, we use 5MB as conservative estimate
+      const bytesInUse = await chromeStorage.getBytesInUse();
+      // Chrome extension storage limit is much higher (unlimited with permission)
+      // For localStorage, typical limit is 5-10MB
       const ESTIMATED_LIMIT = 5 * 1024 * 1024; // 5MB in bytes
-      return totalSize / ESTIMATED_LIMIT;
+      return bytesInUse / ESTIMATED_LIMIT;
     } catch (error) {
       console.error('Error calculating storage usage:', error);
       return 0;
@@ -124,17 +118,19 @@ class StorageService {
   /**
    * Checks storage quota and warns if approaching limit
    */
-  private checkQuota(): void {
-    const usage = this.getUsagePercentage();
+  private async checkQuota(): Promise<void> {
+    const usage = await this.getUsagePercentage();
     if (usage >= this.QUOTA_WARNING_THRESHOLD) {
       console.warn(
-        `LocalStorage usage at ${(usage * 100).toFixed(1)}%. Consider exporting data.`
+        `Storage usage at ${(usage * 100).toFixed(1)}%. Consider exporting data.`
       );
 
       // Dispatch custom event for UI to show warning
-      window.dispatchEvent(
-        new CustomEvent('storage-quota-warning', { detail: { usage } })
-      );
+      if (typeof window !== 'undefined') {
+        window.dispatchEvent(
+          new CustomEvent('storage-quota-warning', { detail: { usage } })
+        );
+      }
     }
   }
 
@@ -142,14 +138,16 @@ class StorageService {
    * Handles quota exceeded error
    */
   private handleQuotaExceeded(): void {
-    console.error('LocalStorage quota exceeded!');
+    console.error('Storage quota exceeded!');
 
     // Dispatch custom event for UI to show error
-    window.dispatchEvent(
-      new CustomEvent('storage-quota-exceeded', {
-        detail: { message: 'Превышен лимит хранилища. Экспортируйте данные.' },
-      })
-    );
+    if (typeof window !== 'undefined') {
+      window.dispatchEvent(
+        new CustomEvent('storage-quota-exceeded', {
+          detail: { message: 'Превышен лимит хранилища. Экспортируйте данные.' },
+        })
+      );
+    }
   }
 
   /**
