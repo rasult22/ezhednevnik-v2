@@ -103,18 +103,26 @@ export default function SettingsScreen() {
 
         const { data } = importedData;
 
-        if (data.profile)
+        // Данные в экспорте уже являются строками, просто записываем их в localStorage
+        if (data.profile) {
           localStorage.setItem(STORAGE_KEYS.USER_PROFILE, data.profile);
-        if (data.goals) localStorage.setItem(STORAGE_KEYS.GOALS, data.goals);
-        if (data.plans)
+        }
+        if (data.goals) {
+          localStorage.setItem(STORAGE_KEYS.GOALS, data.goals);
+        }
+        if (data.plans) {
           localStorage.setItem(STORAGE_KEYS.PLANS_90DAY, data.plans);
-        if (data.dailyPages)
+        }
+        if (data.dailyPages) {
           localStorage.setItem(STORAGE_KEYS.DAILY_PAGES, data.dailyPages);
-        if (data.weeklyReviews)
+        }
+        if (data.weeklyReviews) {
           localStorage.setItem(STORAGE_KEYS.WEEKLY_REVIEWS, data.weeklyReviews);
+        }
 
         setImportSuccess(true);
 
+        // Перезагружаем страницу для загрузки данных в Zustand stores
         setTimeout(() => {
           window.location.reload();
         }, 1500);
