@@ -29,7 +29,7 @@ export default function DailyScreen() {
   const activePlan = usePlansStore((state) => state.activePlan);
 
   const [currentDate, setCurrentDate] = useState<string>(paramDate || getCurrentDateISO());
-  const [isReadOnly, setIsReadOnly] = useState(false);
+  const [isPastDate, setIsPastDate] = useState(false);
   const [showSkippedModal, setShowSkippedModal] = useState(false);
   const [skippedDates, setSkippedDates] = useState<string[]>([]);
 
@@ -54,12 +54,8 @@ export default function DailyScreen() {
       }
     }
 
-    // Check if date is in the past (read-only mode)
-    if (accessResult.reason === 'past_readonly') {
-      setIsReadOnly(true);
-    } else {
-      setIsReadOnly(false);
-    }
+    // Mark if this is a past date (for UI indication, but still editable)
+    setIsPastDate(accessResult.reason === 'past');
 
     setCurrentDate(targetDate);
 
@@ -98,7 +94,7 @@ export default function DailyScreen() {
       {/* Date Header with Navigation - Full width */}
       <DateHeader
         currentDate={currentDate}
-        isReadOnly={isReadOnly}
+        isPastDate={isPastDate}
         onDateChange={handleDateChange}
         hasSkippedDays={skippedDates.length > 0}
       />
@@ -112,14 +108,14 @@ export default function DailyScreen() {
             date={currentDate}
             tasks={dailyPage.mainThree}
             isCompleted={dailyPage.status === 'completed'}
-            isReadOnly={isReadOnly}
+            isReadOnly={false}
           />
 
           {/* Secondary Nine - 9 Secondary Tasks */}
           <SecondaryNineBlock
             date={currentDate}
             tasks={dailyPage.secondaryNine}
-            isReadOnly={isReadOnly}
+            isReadOnly={false}
           />
         </div>
 
@@ -129,7 +125,7 @@ export default function DailyScreen() {
           <MainForMonthBlock
             date={currentDate}
             projects={dailyPage.mainForMonth}
-            isReadOnly={isReadOnly}
+            isReadOnly={false}
             activePlan={activePlan}
           />
 
@@ -137,7 +133,7 @@ export default function DailyScreen() {
           <GratitudeBlock
             date={currentDate}
             gratitude={dailyPage.gratitude}
-            isReadOnly={isReadOnly}
+            isReadOnly={false}
           />
 
           {/* Financial Affirmation */}
@@ -145,7 +141,7 @@ export default function DailyScreen() {
             date={currentDate}
             affirmation={dailyPage.financialAffirmation}
             confirmed={dailyPage.financialAffirmationConfirmed}
-            isReadOnly={isReadOnly}
+            isReadOnly={false}
           />
         </div>
       </div>

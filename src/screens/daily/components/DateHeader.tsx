@@ -3,7 +3,7 @@ import { Button } from '../../../components/ui/Button';
 
 interface DateHeaderProps {
   currentDate: string; // ISO format
-  isReadOnly: boolean;
+  isPastDate: boolean;
   onDateChange: (date: string) => void;
   hasSkippedDays: boolean;
 }
@@ -13,7 +13,7 @@ interface DateHeaderProps {
  */
 export function DateHeader({
   currentDate,
-  isReadOnly,
+  isPastDate,
   onDateChange,
   hasSkippedDays,
 }: DateHeaderProps) {
@@ -71,9 +71,9 @@ export function DateHeader({
           <h1 className="text-4xl font-bold gradient-text">
             {formatDateRU(currentDate)}
           </h1>
-          {isReadOnly && (
-            <p className="text-sm text-text-muted mt-2">
-              Режим просмотра (прошедшая дата)
+          {isPastDate && (
+            <p className="text-sm text-accent-blue mt-2">
+              Прошедшая дата (можно дозаполнить)
             </p>
           )}
         </div>

@@ -126,6 +126,6 @@ export const STORAGE_KEYS = {
  */
 export interface DateAccessResult {
   allowed: boolean;
-  reason?: 'future' | 'past_readonly' | 'skipped_days';
+  reason?: 'future' | 'past' | 'skipped_days';
   skippedDates?: string[];
 }

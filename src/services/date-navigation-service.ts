@@ -30,9 +30,9 @@ class DateNavigationService {
       return { allowed: false, reason: 'future' };
     }
 
-    // Allow past dates (will be read-only in UI)
+    // Allow past dates (editable - users can backfill tasks)
     if (isPast(targetDate)) {
-      return { allowed: true, reason: 'past_readonly' };
+      return { allowed: true, reason: 'past' };
     }
 
     // For current date, check for skipped days

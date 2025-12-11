@@ -1,4 +1,4 @@
-import{j as e}from"./index-xxW3EWhZ.js";import{m as a}from"./motion-D6jSWcB8.js";function o({label:s,className:t="",...r}){return e.jsxs("label",{className:"inline-flex items-center cursor-pointer group",children:[e.jsxs("div",{className:"relative",children:[e.jsx("input",{type:"checkbox",className:"sr-only peer",...r}),e.jsx(a.div,{className:`
+import{j as e}from"./index-Bb7dJ0St.js";import{m as a}from"./motion-DgNdEO3A.js";function o({label:s,className:t="",...r}){return e.jsxs("label",{className:"inline-flex items-center cursor-pointer group",children:[e.jsxs("div",{className:"relative",children:[e.jsx("input",{type:"checkbox",className:"sr-only peer",...r}),e.jsx(a.div,{className:`
             w-6 h-6
             rounded-lg
             border-2
