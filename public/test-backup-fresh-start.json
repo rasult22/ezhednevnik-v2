@@ -1,0 +1,11 @@
+{
+  "version": "1.0.0",
+  "exportedAt": "2025-12-11T12:00:00.000Z",
+  "data": {
+    "profile": "{\"id\":\"test-user-004\",\"createdAt\":\"2025-12-11T08:00:00.000Z\",\"onboardingCompleted\":true,\"currentLanguage\":\"ru\"}",
+    "goals": "{\"tenYear\":[{\"id\":\"goal-10y-1\",\"content\":\"Построить жизнь моей мечты\",\"createdAt\":\"2025-12-11T08:30:00.000Z\",\"updatedAt\":\"2025-12-11T08:30:00.000Z\"}],\"fiveYear\":[],\"oneYear\":[],\"lastModified\":\"2025-12-11T08:30:00.000Z\"}",
+    "plans": "[]",
+    "dailyPages": "{\"2025-12-11\":{\"date\":\"2025-12-11\",\"status\":\"pending\",\"mainForMonth\":[\"\",\"\",\"\"],\"mainThree\":[{\"id\":\"task-1-1211\",\"content\":\"\",\"completed\":false},{\"id\":\"task-2-1211\",\"content\":\"\",\"completed\":false},{\"id\":\"task-3-1211\",\"content\":\"\",\"completed\":false}],\"secondaryNine\":[{\"id\":\"sec-1-1211\",\"content\":\"\",\"completed\":false},{\"id\":\"sec-2-1211\",\"content\":\"\",\"completed\":false},{\"id\":\"sec-3-1211\",\"content\":\"\",\"completed\":false},{\"id\":\"sec-4-1211\",\"content\":\"\",\"completed\":false},{\"id\":\"sec-5-1211\",\"content\":\"\",\"completed\":false},{\"id\":\"sec-6-1211\",\"content\":\"\",\"completed\":false},{\"id\":\"sec-7-1211\",\"content\":\"\",\"completed\":false},{\"id\":\"sec-8-1211\",\"content\":\"\",\"completed\":false},{\"id\":\"sec-9-1211\",\"content\":\"\",\"completed\":false}],\"gratitude\":[\"\",\"\",\"\"],\"financialAffirmation\":\"Я зарабатываю 10.000$ в месяц\",\"financialAffirmationConfirmed\":false,\"createdAt\":\"2025-12-11T08:00:00.000Z\"}}",
+    "weeklyReviews": "[]"
+  }
+}
