@@ -1,4 +1,4 @@
-import{r as l,j as e}from"./index-Bb7dJ0St.js";const b=l.forwardRef(({label:o,error:t,helperText:n,autoSize:a=!1,maxHeight:c=500,className:u="",...d},i)=>{const x=l.useRef(null),s=i||x;l.useEffect(()=>{if(a&&s.current){const r=s.current;r.style.height="auto";const f=Math.min(r.scrollHeight,c);r.style.height=`${f}px`}},[d.value,a,c,s]);const m=`
+import{r as l,j as e}from"./index-D89efSz-.js";const b=l.forwardRef(({label:o,error:t,helperText:n,autoSize:a=!1,maxHeight:c=500,className:u="",...d},i)=>{const x=l.useRef(null),s=i||x;l.useEffect(()=>{if(a&&s.current){const r=s.current;r.style.height="auto";const f=Math.min(r.scrollHeight,c);r.style.height=`${f}px`}},[d.value,a,c,s]);const m=`
       w-full px-4 py-3
       bg-glass-light backdrop-blur-glass
       border border-glass-border

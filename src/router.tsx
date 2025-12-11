@@ -1,8 +1,9 @@
-import { createHashRouter, Navigate } from 'react-router-dom';
+import { createHashRouter } from 'react-router-dom';
 import { lazy } from 'react';
 import App from './App';
 
 // Lazy load screens for better performance
+const DashboardScreen = lazy(() => import('./screens/dashboard'));
 const OnboardingScreen = lazy(() => import('./screens/onboarding'));
 const DailyScreen = lazy(() => import('./screens/daily'));
 const Goals10YearsScreen = lazy(() => import('./screens/goals/10-years'));
@@ -19,11 +20,12 @@ const SettingsScreen = lazy(() => import('./screens/settings'));
  * Application Router Configuration
  *
  * Uses HashRouter for Chrome extension compatibility
- * 
+ *
  * Structure:
+ * - / - Dashboard with widgets (main home page)
  * - /onboarding - First-time user flow (8 steps)
  * - /daily - Main daily page (always opens to current date)
- * - /daily/:date - Specific date (past dates read-only)
+ * - /daily/:date - Specific date (editable)
  * - /goals/* - Long-term goals (10yr, 5yr, 1yr)
  * - /plans/* - 90-day plans management
  * - /reviews/* - Weekly reviews
@@ -37,7 +39,7 @@ export const router = createHashRouter([
     children: [
       {
         index: true,
-        element: <Navigate to="/daily" replace />,
+        element: <DashboardScreen />,
       },
       {
         path: 'onboarding',
