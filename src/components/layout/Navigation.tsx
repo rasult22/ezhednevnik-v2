@@ -7,7 +7,7 @@ import { Button } from '../ui/Button';
  * Now with collapsible functionality
  */
 export function Navigation() {
-  const [isCollapsed, setIsCollapsed] = useState(false);
+  const [isCollapsed, setIsCollapsed] = useState(true);
 
   const navItems = [
     { to: '/', label: 'Главная', icon: '🏠', gradient: 'from-accent-blue to-accent-cyan' },
@@ -21,9 +21,9 @@ export function Navigation() {
   ];
 
   return (
-    <nav className={`${isCollapsed ? 'w-20' : 'w-72'} bg-dark-200/50 backdrop-blur-glass border-r border-glass-border flex flex-col transition-all duration-300`}>
+    <nav  className={`${isCollapsed ? 'w-20' : 'w-72'} bg-dark-200/50 backdrop-blur-glass border-r border-glass-border flex flex-col transition-all duration-300`}>
       {/* Header */}
-      <div className="p-6 border-b border-glass-border">
+      <div onClick={() => setIsCollapsed(!isCollapsed)} className="p-6 border-b border-glass-border">
         {!isCollapsed ? (
           <>
             <h1 className="text-xl font-bold gradient-text">Ежедневник</h1>
