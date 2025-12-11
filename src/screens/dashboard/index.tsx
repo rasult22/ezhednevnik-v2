@@ -32,7 +32,7 @@ export default function DashboardScreen() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-bg-dark via-bg-primary to-bg-dark p-6">
-      <div className="max-w-[1600px] mx-auto">
+      <div className="max-w-[1600px] mx-auto flex flex-col items-center justify-center h-screen">
         {/* Top Section - Clock & Date */}
         <ClockWidget currentTime={currentTime} />
 
