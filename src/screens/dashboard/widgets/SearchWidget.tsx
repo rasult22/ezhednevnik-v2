@@ -16,8 +16,7 @@ export function SearchWidget() {
         ? `https://www.google.com/search?q=${query}`
         : `https://www.youtube.com/results?search_query=${query}`;
 
-    window.open(url, '_blank');
-    setSearchQuery('');
+    window.location.href = url;
   };
 
   return (
