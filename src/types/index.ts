@@ -110,6 +110,22 @@ export interface AppSettings {
 }
 
 /**
+ * Habit Tracker
+ */
+export interface Habit {
+  id: string;
+  name: string;
+  color: string; // Hex color for visualization
+  createdAt: string; // ISO timestamp
+  completedDates: string[]; // Array of ISO dates (YYYY-MM-DD) when habit was completed
+}
+
+export interface HabitsData {
+  habits: Habit[];
+  lastModified: string; // ISO timestamp
+}
+
+/**
  * LocalStorage Keys
  */
 export const STORAGE_KEYS = {
@@ -119,6 +135,7 @@ export const STORAGE_KEYS = {
   DAILY_PAGES: 'trillionaire_daily_pages',
   WEEKLY_REVIEWS: 'trillionaire_weekly_reviews',
   SETTINGS: 'trillionaire_settings',
+  HABITS: 'trillionaire_habits',
 } as const;
 
 /**

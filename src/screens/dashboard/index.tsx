@@ -6,6 +6,7 @@ import { WeatherWidget } from './widgets/WeatherWidget';
 import { MonthlyFocusWidget } from './widgets/MonthlyFocusWidget';
 import { TodayTasksWidget } from './widgets/TodayTasksWidget';
 import { ClockWidget } from './widgets/ClockWidget';
+import { HabitTrackerWidget } from './widgets/HabitTrackerWidget';
 
 /**
  * Dashboard - Main home page with widgets
@@ -48,6 +49,7 @@ export default function DashboardScreen() {
           <div className="col-span-12 lg:col-span-4 space-y-6">
             <MonthlyFocusWidget />
             <TodayTasksWidget />
+            <HabitTrackerWidget />
           </div>
 
           {/* Right Column - Prayer & Weather */}
