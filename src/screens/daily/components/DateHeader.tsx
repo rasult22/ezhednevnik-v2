@@ -6,6 +6,8 @@ interface DateHeaderProps {
   isPastDate: boolean;
   onDateChange: (date: string) => void;
   hasSkippedDays: boolean;
+  canTransferTasks?: boolean;
+  onTransferClick?: () => void;
 }
 
 /**
@@ -16,6 +18,8 @@ export function DateHeader({
   isPastDate,
   onDateChange,
   hasSkippedDays,
+  canTransferTasks = false,
+  onTransferClick,
 }: DateHeaderProps) {
   const handlePreviousDay = () => {
     const previousDate = subtractDays(currentDate, 1);
@@ -62,6 +66,18 @@ export function DateHeader({
           {currentDate !== today && (
             <Button variant="ghost" size="sm" onClick={handleToday}>
               Сегодня
+            </Button>
+          )}
+
+          {canTransferTasks && onTransferClick && (
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={onTransferClick}
+              title="Перенести невыполненные задачи с предыдущего дня"
+              className="text-accent-cyan hover:text-accent-blue"
+            >
+              📋 Перенести задачи
             </Button>
           )}
         </div>

@@ -1,9 +1,9 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useMemo } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useDailyStore } from '../../stores/useDailyStore';
 import { usePlansStore } from '../../stores/usePlansStore';
 import { dateNavigationService } from '../../services/date-navigation-service';
-import { getCurrentDateISO } from '../../utils/date-formatters';
+import { getCurrentDateISO, subtractDays } from '../../utils/date-formatters';
 import { DateHeader } from './components/DateHeader';
 import { MainForMonthBlock } from './components/MainForMonthBlock';
 import { MainThreeBlock } from './components/MainThreeBlock';
@@ -11,6 +11,7 @@ import { SecondaryNineBlock } from './components/SecondaryNineBlock';
 import { GratitudeBlock } from './components/GratitudeBlock';
 import { FinancialAffirmationBlock } from './components/FinancialAffirmationBlock';
 import { SkippedDaysModal } from './components/SkippedDaysModal';
+import { TransferTasksModal } from './components/TransferTasksModal';
 
 /**
  * Daily Page - Main screen with grid layout for wide screens
@@ -26,12 +27,14 @@ export default function DailyScreen() {
   const dailyPages = useDailyStore((state) => state.dailyPages);
   const getDailyPage = useDailyStore((state) => state.getDailyPage);
   const createOrGetDailyPage = useDailyStore((state) => state.createOrGetDailyPage);
+  const transferTasks = useDailyStore((state) => state.transferTasks);
   const activePlan = usePlansStore((state) => state.activePlan);
 
   const [currentDate, setCurrentDate] = useState<string>(paramDate || getCurrentDateISO());
   const [isPastDate, setIsPastDate] = useState(false);
   const [showSkippedModal, setShowSkippedModal] = useState(false);
   const [skippedDates, setSkippedDates] = useState<string[]>([]);
+  const [showTransferModal, setShowTransferModal] = useState(false);
 
   useEffect(() => {
     const targetDate = paramDate || getCurrentDateISO();
@@ -67,8 +70,33 @@ export default function DailyScreen() {
 
   const dailyPage = getDailyPage(currentDate);
 
+  // Check if we can transfer tasks from previous day
+  const previousDayDate = useMemo(() => subtractDays(currentDate, 1), [currentDate]);
+  const previousDayPage = getDailyPage(previousDayDate);
+
+  const canTransferTasks = useMemo(() => {
+    // Only show transfer button if:
+    // 1. We're viewing today's date
+    // 2. Previous day exists
+    // 3. Previous day has incomplete tasks with content
+    const today = getCurrentDateISO();
+    if (currentDate !== today || !previousDayPage) {
+      return false;
+    }
+
+    const hasIncompleteTasks =
+      previousDayPage.mainThree.some((task) => !task.completed && task.content.trim() !== '') ||
+      previousDayPage.secondaryNine.some((task) => !task.completed && task.content.trim() !== '');
+
+    return hasIncompleteTasks;
+  }, [currentDate, previousDayPage]);
+
   const handleDateChange = (newDate: string) => {
     navigate(`/daily/${newDate}`);
+  };
+
+  const handleTransferTasks = (taskIds: string[]) => {
+    transferTasks(previousDayDate, currentDate, taskIds);
   };
 
   const handleSkippedModalClose = () => {
@@ -97,6 +125,8 @@ export default function DailyScreen() {
         isPastDate={isPastDate}
         onDateChange={handleDateChange}
         hasSkippedDays={skippedDates.length > 0}
+        canTransferTasks={canTransferTasks}
+        onTransferClick={() => setShowTransferModal(true)}
       />
 
       {/* Grid Layout for wide screens */}
@@ -151,6 +181,19 @@ export default function DailyScreen() {
         <SkippedDaysModal
           skippedDates={skippedDates}
           onClose={handleSkippedModalClose}
+        />
+      )}
+
+      {/* Transfer Tasks Modal */}
+      {showTransferModal && previousDayPage && (
+        <TransferTasksModal
+          isOpen={showTransferModal}
+          onClose={() => setShowTransferModal(false)}
+          previousDayTasks={{
+            mainThree: previousDayPage.mainThree,
+            secondaryNine: previousDayPage.secondaryNine,
+          }}
+          onTransfer={handleTransferTasks}
         />
       )}
     </div>

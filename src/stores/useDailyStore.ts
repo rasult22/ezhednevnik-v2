@@ -37,6 +37,9 @@ interface DailyState {
   markDateAsSkipped: (date: string) => void;
   getSkippedDates: () => string[];
 
+  // Transfer tasks
+  transferTasks: (fromDate: string, toDate: string, taskIds: string[]) => void;
+
   // Utilities
   setCurrentDate: (date: string) => void;
   checkAndUpdateCompletion: (date: string) => void;
@@ -329,6 +332,90 @@ export const useDailyStore = create<DailyState>((set, get) => ({
   getSkippedDates: (): string[] => {
     const { dailyPages } = get();
     return dateNavigationService.getSkippedDates(dailyPages);
+  },
+
+  /**
+   * Transfer tasks from one date to another
+   * Copies selected tasks to empty slots in target date
+   * Main tasks go to main slots, secondary tasks go to secondary slots
+   */
+  transferTasks: (fromDate: string, toDate: string, taskIds: string[]) => {
+    const { dailyPages } = get();
+    const fromPage = dailyPages[fromDate];
+    const toPage = dailyPages[toDate];
+
+    if (!fromPage || !toPage) return;
+
+    // Separate main and secondary tasks to transfer
+    const mainTasksToTransfer = fromPage.mainThree.filter((task) =>
+      taskIds.includes(task.id)
+    );
+    const secondaryTasksToTransfer = fromPage.secondaryNine.filter((task) =>
+      taskIds.includes(task.id)
+    );
+
+    if (mainTasksToTransfer.length === 0 && secondaryTasksToTransfer.length === 0) return;
+
+    // Find empty slots in target page
+    const emptyMainSlots: number[] = [];
+    const emptySecondarySlots: number[] = [];
+
+    toPage.mainThree.forEach((task, index) => {
+      if (task.content.trim() === '') {
+        emptyMainSlots.push(index);
+      }
+    });
+
+    toPage.secondaryNine.forEach((task, index) => {
+      if (task.content.trim() === '') {
+        emptySecondarySlots.push(index);
+      }
+    });
+
+    // Create copies of tasks with new IDs
+    const updatedMainThree = [...toPage.mainThree];
+    const updatedSecondaryNine = [...toPage.secondaryNine];
+
+    // Transfer main tasks to main slots only
+    let mainSlotIndex = 0;
+    mainTasksToTransfer.forEach((task) => {
+      if (mainSlotIndex < emptyMainSlots.length) {
+        const slotIndex = emptyMainSlots[mainSlotIndex]!;
+        updatedMainThree[slotIndex] = {
+          id: crypto.randomUUID(),
+          content: task.content,
+          completed: false,
+        };
+        mainSlotIndex++;
+      }
+      // If no empty main slots available, task is not transferred
+    });
+
+    // Transfer secondary tasks to secondary slots only
+    let secondarySlotIndex = 0;
+    secondaryTasksToTransfer.forEach((task) => {
+      if (secondarySlotIndex < emptySecondarySlots.length) {
+        const slotIndex = emptySecondarySlots[secondarySlotIndex]!;
+        updatedSecondaryNine[slotIndex] = {
+          id: crypto.randomUUID(),
+          content: task.content,
+          completed: false,
+        };
+        secondarySlotIndex++;
+      }
+      // If no empty secondary slots available, task is not transferred
+    });
+
+    // Update the target page
+    const updatedPage: DailyPage = {
+      ...toPage,
+      mainThree: updatedMainThree as [Task, Task, Task],
+      secondaryNine: updatedSecondaryNine,
+    };
+
+    const updatedPages = { ...dailyPages, [toDate]: updatedPage };
+    storageService.saveImmediate(STORAGE_KEYS.DAILY_PAGES, updatedPages);
+    set({ dailyPages: updatedPages });
   },
 
   /**
