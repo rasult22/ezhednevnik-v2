@@ -146,3 +146,28 @@ export interface DateAccessResult {
   reason?: 'future' | 'past' | 'skipped_days';
   skippedDates?: string[];
 }
+
+/**
+ * Quran Types
+ */
+export interface QuranVerse {
+  id: number; // Global verse ID
+  verse: number; // Verse number within chapter
+  text: string; // Arabic text
+  translation?: string; // Russian translation (for quran_ru.json)
+}
+
+export interface QuranChapter {
+  id: number; // Chapter number (1-114)
+  verses: QuranVerse[];
+}
+
+export interface QuranChapterInfo {
+  id: number;
+  name: string; // Arabic name
+  transliteration: string;
+  translation: string; // Russian translation of chapter name
+  type: 'meccan' | 'medinan';
+  total_verses: number;
+  pages: [number, number]; // [start_page, end_page]
+}

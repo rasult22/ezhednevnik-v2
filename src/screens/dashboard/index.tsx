@@ -7,6 +7,7 @@ import { MonthlyFocusWidget } from './widgets/MonthlyFocusWidget';
 import { TodayTasksWidget } from './widgets/TodayTasksWidget';
 import { ClockWidget } from './widgets/ClockWidget';
 import { HabitTrackerWidget } from './widgets/HabitTrackerWidget';
+import { QuranWidget } from './widgets/QuranWidget';
 
 /**
  * Dashboard - Main home page with widgets
@@ -39,10 +40,11 @@ export default function DashboardScreen() {
 
         {/* Main Grid Layout */}
         <div className="grid grid-cols-12 gap-6 mt-8">
-          {/* Left Column - Search & Links */}
+          {/* Left Column - Search & Links & Quran */}
           <div className="col-span-12 lg:col-span-4 space-y-6">
             <SearchWidget />
             <QuickLinksWidget />
+            <QuranWidget />
           </div>
 
           {/* Middle Column - Focus & Tasks */}

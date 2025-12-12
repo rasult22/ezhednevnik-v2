@@ -70,3 +70,4 @@ Storage keys prefixed with `trillionaire_*` (defined in `STORAGE_KEYS` const).
 ## Path Aliases
 
 `@/*` maps to `src/*` (configured in tsconfig.json)
+- не запускай дев сервера я сам их запускаю и тестирую твои наработки
