@@ -49,12 +49,12 @@ export function Card({
 
   const baseStyles = `
     relative overflow-hidden
-    bg-glass-light backdrop-blur-glass
+    bg-dark-200/50 backdrop-blur-glass
     border border-glass-border
     shadow-glass
     rounded-glass
     transition-all duration-300
-    hover:shadow-glass-lg hover:bg-glass-medium
+    hover:shadow-glass-lg hover:bg-dark-200/60
   `;
 
   const variantStyles = {

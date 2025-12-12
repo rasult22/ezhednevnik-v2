@@ -68,21 +68,21 @@
 @layer components {
   /* Glass Card Base */
   .glass {
-    @apply bg-glass-light backdrop-blur-glass;
+    @apply bg-dark-200/50 backdrop-blur-glass;
     @apply border border-glass-border;
     @apply shadow-glass;
     @apply rounded-glass;
   }
 
   .glass-sm {
-    @apply bg-glass-light backdrop-blur-glass;
+    @apply bg-dark-200/50 backdrop-blur-glass;
     @apply border border-glass-border-light;
     @apply shadow-glass-sm;
     @apply rounded-glass-sm;
   }
 
   .glass-heavy {
-    @apply bg-glass-medium backdrop-blur-glass-heavy;
+    @apply bg-dark-200/60 backdrop-blur-glass-heavy;
     @apply border border-glass-border;
     @apply shadow-glass-lg;
     @apply rounded-glass;

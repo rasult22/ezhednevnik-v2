@@ -37,10 +37,10 @@ export function Button({
       hover:shadow-glow-purple hover:from-accent-purple hover:to-accent-pink
     `,
     secondary: `
-      bg-glass-light backdrop-blur-glass
+      bg-dark-200/50 backdrop-blur-glass
       border border-glass-border
       text-text-primary
-      hover:bg-glass-medium hover:border-glass-border
+      hover:bg-dark-200/60 hover:border-glass-border
     `,
     danger: `
       bg-gradient-to-r from-danger to-accent-pink
@@ -51,7 +51,7 @@ export function Button({
     ghost: `
       bg-transparent
       text-text-secondary
-      hover:bg-glass-light hover:text-text-primary
+      hover:bg-dark-200/50 hover:text-text-primary
     `,
     gradient: `
       bg-gradient-to-r from-accent-cyan via-accent-blue to-accent-purple

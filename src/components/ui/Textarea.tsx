@@ -39,12 +39,12 @@ export const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(
 
     const textareaStyles = `
       w-full px-4 py-3
-      bg-glass-light backdrop-blur-glass
+      bg-dark-200/50 backdrop-blur-glass
       border border-glass-border
       rounded-glass-sm
       text-text-primary
       transition-all duration-200 resize-none
-      focus:outline-none focus:border-accent-blue/50 focus:shadow-glow-blue focus:bg-glass-medium
+      focus:outline-none focus:border-accent-blue/50 focus:shadow-glow-blue focus:bg-dark-200/60
       disabled:opacity-40 disabled:cursor-not-allowed
       ${error ? 'border-danger/50 focus:border-danger focus:shadow-glow-pink' : ''}
       ${autoSize ? 'overflow-y-hidden' : 'overflow-y-auto custom-scrollbar'}

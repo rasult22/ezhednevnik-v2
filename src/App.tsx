@@ -49,7 +49,7 @@ function App() {
 
   return (
     <OnboardingGuard>
-      <div className="h-full flex bg-dark-300">
+      <div className="h-full flex bg-dark-300 bg-[url(/background.jpg)] bg-no-repeat bg-cover">
         {/* Sidebar Navigation */}
         <Navigation />
 
