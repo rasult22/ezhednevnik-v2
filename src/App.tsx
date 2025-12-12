@@ -13,6 +13,7 @@ import { useReviewsStore } from './stores/useReviewsStore';
  */
 function App() {
   const initializeApp = useAppStore((state) => state.initializeApp);
+  const settings = useAppStore((state) => state.settings);
   const loadGoals = useGoalsStore((state) => state.loadGoals);
   const loadPlans = usePlansStore((state) => state.loadPlans);
   const loadDailyPages = useDailyStore((state) => state.loadDailyPages);
@@ -47,9 +48,15 @@ function App() {
     );
   }
 
+  // Get background image from settings (with fallback)
+  const backgroundImage = settings.backgroundImage || '/bg-images/background.jpg';
+
   return (
     <OnboardingGuard>
-      <div className="h-full flex bg-dark-300 bg-[url(/background.jpg)] bg-no-repeat bg-cover">
+      <div
+        className="h-full flex bg-dark-300 bg-no-repeat bg-cover"
+        style={{ backgroundImage: `url(${backgroundImage})` }}
+      >
         {/* Sidebar Navigation */}
         <Navigation />
 

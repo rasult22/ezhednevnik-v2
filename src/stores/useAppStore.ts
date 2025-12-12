@@ -22,6 +22,7 @@ export const useAppStore = create<AppState>((set, get) => ({
   userProfile: null,
   settings: {
     autoSaveInterval: 300, // 300ms default
+    backgroundImage: '/bg-images/background.jpg', // default background
   },
   isOnboarded: false,
   isLoading: true,
@@ -113,6 +114,7 @@ export const useAppStore = create<AppState>((set, get) => ({
       userProfile: newProfile,
       settings: {
         autoSaveInterval: 300,
+        backgroundImage: '/bg-images/background.jpg',
       },
       isOnboarded: false,
     });

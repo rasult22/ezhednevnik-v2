@@ -107,6 +107,7 @@ export interface AppSettings {
   theme?: 'light' | 'dark'; // Future-proof
   autoSaveInterval: number; // Milliseconds (default: 300)
   lastSyncedAt?: string;
+  backgroundImage?: string; // Path to background image in /bg-images/ (default: '/bg-images/background.jpg')
 }
 
 /**

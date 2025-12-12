@@ -12,8 +12,21 @@ import { STORAGE_KEYS } from '../../types';
 /**
  * Settings Screen - Glassmorphism style with grid layout
  */
+// Available background images
+const BACKGROUND_IMAGES = [
+  { path: '/bg-images/1.png', name: 'Фон 1' },
+  { path: '/bg-images/2.png', name: 'Фон 2' },
+  { path: '/bg-images/3.png', name: 'Фон 3' },
+  { path: '/bg-images/4.jpg', name: 'Фон 4' },
+  { path: '/bg-images/5.jpg', name: 'Фон 5' },
+  { path: '/bg-images/6.jpg', name: 'Фон 6' },
+  { path: '/bg-images/7.jpg', name: 'По умолчанию' },
+];
+
 export default function SettingsScreen() {
   const userProfile = useAppStore((state) => state.userProfile);
+  const settings = useAppStore((state) => state.settings);
+  const updateSettings = useAppStore((state) => state.updateSettings);
   const goals = useGoalsStore((state) => state.goals);
   const plans = usePlansStore((state) => state.plans);
   const dailyPages = useDailyStore((state) => state.dailyPages);
@@ -169,6 +182,50 @@ export default function SettingsScreen() {
             Управление данными, экспорт и импорт
           </p>
         </div>
+
+        {/* Background Selection */}
+        <Card variant="gradient" accentColor="purple" className="mb-6">
+          <h3 className="font-semibold text-text-primary mb-4">
+            Фоновое изображение
+          </h3>
+          <p className="text-sm text-text-secondary mb-4">
+            Выберите фоновое изображение для приложения
+          </p>
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3">
+            {BACKGROUND_IMAGES.map((bg) => (
+              <button
+                key={bg.path}
+                onClick={() => updateSettings({ backgroundImage: bg.path })}
+                className={`
+                  relative group overflow-hidden rounded-glass-sm border-2 transition-all
+                  ${
+                    settings.backgroundImage === bg.path
+                      ? 'border-accent-purple shadow-lg shadow-accent-purple/30'
+                      : 'border-transparent hover:border-accent-blue/50'
+                  }
+                `}
+              >
+                <div className="aspect-video bg-dark-200">
+                  <img
+                    src={bg.path}
+                    alt={bg.name}
+                    className="w-full h-full object-cover"
+                  />
+                </div>
+                <div className="absolute inset-0 bg-gradient-to-t from-dark-400/90 to-transparent flex items-end p-2">
+                  <span className="text-xs text-white font-medium">{bg.name}</span>
+                </div>
+                {settings.backgroundImage === bg.path && (
+                  <div className="absolute top-2 right-2 bg-accent-purple text-white rounded-full p-1">
+                    <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                      <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                    </svg>
+                  </div>
+                )}
+              </button>
+            ))}
+          </div>
+        </Card>
 
         {/* Grid layout for wide screens */}
         <div className="grid grid-cols-1 xl:grid-cols-2 gap-6">
