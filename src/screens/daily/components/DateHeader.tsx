@@ -1,11 +1,11 @@
-import { formatDateRU, addDays, subtractDays } from '../../../utils/date-formatters';
+import { formatDateRU, addDays, subtractDays, getCurrentDateISO } from '../../../utils/date-formatters';
 import { Button } from '../../../components/ui/Button';
 
 interface DateHeaderProps {
   currentDate: string; // ISO format
   isPastDate: boolean;
   onDateChange: (date: string) => void;
-  hasSkippedDays: boolean;
+  hasSkippedDays?: boolean;
   canTransferTasks?: boolean;
   onTransferClick?: () => void;
 }
@@ -17,7 +17,7 @@ export function DateHeader({
   currentDate,
   isPastDate,
   onDateChange,
-  hasSkippedDays,
+  hasSkippedDays = false,
   canTransferTasks = false,
   onTransferClick,
 }: DateHeaderProps) {
@@ -32,11 +32,12 @@ export function DateHeader({
   };
 
   const handleToday = () => {
-    onDateChange(addDays(new Date().toISOString().split('T')[0]!, 0));
+    const today = getCurrentDateISO();
+    onDateChange(today);
   };
 
   // Check if we can navigate forward (not future)
-  const today = new Date().toISOString().split('T')[0]!;
+  const today = getCurrentDateISO();
   const canGoForward = currentDate < today;
 
   return (

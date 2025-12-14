@@ -2,7 +2,6 @@ import { useEffect, useState, useMemo } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useDailyStore } from '../../stores/useDailyStore';
 import { usePlansStore } from '../../stores/usePlansStore';
-import { dateNavigationService } from '../../services/date-navigation-service';
 import { getCurrentDateISO, subtractDays } from '../../utils/date-formatters';
 import { DateHeader } from './components/DateHeader';
 import { MainForMonthBlock } from './components/MainForMonthBlock';
@@ -10,7 +9,6 @@ import { MainThreeBlock } from './components/MainThreeBlock';
 import { SecondaryNineBlock } from './components/SecondaryNineBlock';
 import { GratitudeBlock } from './components/GratitudeBlock';
 import { FinancialAffirmationBlock } from './components/FinancialAffirmationBlock';
-import { SkippedDaysModal } from './components/SkippedDaysModal';
 import { TransferTasksModal } from './components/TransferTasksModal';
 
 /**
@@ -24,7 +22,6 @@ export default function DailyScreen() {
   const { date: paramDate } = useParams<{ date?: string }>();
   const navigate = useNavigate();
 
-  const dailyPages = useDailyStore((state) => state.dailyPages);
   const getDailyPage = useDailyStore((state) => state.getDailyPage);
   const createOrGetDailyPage = useDailyStore((state) => state.createOrGetDailyPage);
   const transferTasks = useDailyStore((state) => state.transferTasks);
@@ -32,41 +29,22 @@ export default function DailyScreen() {
 
   const [currentDate, setCurrentDate] = useState<string>(paramDate || getCurrentDateISO());
   const [isPastDate, setIsPastDate] = useState(false);
-  const [showSkippedModal, setShowSkippedModal] = useState(false);
-  const [skippedDates, setSkippedDates] = useState<string[]>([]);
   const [showTransferModal, setShowTransferModal] = useState(false);
 
   useEffect(() => {
     const targetDate = paramDate || getCurrentDateISO();
-
-    // Check date access
-    const accessResult = dateNavigationService.canAccessDate(targetDate, dailyPages);
-
-    if (!accessResult.allowed) {
-      if (accessResult.reason === 'future') {
-        // Redirect to current date if trying to access future
-        navigate('/daily', { replace: true });
-        return;
-      }
-
-      if (accessResult.reason === 'skipped_days' && accessResult.skippedDates) {
-        // Show skipped days modal
-        setSkippedDates(accessResult.skippedDates);
-        setShowSkippedModal(true);
-        return;
-      }
-    }
-
-    // Mark if this is a past date (for UI indication, but still editable)
-    setIsPastDate(accessResult.reason === 'past');
-
-    setCurrentDate(targetDate);
-
-    // Create daily page if it doesn't exist for current date
-    if (!getDailyPage(targetDate) && accessResult.allowed) {
+    
+    // Simply create the page if it doesn't exist
+    if (!getDailyPage(targetDate)) {
       createOrGetDailyPage(targetDate);
     }
-  }, [paramDate, dailyPages, getDailyPage, createOrGetDailyPage, navigate]);
+
+    // Check if this is a past date (for UI indication)
+    const today = getCurrentDateISO();
+    setIsPastDate(targetDate < today);
+    
+    setCurrentDate(targetDate);
+  }, [paramDate, getDailyPage, createOrGetDailyPage]);
 
   const dailyPage = getDailyPage(currentDate);
 
@@ -99,12 +77,6 @@ export default function DailyScreen() {
     transferTasks(previousDayDate, currentDate, taskIds);
   };
 
-  const handleSkippedModalClose = () => {
-    setShowSkippedModal(false);
-    // Reload the page to re-check access
-    window.location.reload();
-  };
-
   // Loading state
   if (!dailyPage) {
     return (
@@ -124,7 +96,6 @@ export default function DailyScreen() {
         currentDate={currentDate}
         isPastDate={isPastDate}
         onDateChange={handleDateChange}
-        hasSkippedDays={skippedDates.length > 0}
         canTransferTasks={canTransferTasks}
         onTransferClick={() => setShowTransferModal(true)}
       />
@@ -176,13 +147,6 @@ export default function DailyScreen() {
         </div>
       </div>
 
-      {/* Skipped Days Modal */}
-      {showSkippedModal && (
-        <SkippedDaysModal
-          skippedDates={skippedDates}
-          onClose={handleSkippedModalClose}
-        />
-      )}
 
       {/* Transfer Tasks Modal */}
       {showTransferModal && previousDayPage && (
