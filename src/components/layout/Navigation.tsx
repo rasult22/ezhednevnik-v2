@@ -17,6 +17,7 @@ export function Navigation() {
     { to: '/goals/1-year', label: 'Цели: 1 год', icon: '🎯', gradient: 'from-accent-purple to-accent-pink' },
     { to: '/plans', label: 'План 90 дней', icon: '📊', gradient: 'from-accent-orange to-accent-pink' },
     { to: '/reviews', label: 'Обзоры недели', icon: '📝', gradient: 'from-accent-emerald to-accent-cyan' },
+    { to: '/sketches', label: 'Эскизы', icon: '✏️', gradient: 'from-accent-pink to-accent-orange' },
     { to: '/settings', label: 'Настройки', icon: '⚙️', gradient: 'from-text-muted to-text-secondary' },
   ];
 

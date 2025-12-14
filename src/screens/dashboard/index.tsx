@@ -39,7 +39,7 @@ export default function DashboardScreen() {
         <ClockWidget currentTime={currentTime} />
 
         {/* Main Grid Layout */}
-        <div className="grid grid-cols-12 gap-6 mt-8">
+        <div className="w-full grid grid-cols-12 gap-6 mt-8">
           {/* Left Column - Search & Links & Quran */}
           <div className="col-span-12 lg:col-span-4 space-y-6">
             <SearchWidget />

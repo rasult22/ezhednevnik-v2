@@ -14,6 +14,8 @@ const NewPlanScreen = lazy(() => import('./screens/plans/new'));
 const PlanViewScreen = lazy(() => import('./screens/plans/[id]'));
 const ReviewsArchiveScreen = lazy(() => import('./screens/reviews'));
 const NewReviewScreen = lazy(() => import('./screens/reviews/new'));
+const SketchesListScreen = lazy(() => import('./screens/sketches'));
+const SketchEditorScreen = lazy(() => import('./screens/sketches/editor'));
 const SettingsScreen = lazy(() => import('./screens/settings'));
 
 /**
@@ -102,6 +104,23 @@ export const router = createHashRouter([
           {
             path: 'new',
             element: <NewReviewScreen />,
+          },
+        ],
+      },
+      {
+        path: 'sketches',
+        children: [
+          {
+            index: true,
+            element: <SketchesListScreen />,
+          },
+          {
+            path: 'new',
+            element: <SketchEditorScreen />,
+          },
+          {
+            path: ':id',
+            element: <SketchEditorScreen />,
           },
         ],
       },
