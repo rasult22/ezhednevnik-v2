@@ -1,5 +1,6 @@
 import { Component, ErrorInfo, ReactNode } from 'react';
 import { Button } from '../ui/Button';
+import { chromeStorage } from '../../services/chrome-storage-adapter';
 
 interface ErrorBoundaryProps {
   children: ReactNode;
@@ -43,14 +44,14 @@ export class ErrorBoundary extends Component<
     window.location.reload();
   };
 
-  handleReset = () => {
+  handleReset = async () => {
     if (
       window.confirm(
         'Это удалит все данные и перезагрузит приложение. Продолжить?'
       )
     ) {
-      localStorage.clear();
-      window.location.href = '/';
+      await chromeStorage.clear();
+      window.location.reload();
     }
   };
 

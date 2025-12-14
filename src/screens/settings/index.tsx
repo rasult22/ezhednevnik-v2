@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Container } from '../../components/layout/Container';
 import { Card } from '../../components/layout/Card';
 import { Button } from '../../components/ui/Button';
@@ -37,6 +37,7 @@ export default function SettingsScreen() {
 
   const [importError, setImportError] = useState<string>('');
   const [importSuccess, setImportSuccess] = useState(false);
+  const [storageUsed, setStorageUsed] = useState<number>(0);
 
   // Calculate statistics
   const stats = {
@@ -49,11 +50,18 @@ export default function SettingsScreen() {
     ).length,
     totalReviews: reviews.length,
     totalSketches: sketches.length,
-    storageUsed: calculateStorageUsage(),
+    storageUsed,
   };
 
-  function calculateStorageUsage(): number {
+  async function calculateStorageUsage(): Promise<number> {
     try {
+      // Use chrome.storage.local.getBytesInUse if available
+      if (typeof chrome !== 'undefined' && chrome.storage?.local?.getBytesInUse) {
+        const bytes = await chrome.storage.local.getBytesInUse();
+        return Math.round(bytes / 1024);
+      }
+      
+      // Fallback to localStorage calculation
       let total = 0;
       for (const key in localStorage) {
         if (localStorage.hasOwnProperty(key)) {
@@ -65,6 +73,11 @@ export default function SettingsScreen() {
       return 0;
     }
   }
+
+  // Load storage usage on mount
+  useEffect(() => {
+    calculateStorageUsage().then(setStorageUsed);
+  }, []);
 
   const handleExport = async () => {
     const allData = {
@@ -163,7 +176,7 @@ export default function SettingsScreen() {
     reader.readAsText(file);
   };
 
-  const handleResetAll = () => {
+  const handleResetAll = async () => {
     const confirmReset = window.confirm(
       'ВНИМАНИЕ!\n\nЭто действие удалит ВСЕ данные без возможности восстановления:\n\n• Все цели\n• Все планы на 90 дней\n• Все ежедневные страницы\n• Все еженедельные обзоры\n• Настройки профиля\n\nВы УВЕРЕНЫ?'
     );
@@ -176,8 +189,8 @@ export default function SettingsScreen() {
 
     if (!doubleConfirm) return;
 
-    localStorage.clear();
-    window.location.href = '/';
+    await chromeStorage.clear();
+    window.location.reload();
   };
 
   return (

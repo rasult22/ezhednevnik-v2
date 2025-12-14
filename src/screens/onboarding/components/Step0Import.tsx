@@ -1,6 +1,8 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Button } from '../../../components/ui/Button';
 import { STORAGE_KEYS } from '../../../types';
+import { chromeStorage } from '../../../services/chrome-storage-adapter';
 
 interface StepProps {
   onNext: () => void;
@@ -14,6 +16,7 @@ interface StepProps {
  * Step 0: Import Data or Start Fresh - Glassmorphism
  */
 export function Step0Import({ onNext }: StepProps) {
+  const navigate = useNavigate();
   const [importError, setImportError] = useState<string>('');
   const [importSuccess, setImportSuccess] = useState(false);
   const [isImporting, setIsImporting] = useState(false);
@@ -26,7 +29,7 @@ export function Step0Import({ onNext }: StepProps) {
     setIsImporting(true);
 
     const reader = new FileReader();
-    reader.onload = (e) => {
+    reader.onload = async (e) => {
       try {
         const content = e.target?.result as string;
         const importedData = JSON.parse(content);
@@ -47,27 +50,31 @@ export function Step0Import({ onNext }: StepProps) {
 
         const { data } = importedData;
 
-        // Данные в экспорте уже являются строками, просто записываем их в localStorage
+        // Import all data to chrome.storage
         let importedCount = 0;
 
         if (data.profile) {
-          localStorage.setItem(STORAGE_KEYS.USER_PROFILE, data.profile);
+          await chromeStorage.setItem(STORAGE_KEYS.USER_PROFILE, data.profile);
           importedCount++;
         }
         if (data.goals) {
-          localStorage.setItem(STORAGE_KEYS.GOALS, data.goals);
+          await chromeStorage.setItem(STORAGE_KEYS.GOALS, data.goals);
           importedCount++;
         }
         if (data.plans) {
-          localStorage.setItem(STORAGE_KEYS.PLANS_90DAY, data.plans);
+          await chromeStorage.setItem(STORAGE_KEYS.PLANS_90DAY, data.plans);
           importedCount++;
         }
         if (data.dailyPages) {
-          localStorage.setItem(STORAGE_KEYS.DAILY_PAGES, data.dailyPages);
+          await chromeStorage.setItem(STORAGE_KEYS.DAILY_PAGES, data.dailyPages);
           importedCount++;
         }
         if (data.weeklyReviews) {
-          localStorage.setItem(STORAGE_KEYS.WEEKLY_REVIEWS, data.weeklyReviews);
+          await chromeStorage.setItem(STORAGE_KEYS.WEEKLY_REVIEWS, data.weeklyReviews);
+          importedCount++;
+        }
+        if (data.sketches) {
+          await chromeStorage.setItem(STORAGE_KEYS.SKETCHES, data.sketches);
           importedCount++;
         }
 
@@ -79,9 +86,11 @@ export function Step0Import({ onNext }: StepProps) {
         setIsImporting(false);
 
         // После успешного импорта перенаправляем на главную страницу
-        // window.location.href обеспечит полную перезагрузку и загрузку данных в stores
+        // Используем navigate с replace и перезагрузку для загрузки данных в stores
         setTimeout(() => {
-          window.location.href = '/daily';
+          navigate('/daily', { replace: true });
+          // Перезагружаем страницу чтобы stores загрузили новые данные
+          window.location.reload();
         }, 2000);
       } catch (error) {
         setImportError(
