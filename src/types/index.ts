@@ -130,13 +130,14 @@ export interface HabitsData {
  * LocalStorage Keys
  */
 export const STORAGE_KEYS = {
-  USER_PROFILE: 'trillionaire_user_profile',
-  GOALS: 'trillionaire_goals',
-  PLANS_90DAY: 'trillionaire_90day_plans',
-  DAILY_PAGES: 'trillionaire_daily_pages',
-  WEEKLY_REVIEWS: 'trillionaire_weekly_reviews',
-  SETTINGS: 'trillionaire_settings',
-  HABITS: 'trillionaire_habits',
+  USER_PROFILE: 'user-profile',
+  GOALS: 'goals',
+  PLANS_90DAY: 'plans-90day',
+  DAILY_PAGES: 'daily-pages',
+  WEEKLY_REVIEWS: 'weekly-reviews',
+  SETTINGS: 'app-settings',
+  HABITS: 'habits',
+  SKETCHES: 'sketches-storage',
 } as const;
 
 /**

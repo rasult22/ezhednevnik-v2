@@ -7,7 +7,9 @@ import { useGoalsStore } from '../../stores/useGoalsStore';
 import { usePlansStore } from '../../stores/usePlansStore';
 import { useDailyStore } from '../../stores/useDailyStore';
 import { useReviewsStore } from '../../stores/useReviewsStore';
+import { useSketchesStore } from '../../stores/useSketchesStore';
 import { STORAGE_KEYS } from '../../types';
+import { chromeStorage } from '../../services/chrome-storage-adapter';
 
 /**
  * Settings Screen - Glassmorphism style with grid layout
@@ -31,6 +33,7 @@ export default function SettingsScreen() {
   const plans = usePlansStore((state) => state.plans);
   const dailyPages = useDailyStore((state) => state.dailyPages);
   const reviews = useReviewsStore((state) => state.reviews);
+  const sketches = useSketchesStore((state) => state.sketches);
 
   const [importError, setImportError] = useState<string>('');
   const [importSuccess, setImportSuccess] = useState(false);
@@ -45,6 +48,7 @@ export default function SettingsScreen() {
       (page) => page.status === 'completed'
     ).length,
     totalReviews: reviews.length,
+    totalSketches: sketches.length,
     storageUsed: calculateStorageUsage(),
   };
 
@@ -62,16 +66,17 @@ export default function SettingsScreen() {
     }
   }
 
-  const handleExport = () => {
+  const handleExport = async () => {
     const allData = {
       version: '1.0.0',
       exportedAt: new Date().toISOString(),
       data: {
-        profile: localStorage.getItem(STORAGE_KEYS.USER_PROFILE),
-        goals: localStorage.getItem(STORAGE_KEYS.GOALS),
-        plans: localStorage.getItem(STORAGE_KEYS.PLANS_90DAY),
-        dailyPages: localStorage.getItem(STORAGE_KEYS.DAILY_PAGES),
-        weeklyReviews: localStorage.getItem(STORAGE_KEYS.WEEKLY_REVIEWS),
+        profile: await chromeStorage.getItem(STORAGE_KEYS.USER_PROFILE),
+        goals: await chromeStorage.getItem(STORAGE_KEYS.GOALS),
+        plans: await chromeStorage.getItem(STORAGE_KEYS.PLANS_90DAY),
+        dailyPages: await chromeStorage.getItem(STORAGE_KEYS.DAILY_PAGES),
+        weeklyReviews: await chromeStorage.getItem(STORAGE_KEYS.WEEKLY_REVIEWS),
+        sketches: await chromeStorage.getItem(STORAGE_KEYS.SKETCHES),
       },
     };
 
@@ -96,7 +101,7 @@ export default function SettingsScreen() {
     setImportSuccess(false);
 
     const reader = new FileReader();
-    reader.onload = (e) => {
+    reader.onload = async (e) => {
       try {
         const content = e.target?.result as string;
         const importedData = JSON.parse(content);
@@ -116,26 +121,29 @@ export default function SettingsScreen() {
 
         const { data } = importedData;
 
-        // Данные в экспорте уже являются строками, просто записываем их в localStorage
+        // Import all data to chrome.storage
         if (data.profile) {
-          localStorage.setItem(STORAGE_KEYS.USER_PROFILE, data.profile);
+          await chromeStorage.setItem(STORAGE_KEYS.USER_PROFILE, data.profile);
         }
         if (data.goals) {
-          localStorage.setItem(STORAGE_KEYS.GOALS, data.goals);
+          await chromeStorage.setItem(STORAGE_KEYS.GOALS, data.goals);
         }
         if (data.plans) {
-          localStorage.setItem(STORAGE_KEYS.PLANS_90DAY, data.plans);
+          await chromeStorage.setItem(STORAGE_KEYS.PLANS_90DAY, data.plans);
         }
         if (data.dailyPages) {
-          localStorage.setItem(STORAGE_KEYS.DAILY_PAGES, data.dailyPages);
+          await chromeStorage.setItem(STORAGE_KEYS.DAILY_PAGES, data.dailyPages);
         }
         if (data.weeklyReviews) {
-          localStorage.setItem(STORAGE_KEYS.WEEKLY_REVIEWS, data.weeklyReviews);
+          await chromeStorage.setItem(STORAGE_KEYS.WEEKLY_REVIEWS, data.weeklyReviews);
+        }
+        if (data.sketches) {
+          await chromeStorage.setItem(STORAGE_KEYS.SKETCHES, data.sketches);
         }
 
         setImportSuccess(true);
 
-        // Перезагружаем страницу для загрузки данных в Zustand stores
+        // Reload page to load data into Zustand stores
         setTimeout(() => {
           window.location.reload();
         }, 1500);
@@ -295,6 +303,12 @@ export default function SettingsScreen() {
                     {stats.totalReviews}
                   </div>
                   <div className="text-xs text-text-muted">Недельных обзоров</div>
+                </div>
+                <div className="p-4 bg-accent-purple/10 border border-accent-purple/20 rounded-glass-sm text-center">
+                  <div className="text-2xl font-bold text-accent-purple">
+                    {stats.totalSketches}
+                  </div>
+                  <div className="text-xs text-text-muted">Эскизов</div>
                 </div>
                 <div className="p-4 bg-accent-orange/10 border border-accent-orange/20 rounded-glass-sm text-center">
                   <div className="text-2xl font-bold text-accent-orange">
