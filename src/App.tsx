@@ -8,6 +8,7 @@ import { usePlansStore } from './stores/usePlansStore';
 import { useDailyStore } from './stores/useDailyStore';
 import { useReviewsStore } from './stores/useReviewsStore';
 import { useSketchesStore } from './stores/useSketchesStore';
+import { useIdeasStore } from './stores/useIdeasStore';
 
 /**
  * Root Application Component
@@ -20,6 +21,7 @@ function App() {
   const loadDailyPages = useDailyStore((state) => state.loadDailyPages);
   const loadReviews = useReviewsStore((state) => state.loadReviews);
   const loadSketches = useSketchesStore((state) => state.loadSketches);
+  const loadIdeas = useIdeasStore((state) => state.loadIdeas);
 
   const appLoading = useAppStore((state) => state.isLoading);
   const goalsLoading = useGoalsStore((state) => state.isLoading);
@@ -27,9 +29,10 @@ function App() {
   const dailyLoading = useDailyStore((state) => state.isLoading);
   const reviewsLoading = useReviewsStore((state) => state.isLoading);
   const sketchesLoading = useSketchesStore((state) => state.isLoading);
+  const ideasLoading = useIdeasStore((state) => state.isLoading);
 
   const isLoading =
-    appLoading || goalsLoading || plansLoading || dailyLoading || reviewsLoading || sketchesLoading;
+    appLoading || goalsLoading || plansLoading || dailyLoading || reviewsLoading || sketchesLoading || ideasLoading;
 
   // Initialize all stores on mount
   useEffect(() => {
@@ -40,10 +43,11 @@ function App() {
       await loadDailyPages();
       await loadReviews();
       await loadSketches();
+      await loadIdeas();
     };
 
     initializeStores();
-  }, [initializeApp, loadGoals, loadPlans, loadDailyPages, loadReviews, loadSketches]);
+  }, [initializeApp, loadGoals, loadPlans, loadDailyPages, loadReviews, loadSketches, loadIdeas]);
 
   if (isLoading) {
     return (

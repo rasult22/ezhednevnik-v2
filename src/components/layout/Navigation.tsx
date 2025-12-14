@@ -18,6 +18,7 @@ export function Navigation() {
     { to: '/plans', label: 'План 90 дней', icon: '📊', gradient: 'from-accent-orange to-accent-pink' },
     { to: '/reviews', label: 'Обзоры недели', icon: '📝', gradient: 'from-accent-emerald to-accent-cyan' },
     { to: '/sketches', label: 'Эскизы', icon: '✏️', gradient: 'from-accent-pink to-accent-orange' },
+    { to: '/ideas', label: 'Идеи', icon: '💡', gradient: 'from-accent-yellow to-accent-orange' },
     { to: '/settings', label: 'Настройки', icon: '⚙️', gradient: 'from-text-muted to-text-secondary' },
   ];
 

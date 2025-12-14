@@ -8,6 +8,7 @@ import { usePlansStore } from '../../stores/usePlansStore';
 import { useDailyStore } from '../../stores/useDailyStore';
 import { useReviewsStore } from '../../stores/useReviewsStore';
 import { useSketchesStore } from '../../stores/useSketchesStore';
+import { useIdeasStore } from '../../stores/useIdeasStore';
 import { STORAGE_KEYS } from '../../types';
 import { chromeStorage } from '../../services/chrome-storage-adapter';
 
@@ -34,6 +35,7 @@ export default function SettingsScreen() {
   const dailyPages = useDailyStore((state) => state.dailyPages);
   const reviews = useReviewsStore((state) => state.reviews);
   const sketches = useSketchesStore((state) => state.sketches);
+  const ideas = useIdeasStore((state) => state.ideas);
 
   const [importError, setImportError] = useState<string>('');
   const [importSuccess, setImportSuccess] = useState(false);
@@ -50,6 +52,7 @@ export default function SettingsScreen() {
     ).length,
     totalReviews: reviews.length,
     totalSketches: sketches.length,
+    totalIdeas: ideas.length,
     storageUsed,
   };
 
@@ -90,6 +93,7 @@ export default function SettingsScreen() {
         dailyPages: await chromeStorage.getItem(STORAGE_KEYS.DAILY_PAGES),
         weeklyReviews: await chromeStorage.getItem(STORAGE_KEYS.WEEKLY_REVIEWS),
         sketches: await chromeStorage.getItem(STORAGE_KEYS.SKETCHES),
+        ideas: await chromeStorage.getItem(STORAGE_KEYS.IDEAS),
       },
     };
 
@@ -152,6 +156,9 @@ export default function SettingsScreen() {
         }
         if (data.sketches) {
           await chromeStorage.setItem(STORAGE_KEYS.SKETCHES, data.sketches);
+        }
+        if (data.ideas) {
+          await chromeStorage.setItem(STORAGE_KEYS.IDEAS, data.ideas);
         }
 
         setImportSuccess(true);
@@ -322,6 +329,12 @@ export default function SettingsScreen() {
                     {stats.totalSketches}
                   </div>
                   <div className="text-xs text-text-muted">Эскизов</div>
+                </div>
+                <div className="p-4 bg-accent-yellow/10 border border-accent-yellow/20 rounded-glass-sm text-center">
+                  <div className="text-2xl font-bold text-accent-yellow">
+                    {stats.totalIdeas}
+                  </div>
+                  <div className="text-xs text-text-muted">Идей</div>
                 </div>
                 <div className="p-4 bg-accent-orange/10 border border-accent-orange/20 rounded-glass-sm text-center">
                   <div className="text-2xl font-bold text-accent-orange">

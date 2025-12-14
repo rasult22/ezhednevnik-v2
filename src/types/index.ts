@@ -138,6 +138,7 @@ export const STORAGE_KEYS = {
   SETTINGS: 'app-settings',
   HABITS: 'habits',
   SKETCHES: 'sketches-storage',
+  IDEAS: 'ideas',
 } as const;
 
 /**
