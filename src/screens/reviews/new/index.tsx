@@ -11,10 +11,10 @@ import { formatDateRU } from '../../../utils/date-formatters';
  * New Weekly Review Screen - Create a new weekly review
  *
  * Features:
- * - Checks eligibility (7 completed daily pages)
+ * - Checks eligibility (7 past days)
  * - Shows progress if not eligible
  * - Large textarea for review content
- * - Auto-calculates date range from completed pages
+ * - Auto-calculates date range from past days
  */
 export default function NewReviewScreen() {
   const navigate = useNavigate();
@@ -88,7 +88,7 @@ export default function NewReviewScreen() {
                 <strong className="text-text-primary">⏳ Еженедельный обзор пока недоступен</strong>
               </p>
               <p className="text-sm text-text-secondary">
-                Для создания обзора необходимо завершить 7 дней работы.
+                Для создания обзора необходимо иметь 7 прошедших дней в системе.
               </p>
             </div>
 
@@ -110,11 +110,11 @@ export default function NewReviewScreen() {
               </div>
             </div>
 
-            {/* Recent Completed Days */}
+            {/* Recent Past Days */}
             {eligibility.lastCompletedDates.length > 0 && (
               <div>
                 <h3 className="text-sm font-semibold text-text-primary mb-3">
-                  Последние завершённые дни:
+                  Последние прошедшие дни:
                 </h3>
                 <div className="flex flex-wrap gap-2">
                   {eligibility.lastCompletedDates.map((date) => (
@@ -134,7 +134,7 @@ export default function NewReviewScreen() {
               <div className="text-center py-8">
                 <div className="text-4xl mb-3">📅</div>
                 <p className="text-text-secondary">
-                  У вас пока нет завершённых дней. Начните заполнять ежедневную
+                  У вас пока нет прошедших дней в системе. Начните заполнять ежедневную
                   страницу!
                 </p>
                 <Button onClick={() => navigate('/daily')} className="mt-4">

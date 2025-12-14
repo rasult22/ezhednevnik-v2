@@ -127,7 +127,25 @@ class DateNavigationService {
   }
 
   /**
-   * Gets the last 7 completed daily pages (for weekly review)
+   * Gets the last N daily pages from the past (for weekly review)
+   * Includes all past days that exist, regardless of completion status
+   */
+  getRecentPastDates(
+    dailyPages: Record<string, DailyPage>,
+    count = 7
+  ): string[] {
+    const today = this.getCurrentDate();
+    return Object.entries(dailyPages)
+      .filter(([date]) => date < today)
+      .map(([date]) => date)
+      .sort()
+      .reverse()
+      .slice(0, count);
+  }
+
+  /**
+   * Gets the last 7 completed daily pages
+   * @deprecated Use getRecentPastDates for weekly review validation
    */
   getRecentCompletedDates(
     dailyPages: Record<string, DailyPage>,
@@ -142,19 +160,20 @@ class DateNavigationService {
   }
 
   /**
-   * Checks if there are enough completed pages for weekly review
+   * Checks if there are enough past days for weekly review
+   * Now checks for existing past days regardless of completion status
    */
   canCreateWeeklyReview(dailyPages: Record<string, DailyPage>): {
     allowed: boolean;
     completedCount: number;
     lastCompletedDates: string[];
   } {
-    const recentCompleted = this.getRecentCompletedDates(dailyPages, 7);
+    const recentPastDates = this.getRecentPastDates(dailyPages, 7);
 
     return {
-      allowed: recentCompleted.length >= 7,
-      completedCount: recentCompleted.length,
-      lastCompletedDates: recentCompleted,
+      allowed: recentPastDates.length >= 7,
+      completedCount: recentPastDates.length,
+      lastCompletedDates: recentPastDates,
     };
   }
 }

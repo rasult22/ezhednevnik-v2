@@ -24,7 +24,7 @@ interface ReviewsState {
 /**
  * Reviews Store - Manages weekly reviews
  *
- * Weekly reviews unlock after 7 completed daily pages
+ * Weekly reviews unlock after 7 past days exist (regardless of completion status)
  */
 export const useReviewsStore = create<ReviewsState>((set, get) => ({
   reviews: [],
@@ -52,7 +52,7 @@ export const useReviewsStore = create<ReviewsState>((set, get) => ({
 
   /**
    * Check if user can create a weekly review
-   * Requires 7 completed daily pages
+   * Requires 7 past days to exist (regardless of completion status)
    */
   canCreateReview: () => {
     const dailyPages = useDailyStore.getState().dailyPages;
@@ -66,9 +66,9 @@ export const useReviewsStore = create<ReviewsState>((set, get) => ({
     const { reviews } = get();
     const dailyPages = useDailyStore.getState().dailyPages;
 
-    // Get dates included in this review
+    // Get dates included in this review (all past days, not just completed)
     const completedDates = dateNavigationService
-      .getRecentCompletedDates(dailyPages, 7)
+      .getRecentPastDates(dailyPages, 7)
       .filter((date) => date >= startDate && date <= endDate);
 
     const newReview: WeeklyReview = {
