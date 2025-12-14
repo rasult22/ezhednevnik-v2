@@ -173,3 +173,17 @@
     letter-spacing: 0.02em;
   }
 }
+
+
+.ce-block__content {
+  max-width: 1000px !important;
+}
+.ce-toolbar__content {
+  max-width: 1000px !important;
+}
+.ce-toolbar__plus, .ce-toolbar__settings-btn {
+  color: white !important;
+}
+.ce-toolbar__plus:hover, .ce-toolbar__settings-btn:hover {
+  background-color: black !important;
+}
