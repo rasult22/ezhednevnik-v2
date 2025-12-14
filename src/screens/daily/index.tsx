@@ -22,6 +22,7 @@ export default function DailyScreen() {
   const { date: paramDate } = useParams<{ date?: string }>();
   const navigate = useNavigate();
 
+  const dailyPages = useDailyStore((state) => state.dailyPages);
   const getDailyPage = useDailyStore((state) => state.getDailyPage);
   const createOrGetDailyPage = useDailyStore((state) => state.createOrGetDailyPage);
   const transferTasks = useDailyStore((state) => state.transferTasks);
@@ -46,11 +47,12 @@ export default function DailyScreen() {
     setCurrentDate(targetDate);
   }, [paramDate, getDailyPage, createOrGetDailyPage]);
 
-  const dailyPage = getDailyPage(currentDate);
+  // Subscribe to the specific daily page from store (this triggers re-renders)
+  const dailyPage = dailyPages[currentDate] || null;
 
   // Check if we can transfer tasks from previous day
   const previousDayDate = useMemo(() => subtractDays(currentDate, 1), [currentDate]);
-  const previousDayPage = getDailyPage(previousDayDate);
+  const previousDayPage = dailyPages[previousDayDate] || null;
 
   const canTransferTasks = useMemo(() => {
     // Only show transfer button if:
