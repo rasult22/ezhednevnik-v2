@@ -185,5 +185,5 @@
   color: white !important;
 }
 .ce-toolbar__plus:hover, .ce-toolbar__settings-btn:hover {
-  background-color: black !important;
+  background-color: rgba(0,0,0,0.3) !important;
 }

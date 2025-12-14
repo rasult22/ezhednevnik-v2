@@ -108,7 +108,7 @@ export function EditorJsComponent({
   return (
     <div
       ref={holderRef}
-      className="prose prose-invert max-w-none bg-glass-light rounded-glass-md p-6 min-h-[300px] border border-glass-border"
+      className="prose prose-invert max-w-none bg-black/70 rounded-glass-md p-6 min-h-[300px] border border-glass-border"
     />
   );
 }
