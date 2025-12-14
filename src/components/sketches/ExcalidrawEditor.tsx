@@ -1,7 +1,8 @@
 import { useEffect, useState } from 'react';
 import { Excalidraw } from '@excalidraw/excalidraw';
 import '@excalidraw/excalidraw/index.css';
-import type { ExcalidrawElement, AppState, BinaryFiles, ExcalidrawImperativeAPI } from '@excalidraw/excalidraw/types/types';
+import { AppState, BinaryFiles, ExcalidrawImperativeAPI } from '@excalidraw/excalidraw/types';
+import { ExcalidrawElement } from '@excalidraw/excalidraw/element/types';
 
 interface ExcalidrawEditorProps {
   initialElements?: readonly ExcalidrawElement[];
@@ -36,7 +37,7 @@ export function ExcalidrawEditor({
     if (excalidrawAPI && initialElements.length > 0) {
       excalidrawAPI.updateScene({
         elements: initialElements,
-        appState: safeAppState,
+        appState: safeAppState as any,
       });
     }
   }, [excalidrawAPI, initialElements, safeAppState]);
@@ -50,7 +51,7 @@ export function ExcalidrawEditor({
         }}
         initialData={{
           elements: initialElements,
-          appState: safeAppState,
+          appState: safeAppState as any,
           files: initialFiles,
         }}
       />

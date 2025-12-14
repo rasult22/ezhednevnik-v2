@@ -1,4 +1,5 @@
-import type { ExcalidrawElement, AppState, BinaryFiles } from '@excalidraw/excalidraw/types/types';
+import { ExcalidrawElement } from "@excalidraw/excalidraw/element/types";
+import { AppState, BinaryFiles } from "@excalidraw/excalidraw/types";
 
 /**
  * Sketch data structure

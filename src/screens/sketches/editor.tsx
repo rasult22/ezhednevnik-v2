@@ -1,10 +1,11 @@
 import { useState, useEffect, useCallback, useRef } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import type { ExcalidrawElement, AppState, BinaryFiles } from '@excalidraw/excalidraw/types/types';
 import { useSketchesStore } from '../../stores/useSketchesStore';
 import { ExcalidrawEditor } from '../../components/sketches/ExcalidrawEditor';
 import { Button } from '../../components/ui/Button';
+import { ExcalidrawElement } from '@excalidraw/excalidraw/element/types';
+import { AppState, BinaryFiles } from '@excalidraw/excalidraw/types';
 
 /**
  * Sketch Editor Screen - Create or edit a sketch with Excalidraw
