@@ -8,7 +8,7 @@ interface PlansState {
   isLoading: boolean;
 
   // Actions
-  loadPlans: () => void;
+  loadPlans: () => Promise<void>;
   createPlan: (
     startDate: string,
     endDate: string,
@@ -36,13 +36,13 @@ export const usePlansStore = create<PlansState>((set, get) => ({
   isLoading: true,
 
   /**
-   * Load plans from LocalStorage
+   * Load plans from Chrome Storage
    */
-  loadPlans: () => {
-    const plans = storageService.load<NinetyDayPlan[]>(STORAGE_KEYS.PLANS_90DAY);
+  loadPlans: async () => {
+    const plans = await storageService.load<NinetyDayPlan[]>(STORAGE_KEYS.PLANS_90DAY);
 
     if (!plans) {
-      storageService.saveImmediate(STORAGE_KEYS.PLANS_90DAY, []);
+      await storageService.saveImmediate(STORAGE_KEYS.PLANS_90DAY, []);
       set({ plans: [], activePlan: null, isLoading: false });
     } else {
       const active = plans.find((p) => p.status === 'active') || null;

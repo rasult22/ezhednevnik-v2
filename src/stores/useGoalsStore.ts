@@ -9,7 +9,7 @@ interface GoalsState {
   isLoading: boolean;
 
   // Actions
-  loadGoals: () => void;
+  loadGoals: () => Promise<void>;
   addGoal: (type: GoalType, content: string) => void;
   updateGoal: (type: GoalType, goalId: string, content: string) => void;
   deleteGoal: (type: GoalType, goalId: string) => void;
@@ -29,10 +29,10 @@ export const useGoalsStore = create<GoalsState>((set, get) => ({
   isLoading: true,
 
   /**
-   * Load goals from LocalStorage
+   * Load goals from Chrome Storage
    */
-  loadGoals: () => {
-    const goals = storageService.load<Goals>(STORAGE_KEYS.GOALS);
+  loadGoals: async () => {
+    const goals = await storageService.load<Goals>(STORAGE_KEYS.GOALS);
 
     if (!goals) {
       // Initialize empty goals
@@ -43,7 +43,7 @@ export const useGoalsStore = create<GoalsState>((set, get) => ({
         lastModified: new Date().toISOString(),
       };
 
-      storageService.saveImmediate(STORAGE_KEYS.GOALS, emptyGoals);
+      await storageService.saveImmediate(STORAGE_KEYS.GOALS, emptyGoals);
 
       set({ goals: emptyGoals, isLoading: false });
     } else {

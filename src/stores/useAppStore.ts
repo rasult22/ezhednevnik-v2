@@ -9,7 +9,7 @@ interface AppState {
   isLoading: boolean;
 
   // Actions
-  initializeApp: () => void;
+  initializeApp: () => Promise<void>;
   completeOnboarding: () => void;
   updateSettings: (settings: Partial<AppSettings>) => void;
   resetApp: () => void;
@@ -28,11 +28,11 @@ export const useAppStore = create<AppState>((set, get) => ({
   isLoading: true,
 
   /**
-   * Initialize app by loading data from LocalStorage
+   * Initialize app by loading data from Chrome Storage
    */
-  initializeApp: () => {
-    const profile = storageService.load<UserProfile>(STORAGE_KEYS.USER_PROFILE);
-    const settings = storageService.load<AppSettings>(STORAGE_KEYS.SETTINGS);
+  initializeApp: async () => {
+    const profile = await storageService.load<UserProfile>(STORAGE_KEYS.USER_PROFILE);
+    const settings = await storageService.load<AppSettings>(STORAGE_KEYS.SETTINGS);
 
     if (!profile) {
       // First time user - create new profile
@@ -43,7 +43,7 @@ export const useAppStore = create<AppState>((set, get) => ({
         currentLanguage: 'ru',
       };
 
-      storageService.saveImmediate(STORAGE_KEYS.USER_PROFILE, newProfile);
+      await storageService.saveImmediate(STORAGE_KEYS.USER_PROFILE, newProfile);
 
       set({
         userProfile: newProfile,

@@ -34,12 +34,12 @@ function App() {
   // Initialize all stores on mount
   useEffect(() => {
     const initializeStores = async () => {
-      initializeApp();
-      loadGoals();
-      loadPlans();
-      loadDailyPages();
-      loadReviews();
-      await loadSketches(); // Await async chrome.storage load
+      await initializeApp();
+      await loadGoals();
+      await loadPlans();
+      await loadDailyPages();
+      await loadReviews();
+      await loadSketches();
     };
 
     initializeStores();

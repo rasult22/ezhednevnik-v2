@@ -10,7 +10,7 @@ interface DailyState {
   isLoading: boolean;
 
   // Actions
-  loadDailyPages: () => void;
+  loadDailyPages: () => Promise<void>;
   getDailyPage: (date: string) => DailyPage | null;
   createOrGetDailyPage: (date: string) => DailyPage;
   updateDailyPage: (date: string, updates: Partial<DailyPage>) => void;
@@ -60,15 +60,15 @@ export const useDailyStore = create<DailyState>((set, get) => ({
   isLoading: true,
 
   /**
-   * Load all daily pages from LocalStorage
+   * Load all daily pages from Chrome Storage
    */
-  loadDailyPages: () => {
-    const pages = storageService.load<Record<string, DailyPage>>(
+  loadDailyPages: async () => {
+    const pages = await storageService.load<Record<string, DailyPage>>(
       STORAGE_KEYS.DAILY_PAGES
     );
 
     if (!pages) {
-      storageService.saveImmediate(STORAGE_KEYS.DAILY_PAGES, {});
+      await storageService.saveImmediate(STORAGE_KEYS.DAILY_PAGES, {});
       set({ dailyPages: {}, isLoading: false });
     } else {
       set({ dailyPages: pages, isLoading: false });

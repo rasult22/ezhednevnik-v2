@@ -1,5 +1,6 @@
 /**
- * Storage Service - Handles all LocalStorage operations with error handling
+ * Storage Service - Handles all Chrome Storage operations with error handling
+ * Migrated from localStorage to chrome.storage.local for unlimited storage
  */
 
 import { chromeStorage } from './chrome-storage-adapter';
@@ -10,12 +11,12 @@ class StorageService {
   private readonly QUOTA_WARNING_THRESHOLD = 0.7; // Warn at 70% usage
 
   /**
-   * Saves data immediately to LocalStorage
+   * Saves data immediately to Chrome Storage
    */
-  saveImmediate<T>(key: string, data: T): boolean {
+  async saveImmediate<T>(key: string, data: T): Promise<boolean> {
     try {
       const serialized = JSON.stringify(data);
-      localStorage.setItem(key, serialized);
+      await chromeStorage.setItem(key, serialized);
       this.checkQuota();
       return true;
     } catch (error) {
@@ -23,7 +24,7 @@ class StorageService {
         this.handleQuotaExceeded();
         return false;
       }
-      console.error(`Error saving to localStorage (key: ${key}):`, error);
+      console.error(`Error saving to chrome.storage (key: ${key}):`, error);
       return false;
     }
   }
@@ -44,27 +45,29 @@ class StorageService {
   }
 
   /**
-   * Flushes all pending saves to LocalStorage
+   * Flushes all pending saves to Chrome Storage
    */
-  private flush(): void {
+  private async flush(): Promise<void> {
+    const promises: Promise<boolean>[] = [];
     this.saveQueue.forEach((data, key) => {
-      this.saveImmediate(key, data);
+      promises.push(this.saveImmediate(key, data));
     });
+    await Promise.all(promises);
     this.saveQueue.clear();
   }
 
   /**
-   * Loads data from LocalStorage with type safety
+   * Loads data from Chrome Storage with type safety
    */
-  load<T>(key: string): T | null {
+  async load<T>(key: string): Promise<T | null> {
     try {
-      const item = localStorage.getItem(key);
+      const item = await chromeStorage.getItem(key);
       if (!item) {
         return null;
       }
       return JSON.parse(item) as T;
     } catch (error) {
-      console.error(`Error loading from localStorage (key: ${key}):`, error);
+      console.error(`Error loading from chrome.storage (key: ${key}):`, error);
       return null;
     }
   }

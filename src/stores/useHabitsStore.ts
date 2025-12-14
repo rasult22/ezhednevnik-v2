@@ -7,7 +7,7 @@ interface HabitsState {
   isLoading: boolean;
 
   // Actions
-  loadHabits: () => void;
+  loadHabits: () => Promise<void>;
   addHabit: (name: string, color: string) => void;
   deleteHabit: (id: string) => void;
   updateHabit: (id: string, updates: Partial<Habit>) => void;
@@ -28,16 +28,16 @@ export const useHabitsStore = create<HabitsState>((set, get) => ({
   isLoading: true,
 
   /**
-   * Load all habits from LocalStorage
+   * Load all habits from Chrome Storage
    */
-  loadHabits: () => {
-    const data = storageService.load<{ habits: Habit[]; lastModified: string }>(
+  loadHabits: async () => {
+    const data = await storageService.load<{ habits: Habit[]; lastModified: string }>(
       STORAGE_KEYS.HABITS
     );
 
     if (!data) {
       const initialData = { habits: [], lastModified: new Date().toISOString() };
-      storageService.saveImmediate(STORAGE_KEYS.HABITS, initialData);
+      await storageService.saveImmediate(STORAGE_KEYS.HABITS, initialData);
       set({ habits: [], isLoading: false });
     } else {
       set({ habits: data.habits, isLoading: false });

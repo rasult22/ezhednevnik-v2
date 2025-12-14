@@ -9,7 +9,7 @@ interface ReviewsState {
   isLoading: boolean;
 
   // Actions
-  loadReviews: () => void;
+  loadReviews: () => Promise<void>;
   canCreateReview: () => {
     allowed: boolean;
     completedCount: number;
@@ -31,15 +31,15 @@ export const useReviewsStore = create<ReviewsState>((set, get) => ({
   isLoading: true,
 
   /**
-   * Load reviews from LocalStorage
+   * Load reviews from Chrome Storage
    */
-  loadReviews: () => {
-    const reviews = storageService.load<WeeklyReview[]>(
+  loadReviews: async () => {
+    const reviews = await storageService.load<WeeklyReview[]>(
       STORAGE_KEYS.WEEKLY_REVIEWS
     );
 
     if (!reviews) {
-      storageService.saveImmediate(STORAGE_KEYS.WEEKLY_REVIEWS, []);
+      await storageService.saveImmediate(STORAGE_KEYS.WEEKLY_REVIEWS, []);
       set({ reviews: [], isLoading: false });
     } else {
       // Sort by start date descending (newest first)
