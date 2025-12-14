@@ -86,7 +86,7 @@ export function QuranWidget() {
 
           {/* Arabic Text */}
           <div className="p-4 bg-white/5 rounded-glass-sm">
-            <p className="text-right text-lg leading-relaxed font-arabic text-text-primary" dir="rtl">
+            <p className="text-right text-lg leading-[50px] font-arabic text-text-primary" dir="rtl">
               {verse.arabic.text}
             </p>
           </div>
