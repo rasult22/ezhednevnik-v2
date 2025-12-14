@@ -1,5 +1,6 @@
 import { create } from 'zustand';
 import type { Sketch, CreateSketchPayload, UpdateSketchPayload } from '../types/sketch';
+import { chromeStorage } from '../services/chrome-storage-adapter';
 
 interface SketchesState {
   sketches: Sketch[];
@@ -13,14 +14,15 @@ interface SketchesState {
   getSketch: (id: string) => Sketch | undefined;
   
   // Persistence
-  loadSketches: () => void;
-  saveSketches: () => void;
+  loadSketches: () => Promise<void>;
+  saveSketches: () => Promise<void>;
 }
 
 const STORAGE_KEY = 'sketches-storage';
 
 /**
- * Sketches Store - Manages Excalidraw sketches with local storage persistence
+ * Sketches Store - Manages Excalidraw sketches with chrome.storage persistence
+ * Uses chrome.storage.local for unlimited storage capacity (handles images)
  */
 export const useSketchesStore = create<SketchesState>((set, get) => ({
   sketches: [],
@@ -45,7 +47,7 @@ export const useSketchesStore = create<SketchesState>((set, get) => ({
       sketches: [...state.sketches, newSketch],
     }));
 
-    // Auto-save to localStorage
+    // Auto-save to chrome.storage
     get().saveSketches();
 
     return newSketch;
@@ -69,7 +71,7 @@ export const useSketchesStore = create<SketchesState>((set, get) => ({
       }),
     }));
 
-    // Auto-save to localStorage
+    // Auto-save to chrome.storage
     get().saveSketches();
   },
 
@@ -78,7 +80,7 @@ export const useSketchesStore = create<SketchesState>((set, get) => ({
       sketches: state.sketches.filter((sketch) => sketch.id !== id),
     }));
 
-    // Auto-save to localStorage
+    // Auto-save to chrome.storage
     get().saveSketches();
   },
 
@@ -86,14 +88,27 @@ export const useSketchesStore = create<SketchesState>((set, get) => ({
     return get().sketches.find((sketch) => sketch.id === id);
   },
 
-  loadSketches: () => {
+  loadSketches: async () => {
     try {
       set({ isLoading: true, error: null });
 
-      const stored = localStorage.getItem(STORAGE_KEY);
+      const stored = await chromeStorage.getItem(STORAGE_KEY);
       if (stored) {
         const sketches = JSON.parse(stored) as Sketch[];
-        set({ sketches, isLoading: false });
+        
+        // Fix: Restore Map for collaborators (gets serialized to object in JSON)
+        const fixedSketches = sketches.map((sketch) => ({
+          ...sketch,
+          excalidrawData: {
+            ...sketch.excalidrawData,
+            appState: {
+              ...sketch.excalidrawData.appState,
+              collaborators: new Map(), // Always use empty Map after deserialization
+            },
+          },
+        }));
+        
+        set({ sketches: fixedSketches, isLoading: false });
       } else {
         set({ sketches: [], isLoading: false });
       }
@@ -106,10 +121,10 @@ export const useSketchesStore = create<SketchesState>((set, get) => ({
     }
   },
 
-  saveSketches: () => {
+  saveSketches: async () => {
     try {
       const { sketches } = get();
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(sketches));
+      await chromeStorage.setItem(STORAGE_KEY, JSON.stringify(sketches));
     } catch (error) {
       console.error('Failed to save sketches:', error);
       set({ error: 'Failed to save sketches to storage' });

@@ -33,12 +33,16 @@ function App() {
 
   // Initialize all stores on mount
   useEffect(() => {
-    initializeApp();
-    loadGoals();
-    loadPlans();
-    loadDailyPages();
-    loadReviews();
-    loadSketches();
+    const initializeStores = async () => {
+      initializeApp();
+      loadGoals();
+      loadPlans();
+      loadDailyPages();
+      loadReviews();
+      await loadSketches(); // Await async chrome.storage load
+    };
+
+    initializeStores();
   }, [initializeApp, loadGoals, loadPlans, loadDailyPages, loadReviews, loadSketches]);
 
   if (isLoading) {
