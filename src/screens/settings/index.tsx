@@ -92,6 +92,7 @@ export default function SettingsScreen() {
         plans: await chromeStorage.getItem(STORAGE_KEYS.PLANS_90DAY),
         dailyPages: await chromeStorage.getItem(STORAGE_KEYS.DAILY_PAGES),
         weeklyReviews: await chromeStorage.getItem(STORAGE_KEYS.WEEKLY_REVIEWS),
+        habits: await chromeStorage.getItem(STORAGE_KEYS.HABITS),
         sketches: await chromeStorage.getItem(STORAGE_KEYS.SKETCHES),
         ideas: await chromeStorage.getItem(STORAGE_KEYS.IDEAS),
       },
@@ -153,6 +154,9 @@ export default function SettingsScreen() {
         }
         if (data.weeklyReviews) {
           await chromeStorage.setItem(STORAGE_KEYS.WEEKLY_REVIEWS, data.weeklyReviews);
+        }
+        if (data.habits) {
+          await chromeStorage.setItem(STORAGE_KEYS.HABITS, data.habits);
         }
         if (data.sketches) {
           await chromeStorage.setItem(STORAGE_KEYS.SKETCHES, data.sketches);
