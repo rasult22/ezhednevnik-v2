@@ -24,6 +24,10 @@ const BACKGROUND_IMAGES = [
   { path: '/bg-images/5.jpg', name: 'Фон 5' },
   { path: '/bg-images/6.jpg', name: 'Фон 6' },
   { path: '/bg-images/7.jpg', name: 'По умолчанию' },
+  { path: '/bg-images/8.jpg', name: 'Фон 8' },
+  { path: '/bg-images/9.jpg', name: 'Фон 9' },
+  { path: '/bg-images/10.jpg', name: 'Фон 10' },
+  { path: '/bg-images/11.jpg', name: 'Фон 11' },
 ];
 
 export default function SettingsScreen() {
