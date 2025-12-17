@@ -139,6 +139,7 @@ export const STORAGE_KEYS = {
   HABITS: 'habits',
   SKETCHES: 'sketches-storage',
   IDEAS: 'ideas',
+  AZKAR: 'azkar',
 } as const;
 
 /**
